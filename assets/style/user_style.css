@@ -1,0 +1,50 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+:root {
+    --color-black: #000000;
+    --color-white: #ffffff;
+    --color-red: #FF0000;
+    --color-red-dark: #bb0000;
+    --color-red-light: #ff4444;
+}
+
+nav.navbar {
+    margin: 0;
+    padding: 0;
+}
+
+.container-fluid, .col, .row {
+    margin: 0;
+    padding: 0;
+}
+
+.search_bar:focus {
+    border-color: var(--color-black) !important;
+    box-shadow: var(--color-black) !important;
+}
+
+#hfa_logo {
+    margin: 0;
+    padding: 0;
+}
+
+#user_navbar {
+    background: var(--color-red-dark) !important;
+    color: var(--color-white) !important;
+}
+
+#hfa_logo {
+    width: 3rem;
+    border-radius: 3rem;
+}
+
+
+
+@media screen and (max-width: 600px) {
+    #hfa_logo {
+        width: 2rem;
+        border-radius: 3rem;
+    }
+}
