@@ -45,8 +45,7 @@ body {
 
 #sidebar ul li:hover a {
     margin-left: 10px;
-    background: var(--color-red-light);
-    color: var(--color-black);
+    color: var(--color-red);
 }
 /* admin sidebar */
 

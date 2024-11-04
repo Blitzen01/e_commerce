@@ -144,47 +144,85 @@
 
                     <!-- satisfaction rating -->
                     <section class="my-2 px-4">
-                        <table id="satisfaction_rating" class="table table-sm table-striped compact table-hover">
-                            <thead class="table-danger">
-                                <tr>
-                                    <th>Feedback Type</th>
-                                    <th>Star Rating</th>
-                                    <th>Descriptive Rating</th>
-                                    <th>Date</th>
-                                    <th>Time</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Design</td>
-                                    <td>5</td>
-                                    <td>Good service</td>
-                                    <td>11/11/2024</td>
-                                    <td>11:11</td>
-                                </tr>
-                                <tr>
-                                    <td>Design</td>
-                                    <td>5</td>
-                                    <td>Good service</td>
-                                    <td>11/11/2024</td>
-                                    <td>11:11</td>
-                                </tr>
-                                <tr>
-                                    <td>Design</td>
-                                    <td>5</td>
-                                    <td>Good service</td>
-                                    <td>11/11/2024</td>
-                                    <td>11:11</td>
-                                </tr>
-                                <tr>
-                                    <td>Design</td>
-                                    <td>5</td>
-                                    <td>Good service</td>
-                                    <td>11/11/2024</td>
-                                    <td>11:11</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="card m-3 ps-3 pe-3 shadow">
+                            <h3 class="text-center">SUMMARY OF SATISFACTION RATINGS</h3>
+                            <table class="table table-sm nowrap table-striped compact table-hover text-center" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Average Rating</th>
+                                        <th>Descriptive Rating</th>
+                                        <th>Year</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>HIGHLY SATISFIED</td>
+                                        <td>4.5</td>
+                                        <td>2024</td>
+                                    </tr>
+                                    <tr>
+                                        <td>SATISFIED</td>
+                                        <td>3.5</td>
+                                        <td>2024</td>
+                                    </tr>
+                                    <tr>
+                                        <td>NEUTRAL</td>
+                                        <td>2.5</td>
+                                        <td>2024</td>
+                                    </tr>
+                                    <tr>
+                                        <td>DISSATISFIED</td>
+                                        <td>1.5</td>
+                                        <td>2024</td>
+                                    </tr>
+                                    <tr>
+                                        <td>HIGHLY DISSATISFIED</td>
+                                        <td>1</td>
+                                        <td>2024</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="m-5">
+                            <table id="satisfactionRating" class="table table-sm nowrap table-striped compact table-hover" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Category</th>
+                                        <th>Subject</th>
+                                        <th>Ratings</th>
+                                        <th>Comments</th>
+                                        <th>Date</th>
+                                        <th>Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Suggestion</td>
+                                        <td>Design</td>
+                                        <td>4</td>
+                                        <td>Make it more simple</td>
+                                        <td>11/11/2024</td>
+                                        <td>12:03 AM</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Praise</td>
+                                        <td>Feedback form</td>
+                                        <td>5</td>
+                                        <td>It's awesome to see a website that has feedback form</td>
+                                        <td>11/11/2024</td>
+                                        <td>12:03 AM</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Problem</td>
+                                        <td>Feedback Form</td>
+                                        <td>4</td>
+                                        <td>Is it Required to have an feedback?</td>
+                                        <td>11/11/2024</td>
+                                        <td>12:03 AM</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </section>
                 </div>
             </div>

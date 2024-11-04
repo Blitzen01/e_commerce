@@ -1,4 +1,4 @@
-<div id="sidebar" class="d-flex flex-column mt-3 mb-3 border border-danger rounded">
+<div id="sidebar" class="d-flex flex-column mt-3 mb-3">
     <img id="admin_logo" src="../../assets/image/hfa_logo.jpg" alt="">
     <span class="text-center border-bottom border-top border-danger">Admin: <b>NAME</b></span>
     <ul class="nav nav-pills flex-column mb-auto">
