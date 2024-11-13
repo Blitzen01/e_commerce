@@ -10,8 +10,6 @@
         <title>Admin: Calendar</title>
 
         <link rel="stylesheet" href="../../assets/style/admin_style.css">
-        <link rel="stylesheet" href="../../assets/evo_calendar_style/evo-calendar.min.css">
-        <link rel="stylesheet" href="../../assets/evo_calendar_style/evo-calendar.midnight-blue.min.css">
     </head>
 
     <body>
@@ -29,35 +27,37 @@
             </div>
         </div>
 
-        <script defer src="../../assets/script/admin_script.js"></script>
-        <script defer src="../../assets/script/evo_calendar_script/evo-calendar.min.js"></script>
+        
+        <script src="../../assets/script/admin_script.js"></script>
 
         <script>
-            $('#calendar').evoCalendar({
+            $(document).ready(function () {
+                $('#calendar').evoCalendar({
                 theme: 'Midnight Blue',
                 calendarEvents: [
                     {
-                        id: "id01",
-                        name: "Customer Name",
-                        date: "11/11/2024",
-                        description: "Item Purchased",
-                        type: 'event'
+                    id: "id01",
+                    name: "Customer Name",
+                    date: "11/11/2024",
+                    description: "Item Purchased",
+                    type: 'event'
                     },
                     {
-                        id: "id02",
-                        name: "Customer Name",
-                        date: "11/14/2024",
-                        description: "Item Purchased",
-                        type: 'event'
+                    id: "id02",
+                    name: "Customer Name",
+                    date: "11/14/2024",
+                    description: "Item Purchased",
+                    type: 'event'
                     },
                     {
-                        id: "id03",
-                        name: "Customer Name",
-                        date: "11/20/2024",
-                        description: "Item Purchased",
-                        type: 'event'
+                    id: "id03",
+                    name: "Customer Name",
+                    date: "11/20/2024",
+                    description: "Item Purchased",
+                    type: 'event'
                     }
                 ]
+                });
             });
         </script>
     </body>

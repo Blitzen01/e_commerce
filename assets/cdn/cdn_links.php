@@ -36,11 +36,6 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <!-- chart js -->
 
-
-<!-- SCRIPT FOR GOOGLE IDENTITY -->
-<script src="https://accounts.google.com/gsi/client" async></script>
-<!-- SCRIPT FOR GOOGLE IDENTITY -->
-
 <!-- font awesome script -->
 <script src="https://kit.fontawesome.com/9475ab4ee0.js" crossorigin="anonymous"></script>
 <!-- font awesome script -->
@@ -49,13 +44,7 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/evo-calendar@1.1.2/evo-calendar/css/evo-calendar.min.css"/>
 <!-- Add the evo-calendar.css for styling -->
 
-<!-- Add jQuery library (required) -->
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
-<!-- Add jQuery library (required) -->
-
 <!-- Add the evo-calendar.css for styling -->
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/evo-calendar@1.1.2/evo-calendar/css/evo-calendar.min.css"/>
-<!-- Add jQuery library (required) -->
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
 <!-- Add the evo-calendar.js for.. obviously, functionality! -->
 <script src="https://cdn.jsdelivr.net/npm/evo-calendar@1.1.2/evo-calendar/js/evo-calendar.min.js"></script>

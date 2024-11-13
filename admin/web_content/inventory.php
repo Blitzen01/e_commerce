@@ -1,8 +1,8 @@
 <?php
     include "../../assets/cdn/cdn_links.php";
     include "../../render/connection.php";
+    include "../../render/modals.php"
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -86,8 +86,46 @@
         <script>
             // script for product table
             $(document).ready(function () {
-                var dataTableBorrowed = $('#product_table').DataTable();
+                var dataTableBorrowed = $('#product_table').DataTable({
+                    dom: 'Bfrtip',
+                    buttons: [
+                        {
+                            extend: 'csv',
+                            text: 'CSV',
+                            init: function(api, node, config) {
+                                $(node).attr('id', 'downloadCsvButton'); // Set unique ID for CSV button
+                            },
+                            filename: 'HFA Price List',
+                            exportOptions: {
+                                columns: ':not(:last-child)' // Excludes the last column (Action column)
+                            }
+                        },
+                        {
+                            extend: 'excel',
+                            text: 'Excel',
+                            init: function(api, node, config) {
+                                $(node).attr('id', 'downloadExcelButton'); // Set unique ID for Excel button
+                            },
+                            filename: 'HFA Price List',
+                            exportOptions: {
+                                columns: ':not(:last-child)' // Excludes the last column (Action column)
+                            }
+                        },
+                        {
+                            extend: 'pdf',
+                            text: 'PDF',
+                            init: function(api, node, config) {
+                                $(node).attr('id', 'downloadPdfButton'); // Set unique ID for PDF button
+                            },
+                            filename: 'HFA Price List',
+                            exportOptions: {
+                                columns: ':not(:last-child)' // Excludes the last column (Action column)
+                            }
+                        }
+                    ]
+                });
             });
+
 
             // script for updating product
             document.addEventListener('DOMContentLoaded', function() {

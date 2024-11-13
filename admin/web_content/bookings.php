@@ -30,7 +30,7 @@
                                     <td>Contact Number</td>
                                     <td>Date</td>
                                     <td>Item</td>
-                                    <td>Package Qty.</td>
+                                    <td>Item Qty.</td>
                                     <td>Total Price</td>
                                 </tr>
                             </thead>
@@ -86,7 +86,8 @@
                                 <tr>
                                     <td>Name</td>
                                     <td>Contact Number</td>
-                                    <td>Date</td>
+                                    <td>Booked Date</td>
+                                    <td>Settlement Date</td>
                                     <td>Item</td>
                                     <td>Item Qty.</td>
                                     <td>Total Price</td>
@@ -96,6 +97,7 @@
                                 <tr>
                                     <td>Example Name</td>
                                     <td>12345</td>
+                                    <td>10/10/1010</td>
                                     <td>10/10/1010</td>
                                     <td>CCTV</td>
                                     <td>3</td>
