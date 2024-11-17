@@ -1,9 +1,9 @@
-<nav class="navbar navbar-expand-lg shadow mb-2">
+<nav class="navbar navbar-expand-lg shadow mb-2 fixed-top bg-light">
     <div class="container-fluid">
         <div class="col">
             <div class="row">
                 <div class="col-1 m-1 p-1">
-                    <a class="navbar-brand" href="#"><img src="../assets/image/hfa_logo.png" alt="" srcset="" id="hfa_logo"></a>
+                    <a class="navbar-brand" href="index.php"><img src="../assets/image/hfa_logo.png" alt="" srcset="" id="hfa_logo"></a>
                 </div>
                 <div class="col-5 my-auto search-container">
                     <input class="form-control search_bar me-2" type="search" placeholder="Search for Products, Brands, Parts" aria-label="Search">
@@ -44,6 +44,6 @@
                 </div>
             </div>
         </div>
-        
     </div>
 </nav>
+<br><br><br><br><br>

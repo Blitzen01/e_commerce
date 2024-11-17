@@ -1,5 +1,6 @@
 <?php
     include "../../assets/cdn/cdn_links.php";
+    include "../../render/connection.php";
 
     date_default_timezone_set("Asia/Manila");
 
@@ -196,30 +197,31 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>Suggestion</td>
-                                        <td>Design</td>
-                                        <td>4</td>
-                                        <td>Make it more simple</td>
-                                        <td>11/11/2024</td>
-                                        <td>12:03 AM</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Praise</td>
-                                        <td>Feedback form</td>
-                                        <td>5</td>
-                                        <td>It's awesome to see a website that has feedback form</td>
-                                        <td>11/11/2024</td>
-                                        <td>12:03 AM</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Problem</td>
-                                        <td>Feedback Form</td>
-                                        <td>4</td>
-                                        <td>Is it Required to have an feedback?</td>
-                                        <td>11/11/2024</td>
-                                        <td>12:03 AM</td>
-                                    </tr>
+                                    <?php
+                                        $sql = "SELECT * FROM rating";
+                                        $result = mysqli_query($conn, $sql);
+
+                                        if ($result) {
+                                            while ($row = mysqli_fetch_assoc($result)) {
+                                                // Format the date to "Month Day, Year"
+                                                $formatted_date = date('F j, Y', strtotime($row['date'])); // Month Day, Year
+
+                                                // Format the time to 12-hour format with AM/PM
+                                                $formatted_time = date('h:i A', strtotime($row['time'])); // 12-hour time with AM/PM
+
+                                                ?>
+                                                <tr>
+                                                    <td><?php echo $row['category']; ?></td>
+                                                    <td><?php echo $row['subject']; ?></td>
+                                                    <td><?php echo $row['rating']; ?></td>
+                                                    <td><?php echo $row['comment']; ?></td>
+                                                    <td><?php echo $formatted_date; ?></td>
+                                                    <td><?php echo $formatted_time; ?></td>
+                                                </tr>
+                                                <?php
+                                            }
+                                        }
+                                    ?>
                                 </tbody>
                             </table>
                         </div>

@@ -6,6 +6,7 @@
         <li><a class="nav_bar nav-link" href="dashboard.php"><i class="fa-solid fa-gauge"></i> Dashboard</a></li>
         <li><a class="nav_bar nav-link" href="bookings.php"><i class="fa-solid fa-book"></i> Bookings</a></li>
         <li><a class="nav_bar nav-link" href="inventory.php"><i class="fa-solid fa-warehouse"></i> Inventory</a></li>
+        <li><a class="nav_bar nav-link" href="cms.php"><i class="fa-solid fa-arrows-to-circle"></i> CMS</a></li>
         <li><a class="nav_bar nav-link" href="staff.php"><i class="fa-solid fa-clipboard-user"></i> Staff</a></li>
         <li><a class="nav_bar nav-link" href="account_settings.php"><i class="fa-solid fa-user"></i> Account Settings</a></li>
         <li><a class="nav_bar nav-link" href=""><i class="fa-solid fa-arrow-right-from-bracket"></i> Log out</a></li>
