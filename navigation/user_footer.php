@@ -1,4 +1,4 @@
-<div class="container-fluid text-center bg-dark">
+<div class="container-fluid text-center bg-dark rounded-top">
     <div class="row text-light justify-content-center">
         <div class="col-lg-4 col-sm-10 mt-3 mx-auto text-center mb-2">
             <h3 class="mb-2">Feedback Form</h3>
@@ -86,14 +86,14 @@
                 <a class="nav-link text-warning" href="https://www.instagram.com/hfacomputerparts/"><i class="fa-brands fa-instagram"></i> HFA Computers and Repair Service</a>
             </div>
             <div class="row mb-3">
-                <a class="nav-link" href="viber://chat?number=+09179784098" style="color: #7360f2;"><i class="fa-brands fa-viber"></i> 09179784098</a>
+                <a class="nav-link" href="viber://chat?number=+09179784098" style="color: #7360f2;"><i class="fa-brands fa-viber"></i> 0917-978-4098</a>
             </div>
             <div class="row mb-3">
-                <a class="nav-link" href="javascript:void(0);" onclick="copyToClipboard('09179784098')"><i class="fa-solid fa-phone text-light"></i> 09179784098</a>
+                <a class="nav-link" href="javascript:void(0);" onclick="copyToClipboard('09179784098')"><i class="fa-solid fa-phone text-light"></i> 0917-978-4098</a>
             </div>
         </div>
     </div>
-    <div class="row border-top border-secondary text-secondary text-center mt-3">
-        <span>&copy; 2024 HFA Computer Parts and Repair Services. All rights reserved.</span>
+    <div class="row border-top border-secondary bg-darker text-secondary text-center mt-3">
+        <p class="my-2">&copy; 2024 HFA Computer Parts and Repair Services. All rights reserved.</p>
     </div>
 </div>

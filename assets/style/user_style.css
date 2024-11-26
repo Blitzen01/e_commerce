@@ -24,6 +24,20 @@ img, input {
     height: auto;
 }
 
+.bg-darker {
+    background: var(--color-black);
+}
+
+/* admin login */
+.btn-danger {
+    background: var(--color-red) !important;
+    color: var(--color-white) !important;
+    transition: .5s ease !important;
+}
+#btn-danger:hover {
+    background: var(--color-red-dark) !important;
+}
+
 /* ====================================================================== */
 /* ====================================================================== */
 /* ====================================================================== */
@@ -108,7 +122,26 @@ nav.navbar {
 .stars i.active {
     color: gold;
 }
-/* feedback form layout start */
+/* feedback form layout end */
+
+/* product layout start */
+.square-image {
+    width: 30vh;
+    height: 30vh;
+    object-fit: cover;
+}
+
+.hover-overlay:hover {
+    opacity: 1 !important;
+}
+
+.fixed-height-image {
+    height: 500px; /* Example fixed height */
+    width: auto; /* Maintain aspect ratio */
+    object-fit: contain; /* Ensure the image is not cropped */
+    border-radius: 5px; /* Optional: rounded corners */
+}
+/* product layout start */
 
 @media screen and (max-width: 600px) {
     #hfa_logo {
@@ -121,5 +154,12 @@ nav.navbar {
 
     .carousel-item img {
         height: 25vh;
+    }
+    
+    .fixed-height-image {
+        height: 300px; /* Example fixed height */
+        width: auto; /* Maintain aspect ratio */
+        object-fit: contain; /* Ensure the image is not cropped */
+        border-radius: 5px; /* Optional: rounded corners */
     }
 }

@@ -7,7 +7,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="../../assets/php_script/add_product_script.php" method="post">
+                <form action="../../assets/php_script/add_product_script.php" method="post" enctype="multipart/form-data">
                     <select name="product_category" id="product_category" class="form-select mb-3">
                         <option value="default" disabled>Default</option>
                         <?php
@@ -23,23 +23,34 @@
                             }
                         ?>
                     </select>
+
+                    <!-- Image upload input -->
+                    <div class="mb-3">
+                        <label for="product_image">Product Image</label>
+                        <input type="file" class="form-control" name="product_image" id="product_image" accept="image/*">
+                    </div>
+
                     <div class="mb-3">
                         <label for="product_name">Product Name</label>
                         <input type="text" class="form-control" name="product_name" id="product_name" autocomplete="off">
                     </div>
+                    
                     <div class="mb-3">
                         <label for="product_price">Price</label>
                         <input type="text" class="form-control" name="product_price" id="product_price" autocomplete="off">
                     </div>
+                    
                     <div class="mb-2">
                         <label for="product_stocks">Stocks</label>
                         <input type="text" class="form-control" name="product_stocks" id="product_stocks" autocomplete="off">
                     </div>
+
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Save changes</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                 </form>
+
             </div>
         </div>
     </div>

