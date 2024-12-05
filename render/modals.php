@@ -115,3 +115,43 @@
     </div>
 </div>
 <!-- Delete Product Modal -->
+
+<!-- Create Scheduled Booking Modal -->
+<div class="modal fade" id="create_scheduled_booking" tabindex="-1" aria-labelledby="create_scheduled_booking_label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="create_scheduled_booking_label">Create Booking</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <?php
+                    $email = $_SESSION['email'];
+                ?>
+                <form method="POST" action="../assets/php_script/scheduled_booking.php"> <!-- Add your form action URL -->
+                    <div class="mb-3">
+                        <label for="type_of_booking">Type of Booking</label>
+                        <select name="type_of_booking" id="type_of_booking" class="form-select">
+                            <option value="Laptop Repair">Laptop Repair</option>
+                            <option value="CPU Repair">CPU Repair</option>
+                            <option value="CCTV Installation">CCTV Installation</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="dateInput">Select Date</label>
+                        <input type="date" class="form-control" id="dateInput" name="dateInput" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="timeInput">Select Time</label>
+                        <input type="time" class="form-control" id="timeInput" name="timeInput" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Create Scheduled Booking Modal -->

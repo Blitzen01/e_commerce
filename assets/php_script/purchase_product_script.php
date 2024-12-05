@@ -36,7 +36,7 @@ if (isset($_GET['email'])) {
         $date = date("Y-m-d H:i:s");
 
         // Query to insert data into the booking table
-        $insertQuery = "INSERT INTO booking (name, email, address, contact_number, date, item, quantity, price, mop) 
+        $insertQuery = "INSERT INTO order_booking (name, email, address, contact_number, date, item, quantity, price, mop) 
                         VALUES ('$name', '$email', '$address', '$contact_number', '$date', '$product_name', $stock, $price, '$mop')";
 
         if (mysqli_query($conn, $insertQuery)) {

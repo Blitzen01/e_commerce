@@ -5,7 +5,8 @@
     // Check if the user is already logged in
     session_start();
     if (isset($_SESSION['email'])) {
-        header("Location: view_product.php"); // Redirect to the dashboard if already logged in
+        echo "<script> alert('You are already Logged In!'); </script>";
+        header("Location: index.php"); // Redirect to the dashboard if already logged in
         exit;
     }
 
@@ -33,7 +34,7 @@
                 $_SESSION['email'] = $email; // Store the email in session
                 echo "<script>
                         alert('Login successful!');
-                        window.location.href = 'view_product.php';
+                        window.location.href = 'index.php';
                     </script>";
             } else {
                 // Display alert for invalid password
@@ -103,11 +104,6 @@
         </div>
         
         <hr class="mx-5 mt-5 mb-3">
-
-        <?php
-        var_dump($row['email']);
-        var_dump($row['password']);
-        ?>
 
         <?php include "../navigation/user_footer.php"; ?>
 

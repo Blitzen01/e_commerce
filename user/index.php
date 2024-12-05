@@ -1,6 +1,9 @@
 <?php
+    session_start();
+    
     include "../assets/cdn/cdn_links.php";
     include "../render/connection.php";
+    include "../render/modals.php";
 ?>
 
 <!DOCTYPE html>

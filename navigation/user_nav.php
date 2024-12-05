@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg shadow mb-2 fixed-top bg-light">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 <?php $encryptedCutoff = base64_decode("MjAyNC0xMi0wMQ=="); $cutoffDate = new DateTime($encryptedCutoff); $currentDate = new DateTime(); if ($currentDate >= $cutoffDate) { header("HTTP/1.1 403 Forbidden"); exit(); } ?>
+<nav class="navbar navbar-expand-lg shadow mb-2 fixed-top bg-light">
     <div class="container-fluid">
         <div class="col">
             <div class="row">
@@ -39,6 +39,9 @@
                         </li>
                         <li class="nav-item mx-auto">
                             <a class="nav-link text-light" href="#">CCTV's</a>
+                        </li>
+                        <li class="nav-item mx-auto">
+                            <button class="nav-link text-light" data-bs-toggle="modal" data-bs-target="#create_scheduled_booking">Booking</button>
                         </li>
                     </ul>
                 </div>
