@@ -155,3 +155,23 @@
     </div>
 </div>
 <!-- Create Scheduled Booking Modal -->
+
+<!-- Log out modal -->
+<div class="modal fade" id="log_out_modal" tabindex="-1" aria-labelledby="log_out_modal_label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-secondary text-light">
+                <h5 class="modal-title" id="log_out_modal_label">Log Out</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to Log Out?</p>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-danger" href="../assets/php_script/user_log_out_script.php">Yes</a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Log out modal -->

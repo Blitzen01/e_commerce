@@ -6,7 +6,7 @@
     --color-black: #000000;
     --color-white: #ffffff;
     --color-red: #FF0000;
-    --color-red-dark: #bb0000;
+    --color-red-dark: #ad0000;
     --color-red-light: #ff4444;
 }
 
@@ -32,9 +32,9 @@ img, input {
 .btn-danger {
     background: var(--color-red) !important;
     color: var(--color-white) !important;
-    transition: .5s ease !important;
+    transition: .3s ease !important;
 }
-#btn-danger:hover {
+.btn-danger:hover {
     background: var(--color-red-dark) !important;
 }
 
@@ -142,6 +142,19 @@ nav.navbar {
     border-radius: 5px; /* Optional: rounded corners */
 }
 /* product layout start */
+
+
+#dashboard-content {
+    display: flex;
+    flex-wrap: wrap; /* Allow flexible wrapping of elements */
+    justify-content: space-around; /* Add spacing between elements */
+    gap: 20px; /* Add gaps between elements */
+}
+
+#line_graph {
+    width: 100%; /* Ensure the chart spans full width */
+    margin: 20px 0; /* Add top and bottom margin */
+}
 
 @media screen and (max-width: 600px) {
     #hfa_logo {

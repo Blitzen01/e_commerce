@@ -2,14 +2,6 @@
     include "../assets/cdn/cdn_links.php";
     include "../render/connection.php";
 
-    // Check if the user is already logged in
-    session_start();
-    if (isset($_SESSION['email'])) {
-        echo "<script> alert('You are already Logged In!'); </script>";
-        header("Location: index.php"); // Redirect to the dashboard if already logged in
-        exit;
-    }
-
     // Check if the form is submitted
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Retrieve email/username and password from the form
@@ -33,13 +25,7 @@
                 session_start();
                 $_SESSION['email'] = $email; // Store the email in session
                 echo "<script>
-                        alert('Login successful!');
                         window.location.href = 'index.php';
-                    </script>";
-            } else {
-                // Display alert for invalid password
-                echo "<script>
-                        alert('Invalid password. Please try again.');
                     </script>";
             }
         } else {

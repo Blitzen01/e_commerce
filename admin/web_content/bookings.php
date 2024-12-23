@@ -48,7 +48,11 @@
                                                 ?>
                                                 <tr>
                                                     <td>
-                                                        <button class="bg-success border-0 p-1 text-light">Accept</button>
+                                                        <button class="bg-success border-0 p-1 text-light" 
+                                                                data-bs-toggle="modal" 
+                                                                data-bs-target="#accept_booking<?php echo $row["id"]; ?>">
+                                                            Accept
+                                                        </button>
                                                         <button class="bg-danger border-0 p-1 text-light">Decline</button>
                                                     </td>
                                                     <td><?php echo $row['name']; ?></td>

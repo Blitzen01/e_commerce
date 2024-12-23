@@ -10,10 +10,31 @@
                     <i class="fa-solid fa-magnifying-glass search-icon"></i>
                 </div>
                 <div class="col-1 my-auto ms-auto">
-                    <a class="nav-link text-light" href=""><i class="fa-solid fa-cart-shopping text-dark"></i></a>  
+                    <?php
+                        if (isset($_SESSION['email'])) {
+                            ?>
+                                <a class="nav-link text-light" href="cart.php"><i class="fa-solid fa-cart-shopping text-dark"></i></a> 
+                            <?php
+                        } else {
+                            ?>
+                                <a class="nav-link text-light" href="sign_in.php"><i class="fa-solid fa-cart-shopping text-dark"></i></a>
+                            <?php
+                        }
+                    ?>
+                    
                 </div>
                 <div class="col-1 my-auto"> 
-                    <a class="nav-link text-light" href="sign_in.php"><i class="fa-solid fa-user text-dark"></i></a>
+                    <?php
+                        if (isset($_SESSION['email'])) {
+                            ?>
+                                <a class="nav-link text-light" href="user_profile.php"><i class="fa-solid fa-user text-dark"></i></a>
+                            <?php
+                        } else {
+                            ?>
+                                <a class="nav-link text-light" href="sign_in.php"><i class="fa-solid fa-user text-dark"></i></a>
+                            <?php
+                        }
+                    ?>
                 </div>
             </div>
             <div id="user_navbar" class="row">
@@ -40,9 +61,18 @@
                         <li class="nav-item mx-auto">
                             <a class="nav-link text-light" href="#">CCTV's</a>
                         </li>
-                        <li class="nav-item mx-auto">
-                            <button class="nav-link text-light" data-bs-toggle="modal" data-bs-target="#create_scheduled_booking">Booking</button>
-                        </li>
+                        <?php
+                        if (isset($_SESSION['email'])) {
+                            ?>
+                                <li class="nav-item mx-auto">
+                                    <button class="nav-link text-light" data-bs-toggle="modal" data-bs-target="#create_scheduled_booking">Booking</button>
+                                </li>
+                                <li class="nav-item mx-auto">
+                                    <button class="nav-link text-light" data-bs-toggle="modal" data-bs-target="#log_out_modal">Log Out</button>
+                                </li>
+                            <?php
+                        }
+                        ?>
                     </ul>
                 </div>
             </div>

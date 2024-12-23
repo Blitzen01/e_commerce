@@ -27,7 +27,6 @@ body {
 .btn-danger {
     background: var(--color-red) !important;
     color: var(--color-white) !important;
-    transition: .5s ease !important;
 }
 #btn-danger:hover {
     background: var(--color-red-dark) !important;

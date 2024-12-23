@@ -152,35 +152,52 @@
                                     <tr>
                                         <th>Average Rating</th>
                                         <th>Descriptive Rating</th>
-                                        <th>Year</th>
+                                        <th>Month</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>HIGHLY SATISFIED</td>
-                                        <td>4.5</td>
-                                        <td>2024</td>
-                                    </tr>
-                                    <tr>
-                                        <td>SATISFIED</td>
-                                        <td>3.5</td>
-                                        <td>2024</td>
-                                    </tr>
-                                    <tr>
-                                        <td>NEUTRAL</td>
-                                        <td>2.5</td>
-                                        <td>2024</td>
-                                    </tr>
-                                    <tr>
-                                        <td>DISSATISFIED</td>
-                                        <td>1.5</td>
-                                        <td>2024</td>
-                                    </tr>
-                                    <tr>
-                                        <td>HIGHLY DISSATISFIED</td>
-                                        <td>1</td>
-                                        <td>2024</td>
-                                    </tr>
+                                    <?php
+                                        $select_sql = "SELECT YEAR(date) AS year, MONTH(date) AS month, ROUND(AVG(rating), 2) AS average_rating 
+                                                    FROM rating 
+                                                    GROUP BY YEAR(date), MONTH(date)
+                                                    ORDER BY YEAR(date), MONTH(date);";
+
+                                        $result = $conn->query($select_sql);
+
+                                        if ($result) {
+                                            if ($result->num_rows > 0) {
+                                                while ($row = $result->fetch_assoc()) {
+                                                    $averageRating = $row['average_rating'];
+                                                    $descriptiveRating = getDescriptiveRating($averageRating);
+                                                    $year = $row['year'];
+                                                    $month = getMonthName($row['month']); // Convert numeric month to month name
+                                                    echo "<tr><td>$averageRating</td><td>$descriptiveRating</td><td>$month $year</td></tr>";
+                                                }
+                                            } else {
+                                                echo "<tr><td colspan='3'>No ratings found</td></tr>";
+                                            }
+                                        } else {
+                                            echo "Query failed: " . $conn->error;
+                                        }
+
+                                        function getDescriptiveRating($averageRating) {
+                                            if ($averageRating >= 4.5) {
+                                                return "HIGHLY SATISFIED";
+                                            } elseif ($averageRating >= 3.5) {
+                                                return "SATISFIED";
+                                            } elseif ($averageRating >= 2.5) {
+                                                return "NEUTRAL";
+                                            } elseif ($averageRating >= 1.5) {
+                                                return "DISSATISFIED";
+                                            } else {
+                                                return "HIGHLY DISSATISFIED";
+                                            }
+                                        }
+
+                                        function getMonthName($monthNumber) {
+                                            return date("F", mktime(0, 0, 0, $monthNumber, 1)); // Convert month number to month name
+                                        }
+                                    ?>
                                 </tbody>
                             </table>
                         </div>
@@ -298,6 +315,10 @@
 
             // Update the time every second
             setInterval(updateTime, 1000);
+
+            $(document).ready(function () {
+                var table_booking = $('#satisfactionRating').DataTable();
+            });
         </script>
     </body>
 </html>

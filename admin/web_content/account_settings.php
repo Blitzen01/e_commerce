@@ -26,7 +26,7 @@
                             <div class="col-lg-3 col-sm-11 text-center">
                                 <div class="dropdown">
                                     <div id="square-image-container">
-                                        <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <a class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                             <img class="rounded-circle" id="profile_picture" src="../../assets/image/profile_picture/blank_profile_picture.png" alt="" srcset="">
                                         </a>
                                         <ul class="dropdown-menu">

@@ -1,4 +1,6 @@
 <?php
+    session_start();
+    
     include "../assets/cdn/cdn_links.php";
     include "../render/connection.php";
 ?>
