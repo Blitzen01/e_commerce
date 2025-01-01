@@ -57,12 +57,17 @@
                     <p class="text-muted">Price: &#8369; <?php echo number_format($product['price'], 2); ?></p>
                     <br><br>
                     <div class="ms-3">
-                        <button 
-                            class="btn btn-secondary" 
-                            onclick="checkLoginStatusAndAddToCart(<?php echo isset($_SESSION['email']) ? 'true' : 'false'; ?>)"
-                        >
-                            Add to Cart
-                        </button>
+                        <?php
+                            if (!empty($_SESSION['email'])) {
+                                ?>
+                                    <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#add_to_cart<?php echo $id; ?>">Add to Cart</button>
+                                <?php
+                            } else {
+                                ?>
+                                    <a class="btn btn-secondary" href="sign_in.php">Add to Cart</a>
+                                <?php
+                            }
+                        ?>
                         <button 
                             class="btn btn-primary ms-2" 
                             onclick="checkLoginStatusAndShowModal(<?php echo isset($_SESSION['email']) ? 'true' : 'false'; ?>)"
@@ -97,7 +102,7 @@
                                             class="img-fluid w-100 h-100" 
                                             style="object-fit: cover;">
                                         <div class="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-dark bg-opacity-50 opacity-0 hover-overlay">
-                                            <button class="btn btn-primary">Add to Cart</button>
+                                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_to_cart<?php echo $id; ?>">Add to Cart</button>
                                         </div>
                                     </div>
 
@@ -132,18 +137,7 @@
         <script defer src="../assets/script/user_script.js"></script>
 
         <script>
-            // Check login status and add to cart
-            function checkLoginStatusAndAddToCart(isLoggedIn) {
-                if (!isLoggedIn) {
-                    // Redirect to login page if not logged in
-                    alert("You must be logged in to add items to the cart.");
-                    window.location.href = "sign_in.php";
-                } else {
-                    // Logic to add the item to the cart
-                    alert("Item added to cart!");
-                    // You can send an AJAX request here to update the cart on the server
-                }
-            }
+            
 
             // Check login status and show the modal
             function checkLoginStatusAndShowModal(isLoggedIn) {
@@ -153,7 +147,7 @@
                     window.location.href = "sign_in.php";
                 } else {
                     // Show the Bootstrap modal
-                    const modalElement = document.getElementById("buyNowModal");
+                    const modalElement = document.getElementById("product_buy_now");
                     const modal = new bootstrap.Modal(modalElement);
                     modal.show();
                 }
@@ -183,11 +177,11 @@
 
 
 <!-- Modal for Buy Now -->
-<div class="modal fade" id="buyNowModal" tabindex="-1" aria-labelledby="buyNowModalLabel" aria-hidden="true">
+<div class="modal fade" id="product_buy_now" tabindex="-1" aria-labelledby="product_buy_now_label" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="buyNowModalLabel"><?php echo $product['product_name']; ?></h5>
+                <h5 class="modal-title" id="product_buy_now_label"><?php echo $product['product_name']; ?></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">

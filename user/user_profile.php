@@ -91,7 +91,7 @@
                                             </div>
                                             <hr class="mx-auto" style="width:80%;">
                                             <h5><strong>Bio: </strong> <?php echo $row['bio']; ?></h5>
-                                            <button class="btn btn-danger w-100 text-light" data-bs-toggle="modal" data-bs-target="#update_profile_information_modal">Update Profile</button>
+                                            <button class="btn btn-danger w-100 text-light" data-bs-toggle="modal" data-bs-target="#user_update_profile_information_modal">Update Profile</button>
                                         </div>
                                     </div>
                                     <?php

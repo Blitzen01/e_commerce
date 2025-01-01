@@ -52,7 +52,7 @@
                     </div>
 
                     <div class="form-group d-flex flex-column justify-content-center align-items-center mx-3 mt-4 mb-2">
-                        <label for="category" class="mb-2">What about the library do you want to comment on?</label>
+                        <label for="category" class="mb-2">What about the service/website do you want to comment on?</label>
                         <input type="text" class="form-control mb-3" id="category" name="category" placeholder="Enter your comment about our service/website." required>
                         
                         <label for="comments" class="mb-2">Enter your comments in the space provided below:</label>

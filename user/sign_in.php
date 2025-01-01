@@ -75,7 +75,7 @@
                 <div id="login_form_layout" class="p-4">
                     <form action="sign_in.php" method="post">
                         <div class="mb-3">
-                            <input type="text" class="form-control" name="user_username" id="user_username" placeholder="Email or Username" autocomplete="off">
+                            <input type="text" class="form-control" name="user_username" id="user_username" placeholder="Email" autocomplete="off">
                         </div>
                         <div class="mb-3">
                             <input type="password" class="form-control" name="user_password" id="user_password" placeholder="Password" autocomplete="off">

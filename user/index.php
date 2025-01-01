@@ -1,6 +1,6 @@
 <?php
     session_start();
-    
+
     include "../assets/cdn/cdn_links.php";
     include "../render/connection.php";
     include "../render/modals.php";
@@ -67,7 +67,7 @@
                                             class="img-fluid w-100 h-100" 
                                             style="object-fit: cover;">
                                         <div class="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-dark bg-opacity-50 opacity-0 hover-overlay">
-                                            <button class="btn btn-primary">Add to Cart</button>
+                                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_to_cart<?php echo $row['id']; ?>">Add to Cart</button>
                                         </div>
                                     </div>
 

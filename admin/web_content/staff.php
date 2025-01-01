@@ -1,5 +1,12 @@
 <?php
     include "../../assets/cdn/cdn_links.php";
+    include "../../render/connection.php";
+    
+    session_start();
+    if (!isset($_SESSION['email'])) {
+        header("Location: ../index.php"); // Redirect to the index if not logged in
+        exit;
+    }
 ?>
 
 <!DOCTYPE html>

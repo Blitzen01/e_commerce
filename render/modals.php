@@ -175,3 +175,61 @@
     </div>
 </div>
 <!-- Log out modal -->
+
+<!-- product add to cart Modal -->
+<?php
+    $sql = "SELECT * FROM products";
+    // $sql1 = "SELECT * FROM package";
+
+    $result = mysqli_query($conn, $sql);
+    // $result1 = mysqli_query($conn, $sql1);
+
+    if($result) {  //$result && $result1
+        while($row = mysqli_fetch_assoc($result)) {
+            ?>
+            <div class="modal fade" id="add_to_cart<?php echo $row['id']; ?>" tabindex="-1" aria-labelledby="add_to_cart<?php echo $row['id']; ?>_label" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="add_to_cart<?php echo $row['id']; ?>_label">Are you sure you want to add this product ?</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="../assets/php_script/product_add_to_cart_script.php" method="post">
+                                <div class="d-flex justify-content-center align-items-center mb-2">
+                                    <img 
+                                        src="../assets/image/product_image/<?php echo $row['product_image']; ?>" 
+                                        alt="Product Image" 
+                                        class="img-fluid w-50 h-50 border shadow" 
+                                        style="object-fit: cover;">
+                                </div>
+                                <h5><?php echo $row['product_name']; ?> <span> &#8369;<?php echo number_format($row['price'], 2); ?></span></h5>
+                                <input type="hidden" name="product_name" value="<?php echo $row['product_name']; ?>">
+                                <input type="hidden" name="price" value="<?php echo $row['price']; ?>">
+                                <label for="add_to_cart_product_quantity">Quantity</label>
+                                <?php
+                                    $stock = $row['stocks'];
+                                    if ($stock > 0) {
+                                        echo '<select name="quantity" id="add_to_cart_product_quantity" class="form-select">';
+                                        for ($i = 1; $i <= $stock; $i++) {
+                                            echo "<option value='$i'>$i</option>";
+                                        }
+                                        echo '</select>';
+                                    } else {
+                                        echo '<p class="text-danger">Out of stock</p>';
+                                    }
+                                ?>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-cart-plus"></i> Add to cart</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php
+        }
+    }
+?>
+<!-- product add to cart Modal -->
