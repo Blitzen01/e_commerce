@@ -1,9 +1,10 @@
 <?php
-    include "../../assets/cdn/cdn_links.php";
-    include "../../render/connection.php";
-    include "../../render/modals.php";
-    
     session_start();
+    
+    require_once "../../assets/cdn/cdn_links.php";
+    require_once "../../render/connection.php";
+    require_once "../../render/modals.php";
+    
     if (!isset($_SESSION['email'])) {
         header("Location: ../index.php"); // Redirect to the index if not logged in
         exit;

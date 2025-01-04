@@ -103,7 +103,6 @@
                     <table id="table_transaction_history" class="table table-sm nowrap table-striped compact table-hover" >
                             <thead class="table-danger">
                                 <tr>
-                                    <td>Action</td>
                                     <td>Name</td>
                                     <td>Email</td>
                                     <td>Address</td>
@@ -127,11 +126,74 @@
 
         <script>
             $(document).ready(function () {
-                var table_booking = $('#table_booking').DataTable();
+                var table_booking = $('#table_booking').DataTable({
+                    scrollX: true,
+                    autoWidth: false
+                });
 
-                var table_booked = $('#table_booked').DataTable();
+                var table_booked = $('#table_booked').DataTable({
+                    scrollX: true,
+                    autoWidth: false
+                });
 
-                var table_booked = $('#table_transaction_history').DataTable();
+                var currentDate = new Date().toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                }); // Format: January 1, 2025
+
+                var table_transaction_history = $('#table_transaction_history').DataTable({
+                    dom: 'Bfrtip', // Required for buttons to display
+                    buttons: [
+                        {
+                            extend: 'csv',
+                            title: `Booking History - ${currentDate}`
+                        },
+                        {
+                            extend: 'excel',
+                            title: `Booking History - ${currentDate}`
+                        },
+                        {
+                            extend: 'pdf',
+                            title: `Booking History - ${currentDate}`,
+                            orientation: 'landscape', // Horizontal layout
+                            pageSize: 'A4', // Page size
+                            customize: function (doc) {
+                                doc.styles.tableHeader = {
+                                    bold: true,
+                                    fontSize: 12,
+                                    color: 'black',
+                                    alignment: 'center'
+                                };
+                            }
+                        },
+                        {
+                            extend: 'print',
+                            title: `Booking History - ${currentDate}`,
+                            customize: function (win) {
+                                $(win.document.body).css('font-size', '10pt');
+                                $(win.document.body).find('table')
+                                    .addClass('compact')
+                                    .css('font-size', 'inherit')
+                                    .css('width', '100%');
+                            }
+                        }
+                    ],
+                    autoWidth: false, // Prevent automatic width calculation
+                    initComplete: function () {
+                        var tableWidth = this.api().table().node().offsetWidth;
+                        var containerWidth = $(this.api().table().container()).parent().width();
+                        if (tableWidth > containerWidth) {
+                            this.api().settings()[0].oScroll.sX = '100%';
+                            this.api().draw();
+                        }
+                    }
+                });
+
+                // Append buttons to the container
+                table_transaction_history.buttons().container()
+                    .appendTo('#table_transaction_history_wrapper .col-md-6:eq(0)');
+
             });
         </script>
     </body>

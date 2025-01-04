@@ -17,6 +17,10 @@
         <title>Admin: Calendar</title>
 
         <link rel="stylesheet" href="../../assets/style/admin_style.css">
+
+        <!-- Add the evo-calendar.css for styling -->
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/evo-calendar@1.1.2/evo-calendar/css/evo-calendar.min.css"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/evo-calendar@1.1.2/evo-calendar/css/evo-calendar.midnight-blue.min.css">
     </head>
 
     <body>
@@ -36,34 +40,52 @@
 
         
         <script src="../../assets/script/admin_script.js"></script>
+        
+        <!-- Add the evo-calendar.js for.. obviously, functionality! -->
+        <script defer src="https://cdn.jsdelivr.net/npm/evo-calendar@1.1.2/evo-calendar/js/evo-calendar.min.js"></script>
 
         <script>
             $(document).ready(function () {
                 $('#calendar').evoCalendar({
-                theme: 'Midnight Blue',
-                calendarEvents: [
-                    {
-                    id: "id01",
-                    name: "Customer Name",
-                    date: "11/11/2024",
-                    description: "Item Purchased",
-                    type: 'event'
-                    },
-                    {
-                    id: "id02",
-                    name: "Customer Name",
-                    date: "11/14/2024",
-                    description: "Item Purchased",
-                    type: 'event'
-                    },
-                    {
-                    id: "id03",
-                    name: "Customer Name",
-                    date: "11/20/2024",
-                    description: "Item Purchased",
-                    type: 'event'
-                    }
-                ]
+                    theme: 'Midnight Blue',
+                    calendarEvents: [
+                    <?php
+                        $sql = "SELECT * FROM booking";
+                        $result = mysqli_query($conn, $sql);
+
+                        if($result) {
+                            while($row = mysqli_fetch_assoc($result)){
+                    ?>
+                            {
+                                id: "booking<?php echo $row['id']; ?>",
+                                name: "<?php echo $row['name']; ?>",
+                                date: "<?php echo $row['date']; ?>",
+                                description: "<h4>Type of booking: <?php echo $row['type_of_booking'];?></h4> <br> Email: <?php echo $row['email'];?> <br> Address: <?php echo $row['address'];?> <br> Contact Number: <?php echo $row['contact_number'];?> <br> Time: <?php echo $row['time'];?>",
+                                type: 'event',
+                            },
+                    <?php
+                            }
+                        }
+                    ?>
+                    <?php
+                        $sql = "SELECT * FROM booked";
+                        $result = mysqli_query($conn, $sql);
+
+                        if($result) {
+                            while($row = mysqli_fetch_assoc($result)){
+                    ?>
+                            {
+                                id: "booked<?php echo $row['id']; ?>",
+                                name: "<?php echo $row['name']; ?>",
+                                date: "<?php echo $row['date']; ?>",
+                                description: "<h4>Type of booking: <?php echo $row['type_of_booking'];?></h4> <br> Email: <?php echo $row['email'];?> <br> Address: <?php echo $row['address'];?> <br> Contact Number: <?php echo $row['contact_number'];?> <br> Time: <?php echo $row['time'];?>",
+                                type: 'holiday',
+                            },
+                    <?php
+                            }
+                        }
+                    ?>
+                    ]
                 });
             });
         </script>

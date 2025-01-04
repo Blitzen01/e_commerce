@@ -14,7 +14,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Admin: Bookings</title>
+        <title>Admin: Orders</title>
         
         <link rel="stylesheet" href="../../assets/style/admin_style.css">
 
@@ -208,12 +208,61 @@
                 });
 
                 var table_booked = $('#table_order_booked').DataTable({
-                    scrollX: true
+                    scrollX: true,
+                    autoWidth: false
                 });
 
+                var currentDate = new Date().toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                }); // Format: January 1, 2025
+
+                // Initialize DataTable for #table_order_transaction_history
                 var table_booked = $('#table_order_transaction_history').DataTable({
-                    scrollX: true
+                    dom: 'Bfrtip',
+                    buttons: [
+                        {
+                            extend: 'csv',
+                            title: `Order Transaction History - ${currentDate}`
+                        },
+                        {
+                            extend: 'excel',
+                            title: `Order Transaction History - ${currentDate}`
+                        },
+                        {
+                            extend: 'pdf',
+                            title: `Order Transaction History - ${currentDate}`,
+                            orientation: 'landscape', // Horizontal layout
+                            pageSize: 'A4', // Page size
+                            customize: function (doc) {
+                                doc.styles.tableHeader = {
+                                    bold: true,
+                                    fontSize: 12,
+                                    color: 'black',
+                                    alignment: 'center'
+                                };
+                            }
+                        },
+                        {
+                            extend: 'print',
+                            title: `Order Transaction History - ${currentDate}`,
+                            customize: function (win) {
+                                $(win.document.body).css('font-size', '10pt');
+                                $(win.document.body).find('table')
+                                    .addClass('compact')
+                                    .css('font-size', 'inherit')
+                                    .css('width', '100%');
+                            }
+                        }
+                    ],
+                    scrollX: true, // Enable horizontal scrolling
+                    autoWidth: false // Prevent automatic width calculation
                 });
+
+                // Append buttons to the container
+                table_booked.buttons().container()
+                    .appendTo('#table_order_transaction_history_wrapper .col-md-6:eq(0)');
             });
         </script>
     </body>

@@ -5,11 +5,11 @@
                 <div class="col-1 m-1 p-1">
                     <a class="navbar-brand" href="index.php"><img src="../assets/image/hfa_logo.png" alt="" srcset="" id="hfa_logo"></a>
                 </div>
-                <div class="col-5 my-auto search-container">
+                <div class="col-5 my-auto me-auto search-container">
                     <input class="form-control search_bar me-2" type="search" placeholder="Search for Products, Brands, Parts" aria-label="Search">
                     <i class="fa-solid fa-magnifying-glass search-icon"></i>
                 </div>
-                <div class="col-1 my-auto ms-auto">
+                <div class="col-1 my-auto">
                     <?php
                         if (isset($_SESSION['email'])) {
                             ?>
@@ -21,7 +21,19 @@
                             <?php
                         }
                     ?>
-                    
+                </div>
+                <div class="col-1 my-auto">
+                    <?php
+                        if (isset($_SESSION['email'])) {
+                            ?>
+                                <a class="nav-link" href="chats.php"><i class="fa-solid fa-comments"></i></a> 
+                            <?php
+                        } else {
+                            ?>
+                                <a class="nav-link" href="sign_in.php"><i class="fa-solid fa-comments"></i></a>
+                            <?php
+                        }
+                    ?>
                 </div>
                 <div class="col-1 my-auto"> 
                     <?php
@@ -47,19 +59,13 @@
                             <a class="nav-link text-light" aria-current="page" href="index.php">Home</a>
                         </li>
                         <li class="nav-item mx-auto">
-                            <a class="nav-link text-light" href="#">Computers</a>
+                            <a class="nav-link text-light" href="#computer">Computers</a>
                         </li>
                         <li class="nav-item mx-auto">
-                            <a class="nav-link text-light" href="#">Laptop</a>
+                            <a class="nav-link text-light" href="#laptop">Laptop</a>
                         </li>
                         <li class="nav-item mx-auto">
-                            <a class="nav-link text-light" href="#">Peripherals</a>
-                        </li>
-                        <li class="nav-item mx-auto">
-                            <a class="nav-link text-light" href="#">Printers</a>
-                        </li>
-                        <li class="nav-item mx-auto">
-                            <a class="nav-link text-light" href="#">CCTV's</a>
+                            <a class="nav-link text-light" href="#cctv">CCTV's</a>
                         </li>
                         <?php
                         if (isset($_SESSION['email'])) {

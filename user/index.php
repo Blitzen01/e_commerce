@@ -15,37 +15,46 @@
 
         <link rel="stylesheet" href="../assets/style/user_style.css">
 
-        <style>
-            
-        </style>
     </head>
 
     <body>
         <?php include "../navigation/user_nav.php"; ?>
 
-        <div class="m-3 shadow border">
-            <div id="continuousCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="1000">
+        <div class="carousel-container mb-3">
+            <div id="continuousCarousel" class="carousel slide shadow border" data-bs-ride="carousel" data-bs-interval="1000">
                 <div class="carousel-inner">
                     <?php
-                        $sql = "SELECT * FROM carousel";
-                        $result = mysqli_query($conn, $sql);
+                    $sql = "SELECT * FROM carousel";
+                    $result = mysqli_query($conn, $sql);
 
-                        if($result) {
-                            $isActive = true; // Variable to track the first item
-                            while($row = mysqli_fetch_assoc($result)) {
-                                ?>
-                                <div class="carousel-item <?php if ($isActive) { echo 'active'; $isActive = false; } ?>">
-                                    <img src="../assets/image/carousel/<?php echo $row['img_name']; ?>.jpg">
-                                </div>
-                                <?php
-                            }
+                    if ($result) {
+                        $isActive = true; // To set the "active" class only on the first item
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            ?>
+                            <div class="carousel-item <?php if ($isActive) echo 'active'; ?>">
+                                <img src="../assets/image/carousel/<?php echo $row['img_name']; ?>" class="d-block w-100" alt="">
+                            </div>
+                            <?php
+                            $isActive = false; // Ensure only the first item has the "active" class
                         }
+                    }
                     ?>
                 </div>
             </div>
         </div>
 
-        <div class="container">
+        <div class="container" id="computer" style="margin-top: 100px;">
+            <div class="row">qweqweqwe
+            </div>
+        </div>
+
+        <div class="container" id="laptop" style="margin-top: 100px;">
+            <div class="row">qeqweqw
+            </div>
+        </div>
+        
+        <!-- product display -->
+        <div class="container" id="cctv" style="margin-top: 100px;">
             <div class="row">
                 <?php
                     $sql = "SELECT * FROM products";
@@ -100,5 +109,29 @@
         <?php include "../navigation/user_footer.php"; ?>
 
         <script defer src="../assets/script/user_script.js"></script>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const navbarHeight = document.querySelector('.navbar').offsetHeight;
+                const links = document.querySelectorAll('a.nav-link[href^="#"]');
+
+                links.forEach(link => {
+                    link.addEventListener('click', function (event) {
+                        event.preventDefault();
+                        const targetId = this.getAttribute('href').substring(1);
+                        const targetElement = document.getElementById(targetId);
+
+                        if (targetElement) {
+                            const targetPosition = targetElement.offsetTop - navbarHeight;
+
+                            window.scrollTo({
+                                top: targetPosition,
+                                behavior: 'smooth',
+                            });
+                        }
+                    });
+                });
+            });
+        </script>
     </body>
 </html>

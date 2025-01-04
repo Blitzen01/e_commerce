@@ -39,12 +39,3 @@
 <!-- font awesome script -->
 <script src="https://kit.fontawesome.com/9475ab4ee0.js" crossorigin="anonymous"></script>
 <!-- font awesome script -->
-
-<!-- Add the evo-calendar.css for styling -->
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/evo-calendar@1.1.2/evo-calendar/css/evo-calendar.min.css"/>
-<!-- Add the evo-calendar.css for styling -->
-
-<!-- Add the evo-calendar.css for styling -->
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/evo-calendar@1.1.2/evo-calendar/css/evo-calendar.min.css"/>
-<!-- Add the evo-calendar.js for.. obviously, functionality! -->
-<script defer src="https://cdn.jsdelivr.net/npm/evo-calendar@1.1.2/evo-calendar/js/evo-calendar.min.js"></script>

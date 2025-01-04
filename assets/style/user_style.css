@@ -90,10 +90,29 @@ nav.navbar {
 }
 /* navigation bar layout end */
 
+/* Center the carousel within its parent */
+.carousel-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 70vh; /* Full viewport height */
+}
 
-.carousel-item img {
+#continuousCarousel {
+    width: 80%; /* Adjust the width as needed */
+    max-width: 800px; /* Maximum width of the carousel */
+    aspect-ratio: 6 / 3; /* 6:3 aspect ratio */
+    overflow: hidden;
+}
+
+#continuousCarousel .carousel-inner {
+    height: 100%;
+}
+
+#continuousCarousel .carousel-item img {
+    object-fit: cover;
     width: 100%;
-    height: 50vh;
+    height: 100%;
 }
 
 /* feedback form layout start */
@@ -165,8 +184,8 @@ nav.navbar {
         height: 80%;
     }
 
-    .carousel-item img {
-        height: 25vh;
+    .carousel-container {
+        height: 25vh; /* Full viewport height */
     }
     
     .fixed-height-image {
