@@ -5,7 +5,7 @@
     // Check if the form is submitted
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Retrieve email/username and password from the form
-        $email = $_POST["user_username"]; // Corrected field name
+        $email = $_POST["user_email"]; // Corrected field name
         $password = $_POST["user_password"]; // Correct field name
 
         // Prepare SQL statement to select user with the provided email
@@ -23,7 +23,7 @@
             if ($password == $row['password']) {
                 // Start the session and redirect on successful login
                 session_start();
-                $_SESSION['user_email'] = $email; // Store the email in session
+                $_SESSION['email'] = $email; // Store the email in session
                 echo "<script>
                         window.location.href = 'index.php';
                     </script>";
@@ -75,7 +75,7 @@
                 <div id="login_form_layout" class="p-4">
                     <form action="sign_in.php" method="post">
                         <div class="mb-3">
-                            <input type="text" class="form-control" name="user_username" id="user_username" placeholder="Email" autocomplete="off">
+                            <input type="text" class="form-control" name="user_email" id="user_email" placeholder="Email" autocomplete="off">
                         </div>
                         <div class="mb-3">
                             <input type="password" class="form-control" name="user_password" id="user_password" placeholder="Password" autocomplete="off">

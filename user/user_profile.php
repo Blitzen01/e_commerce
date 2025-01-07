@@ -1,11 +1,11 @@
 <?php
     session_start();
-
-    $email = $_SESSION['user_email'];
     
     include "../assets/cdn/cdn_links.php";
     include "../render/connection.php";
     include "../render/modals.php";
+
+    $email = $_SESSION['email'];
 ?>
 
 <!DOCTYPE html>
