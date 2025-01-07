@@ -58,7 +58,7 @@
                     <br><br>
                     <div class="ms-3">
                         <?php
-                            if (!empty($_SESSION['user_email'])) {
+                            if (!empty($_SESSION['email'])) {
                                 ?>
                                     <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#add_to_cart<?php echo $id; ?>">Add to Cart</button>
                                 <?php
@@ -70,7 +70,7 @@
                         ?>
                         <button 
                             class="btn btn-primary ms-2" 
-                            onclick="checkLoginStatusAndShowModal(<?php echo isset($_SESSION['user_email']) ? 'true' : 'false'; ?>)"
+                            onclick="checkLoginStatusAndShowModal(<?php echo isset($_SESSION['email']) ? 'true' : 'false'; ?>)"
                         >
                             Buy Now
                         </button>

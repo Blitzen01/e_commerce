@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($password === $row['password']) { // Replace with password_verify($password, $row['password']) if hashing is used
             // Start the session and redirect on successful login
             session_start();
-            $_SESSION['email'] = $row['email']; // Store email in session
+            $_SESSION['admin_email'] = $row['email']; // Store email in session
             echo "<script>
                     window.location.href = 'web_content/calendar.php';
                   </script>";

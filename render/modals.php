@@ -291,3 +291,87 @@
     }
 ?>
 <!-- package add to cart modal -->
+
+<!-- add staff Modal -->
+<div class="modal fade" id="add_staff" tabindex="-1" aria-labelledby="add_staff_label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="add_staff_label">Add Staff</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="../../assets/php_script/add_staff_script.php" method="POST">
+            <div class="mb-3">
+                <label for="staff_first_name">First Name:</label>
+                <input class="form-control" id="staff_first_name" type="text" name="staff_first_name" autocomplete="off">
+            </div>
+            <div class="mb-3">
+                <label for="staff_last_name">Last Name:</label>
+                <input class="form-control" id="staff_last_name" type="text" name="staff_last_name" autocomplete="off">
+            </div>
+            <div class="mb-3">
+                <label for="staff_username">Username:</label>
+                <input class="form-control" id="staff_username" type="text" name="staff_username" autocomplete="off">
+            </div>
+            <div class="mb-3">
+                <label for="staff_contact_number">Contact Number:</label>
+                <input class="form-control" id="staff_contact_number" type="text" name="staff_contact_number" autocomplete="off">
+            </div>
+            <div class="mb-3">
+                <label for="staff_position">Position:</label>
+                <select name="staff_position" id="staff_position" class="form-select">
+                    <option value="Default" disabled readonly>Default</option>
+                    <option value="Admin">Admin</option>
+                    <option value="Cashier">Cashier</option>
+                    <option value="Technician">Technician</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Add</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- add staff Modal -->
+
+<!-- remove staff Modal -->
+<div class="modal fade" id="remove_staff" tabindex="-1" aria-labelledby="remove_staff_label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="remove_staff_label">Remove Staff</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="../../assets/php_script/remove_staff_script.php" method="post">
+            <div class="mb-3">
+                <label for="remove_staff">Select Staff</label>
+                <select name="remove_staff" id="remove_staff" class="form-select">
+                    <?php
+                        $sql = "SELECT * FROM admin_account";
+                        $result = mysqli_query($conn, $sql);
+
+                        if($result) {
+                            while($row = mysqli_fetch_assoc($result)) {
+                                ?>
+                                <option value="<?php echo $row['id'];?>"><?php echo $row['first_name'];?> <?php echo $row['last_name'];?></option>
+                                <?php
+                            }
+                        }
+                    ?>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-danger">Remove</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- remove staff Modal -->

@@ -1,9 +1,11 @@
 <?php
+    session_start();
+
     include "../../assets/cdn/cdn_links.php";
     include "../../render/connection.php";
+    include "../../render/modals.php";
     
-    session_start();
-    if (!isset($_SESSION['email'])) {
+    if (!isset($_SESSION['admin_email'])) {
         header("Location: ../index.php"); // Redirect to the index if not logged in
         exit;
     }
@@ -27,14 +29,14 @@
                     <?php include "../../navigation/admin_nav.php"; ?>
                 </div>
                 <div class="col">
+                    <?php include "../../navigation/admin_header.php"; ?>
                     <h3 class="p-3 text-center"><i class="fa-solid fa-clipboard-user"></i> Staff</h3>
                     <section class="my-2 px-4">
-                        <button class="btn btn-success p-1 mb-1 ms-3 text-light border-0">ADD STAFF</button>
-                        <button class="btn btn-danger p-1 mb-1 text-light border-0">REMOVE STAFF</button>
-                        <table class="table table-sm nowrap table-striped compact table-hover" >
+                        <button class="btn btn-success p-1 mb-1 ms-3 text-light border-0" data-bs-toggle="modal" data-bs-target="#add_staff">ADD STAFF</button>
+                        <button class="btn btn-danger p-1 mb-1 text-light border-0" data-bs-toggle="modal" data-bs-target="#remove_staff">REMOVE STAFF</button>
+                        <table id="staff_table" class="table table-sm nowrap table-striped compact table-hover" >
                             <thead class="table-danger">
                                 <tr>
-                                    <td>Action</td>
                                     <td>Name</td>
                                     <td>Username</td>
                                     <td>Contact Number</td>
@@ -43,29 +45,24 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td><button class="bg-success border-0 p-1 text-light">Update</button></td>
-                                    <td>Aj Samson</td>
-                                    <td>AJ</td>
-                                    <td>09123456789</td>
-                                    <td>Technical</td>
-                                    <td>Borland</td>
-                                </tr>
-                                <tr>
-                                    <td><button class="bg-success border-0 p-1 text-light">Update</button></td>
-                                    <td>Aj Samson</td>
-                                    <td>AJ</td>
-                                    <td>09123456789</td>
-                                    <td>Technical</td>
-                                    <td>Borland</td>
-                                </tr><tr>
-                                    <td><button class="bg-success border-0 p-1 text-light">Update</button></td>
-                                    <td>Aj Samson</td>
-                                    <td>AJ</td>
-                                    <td>09123456789</td>
-                                    <td>Technical</td>
-                                    <td>Borland</td>
-                                </tr>
+                                <?php
+                                    $sql = "SELECT * FROM admin_account";
+                                    $result = mysqli_query($conn, $sql);
+
+                                    if($result) {
+                                        while($row = mysqli_fetch_assoc($result)) {
+                                            ?>
+                                            <tr>
+                                                <td><?php echo $row['first_name']; ?> <?php echo $row['last_name']; ?></td>
+                                                <td><?php echo $row['username']; ?></td>
+                                                <td><?php echo $row['contact_number']; ?></td>
+                                                <td><?php echo $row['role']; ?></td>
+                                                <td><?php echo $row['address']; ?></td>
+                                            </tr>
+                                            <?php
+                                        }
+                                    }
+                                ?>
                             </tbody>
                         </table>
                     </section>
@@ -75,5 +72,14 @@
 
 
         <script src="../../assets/script/admin_script.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                var table_booking = $('#staff_table').DataTable({
+                    scrollX: true,
+                    autoWidth: false
+                });
+            });
+        </script>
     </body>
 </html>

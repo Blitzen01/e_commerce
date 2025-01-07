@@ -4,7 +4,7 @@
 
     session_start();
     $_SESSION['role'] = 'admin';
-    if (!isset($_SESSION['email']) || $_SESSION['role'] != 'admin') {
+    if (!isset($_SESSION['admin_email']) || $_SESSION['role'] != 'admin') {
         header("Location: ../index.php");
         exit;
     }
@@ -45,6 +45,7 @@
                     <?php include "../../navigation/admin_nav.php"; ?>
                 </div>
                 <div class="col">
+                    <?php include "../../navigation/admin_header.php"; ?>
                     <h3 class="p-3 text-center"><i class="fa-regular fa-comments"></i> Inbox</h3>
                     <div class="user-list">
                         <h5>Users</h5>

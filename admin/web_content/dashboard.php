@@ -1,9 +1,10 @@
 <?php
     include "../../assets/cdn/cdn_links.php";
     include "../../render/connection.php";
+    include "../../assets/php_script/dashboard_monitoring_script.php";
     
     session_start();
-    if (!isset($_SESSION['email'])) {
+    if (!isset($_SESSION['admin_email'])) {
         header("Location: ../index.php"); // Redirect to the index if not logged in
         exit;
     }
@@ -31,27 +32,38 @@
                     <?php include "../../navigation/admin_nav.php"; ?>
                 </div>
                 <div class="col">
+                    <?php include "../../navigation/admin_header.php"; ?>
                     <h3 class="p-3 text-center">
                         <i class="fa-solid fa-gauge"></i> Dashboard <br> <span id="currentTime"><?php echo $initialTime; ?></span>
                     </h3>
                     <!-- daily monitoring -->
                     <section class="my-2 px-4">
+                        <h4 class="text-center pt-2 pb-3">Weekly Monitoring</h4>
                         <div class="row">
-                            <div class="col-lg-3 col-sm-9 text-center m-1 border border-primary rounded">
+                            <div class="col text-center m-1 border border-primary rounded">
                                     <div class="row bg-primary">
-                                        <span>Today's Income</span>
+                                        <span>Total Booking</span>
                                     </div>
                                     <div class="row">
-                                        <h4>0</h4>
+                                        <h4><?php echo $weeklyTotalBooking; ?></h4>
                                     </div>
+                            </div>
+
+                            <div class="col text-center m-1 border border-danger rounded">
+                                <div class="row bg-danger">
+                                    <span>Pending Booking</span>
+                                </div>
+                                <div class="row">
+                                    <h4><?php echo $weeklyTotalBooking; ?></h4>
+                                </div>
                             </div>
 
                             <div class="col text-center m-1 border border-info rounded">
                                 <div class="row bg-info">
-                                    <span>Sales</span>
+                                    <span>Total Order</span>
                                 </div>
                                 <div class="row">
-                                    <h4>0</h4>
+                                    <h4><?php echo $weeklyTotalOrder; ?></h4>
                                 </div>
                             </div>
 
@@ -60,16 +72,16 @@
                                     <span>Pending Order</span>
                                 </div>
                                 <div class="row">
-                                    <h4>0</h4>
+                                    <h4><?php echo $weeklyTotalOrder; ?></h4>
                                 </div>
                             </div>
 
                             <div class="col text-center m-1 border border-success rounded">
                                 <div class="row bg-success">
-                                    <span>Revenue</span>
+                                    <span>Total Income</span>
                                 </div>
                                 <div class="row">
-                                    <h4>0</h4>
+                                    <h4>&#8369; <?php echo number_format($weeklyTotalIncome, 2); ?></h4>
                                 </div>
                             </div>
                         </div>
@@ -96,7 +108,7 @@
                                     <span>Total Bookings</span>
                                 </div>
                                 <div class="row">
-                                    <h4>0</h4>
+                                    <h4><?php echo $monthlyTotalBooking; ?></h4>
                                 </div>
                             </div>
 
@@ -105,7 +117,7 @@
                                     <span>Total Order</span>
                                 </div>
                                 <div class="row">
-                                    <h4>0</h4>
+                                    <h4><?php echo $monthlyTotalOrder; ?></h4>
                                 </div>
                             </div>
 
@@ -114,7 +126,7 @@
                                     <span>Total Income</span>
                                 </div>
                                 <div class="row">
-                                    <h4>0</h4>
+                                    <h4>&#8369; <?php echo number_format($monthlyIncome, 2); ?></h4>
                                 </div>
                             </div>
                         </div>
@@ -126,7 +138,7 @@
                                     <span>Total Bookings</span>
                                 </div>
                                 <div class="row">
-                                    <h4>0</h4>
+                                    <h4><?php echo $yearlyTotalBooking; ?></h4>
                                 </div>
                             </div>
 
@@ -135,7 +147,7 @@
                                     <span>Total Order</span>
                                 </div>
                                 <div class="row">
-                                    <h4>0</h4>
+                                    <h4><?php echo $yearlyTotalOrder; ?></h4>
                                 </div>
                             </div>
 
@@ -144,7 +156,7 @@
                                     <span>Total Income</span>
                                 </div>
                                 <div class="row">
-                                    <h4>0</h4>
+                                    <h4>&#8369; <?php echo number_format($yearlyIncome, 2); ?></h4>
                                 </div>
                             </div>
                         </div>

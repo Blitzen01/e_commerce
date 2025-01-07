@@ -3,7 +3,7 @@
     include "../../render/connection.php";
 
     session_start();
-    if (!isset($_SESSION['email'])) {
+    if (!isset($_SESSION['admin_email'])) {
         header("Location: ../index.php"); // Redirect to the index if not logged in
         exit;
     }
@@ -27,6 +27,7 @@
                     <?php include "../../navigation/admin_nav.php"; ?>
                 </div>
                 <div class="col">
+                    <?php include "../../navigation/admin_header.php"; ?>
                     <h3 class="p-3 text-center"><i class="fa-solid fa-user"></i> Account Settings</h3>
                     <section class="my-2 px-4">
                         <div class="row">

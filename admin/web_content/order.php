@@ -3,7 +3,7 @@
     include "../../render/connection.php";
     
     session_start();
-    if (!isset($_SESSION['email'])) {
+    if (!isset($_SESSION['admin_email'])) {
         header("Location: ../index.php"); // Redirect to the index if not logged in
         exit;
     }
@@ -28,6 +28,7 @@
                     <?php include "../../navigation/admin_nav.php"; ?>
                 </div>
                 <div class="col-lg-10">
+                    <?php include "../../navigation/admin_header.php"; ?>
                     <h3 class="p-3 text-center"><i class="fa-solid fa-book"></i> Order Place</h3>
                     <section class="my-2 px-4">
                         <table id="table_order_booking" class="table table-sm nowrap table-striped compact table-hover" >
@@ -205,7 +206,8 @@
         <script>
             $(document).ready(function () {
                 var table_booking = $('#table_order_booking').DataTable({
-                    scrollX: true
+                    scrollX: true,
+                    autoWidth: false
                 });
 
                 var table_booked = $('#table_order_booked').DataTable({

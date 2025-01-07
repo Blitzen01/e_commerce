@@ -5,7 +5,7 @@
     require_once "../../render/connection.php";
     require_once "../../render/modals.php";
     
-    if (!isset($_SESSION['email'])) {
+    if (!isset($_SESSION['admin_email'])) {
         header("Location: ../index.php"); // Redirect to the index if not logged in
         exit;
     }
@@ -20,6 +20,24 @@
         <link rel="stylesheet" href="../../assets/style/admin_style.css">
         <link rel="icon" href="/e_commerce/assets/image/hfa_logo.png" type="image/png">
 
+        <style>
+            #downloadCsvButtonPackage, #downloadCsvButton {
+                background-color:rgb(24, 180, 219); /* Blue */
+                color: white;
+                border-radius: 0.25rem;
+            }
+            #downloadExcelButtonPackage, #downloadExcelButton {
+                background-color:rgb(42, 196, 78); /* Green */
+                color: white;
+                border-radius: 0.25rem;
+            }
+            #downloadPdfButtonPackage, #downloadPdfButton {
+                background-color:rgb(207, 83, 96) !important; /* Red */
+                color: white;
+                border-radius: 0.25rem;
+            }
+        </style>
+
     </head>
 
     <body>
@@ -29,6 +47,7 @@
                     <?php include "../../navigation/admin_nav.php"; ?>
                 </div>
                 <div class="col-lg-10">
+                    <?php include "../../navigation/admin_header.php"; ?>
                     <h3 class="p-3 text-center"><i class="fa-solid fa-warehouse"></i> Inventory</h3>
                     <section id="package_section" class="my-2 px-4">
                         <h4 class="pt-3">Package List</h4>
@@ -39,7 +58,7 @@
                             <thead>
                                 <tr>
                                     <th></th>
-                                    <th>Action</th>
+                                    <th class="no-export">Actions</th>
                                     <th>Package</th>
                                     <th>Package Name</th>
                                     <th>Processor</th>
@@ -64,7 +83,7 @@
                                     if($result) {
                                         while($row = mysqli_fetch_assoc($result)) {
                                             ?>
-                                            <tr>
+                                            <tr id="package_<?php echo $row['id']; ?>">
                                                 <td></td>
                                                 <td>
                                                     <button class="bg-success border-0 text-light p-1">Update</button> 
@@ -153,7 +172,7 @@
                                     if($result) {
                                         while($row = mysqli_fetch_assoc($result)) {
                                             ?>
-                                            <tr>
+                                            <tr id="product_<?php echo $row['id']; ?>">
                                                 <td><?php echo $row['category']; ?></td>
                                                 <td><?php echo $row['product_name']; ?></td>
                                                 <td><?php echo $row['price']; ?></td>
@@ -235,12 +254,101 @@
                     ]
                 });
 
-                $('#package_table').DataTable({
+                var dataTablePackage = $('#package_table').DataTable({
+                    dom: 'Bfrtip',
+                    buttons: [
+                        {
+                            extend: 'csv',
+                            text: 'CSV',
+                            init: function(api, node, config) {
+                                $(node).attr('id', 'downloadCsvButtonPackage'); // Set unique ID for CSV button
+                                $(node).addClass('btn btn-primary rounded'); // Blue button for CSV
+                            },
+                            filename: 'Package List',
+                            exportOptions: {
+                                columns: ':not(.no-export)', // Exclude columns with 'no-export' class
+                                format: {
+                                    body: function(data, row, column, node) {
+                                        // Handle content with newlines or spaces
+                                        var tempDiv = document.createElement('div');
+                                        tempDiv.innerHTML = data; // Parse HTML content
+                                        var textData = tempDiv.textContent || tempDiv.innerText || ''; // Extract plain text
+                                        
+                                        // Remove peso sign and unnecessary spaces/newlines
+                                        textData = textData.replace(/₱|&#8369;/g, '').trim(); // Remove peso sign
+                                        return textData.replace(/\s*\n\s*/g, ' '); // Remove newline and excess spaces
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            extend: 'excel',
+                            text: 'Excel',
+                            init: function(api, node, config) {
+                                $(node).attr('id', 'downloadExcelButtonPackage'); // Set unique ID for Excel button
+                                $(node).addClass('btn btn-success rounded'); // Green button for Excel
+                            },
+                            filename: 'Package List',
+                            exportOptions: {
+                                columns: ':not(.no-export)', // Exclude columns with 'no-export' class
+                                format: {
+                                    body: function(data, row, column, node) {
+                                        // Handle content with newlines or spaces
+                                        var tempDiv = document.createElement('div');
+                                        tempDiv.innerHTML = data; // Parse HTML content
+                                        var textData = tempDiv.textContent || tempDiv.innerText || ''; // Extract plain text
+                                        
+                                        // Remove peso sign and unnecessary spaces/newlines
+                                        textData = textData.replace(/₱|&#8369;/g, '').trim(); // Remove peso sign
+                                        return textData.replace(/\s*\n\s*/g, ' '); // Remove newline and excess spaces
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            extend: 'pdf',
+                            text: 'PDF',
+                            init: function(api, node, config) {
+                                $(node).attr('id', 'downloadPdfButtonPackage'); // Set unique ID for PDF button
+                                $(node).addClass('btn btn-danger rounded'); // Red button for PDF
+                            },
+                            filename: 'Package List',
+                            exportOptions: {
+                                columns: ':not(.no-export)', // Exclude columns with 'no-export' class
+                                format: {
+                                    body: function(data, row, column, node) {
+                                        // Handle content with newlines or spaces
+                                        var tempDiv = document.createElement('div');
+                                        tempDiv.innerHTML = data; // Parse HTML content
+                                        var textData = tempDiv.textContent || tempDiv.innerText || ''; // Extract plain text
+                                        
+                                        // Remove peso sign and unnecessary spaces/newlines
+                                        textData = textData.replace(/₱|&#8369;/g, '').trim(); // Remove peso sign
+                                        return textData.replace(/\s*\n\s*/g, ' '); // Remove newline and excess spaces
+                                    }
+                                }
+                            },
+                            customize: function(doc) {
+                                // Set PDF layout to landscape
+                                doc.pageOrientation = 'landscape';
+                                
+                                // Ensure that the PDF has simple styling (plain text)
+                                doc.styles.tableBodyEven.alignment = 'left';
+                                doc.styles.tableBodyOdd.alignment = 'left';
+                                doc.defaultStyle.fontSize = 10; // Keep font size small and plain
+                            }
+                        }
+                    ],
                     columnDefs: [
                         {
                             className: 'dtr-control',
                             orderable: false,
                             target: 0
+                        },
+                        {
+                            targets: 'no-export', // Targets columns with 'no-export' class
+                            visible: true,
+                            searchable: false
                         }
                     ],
                     order: [1, 'asc'],

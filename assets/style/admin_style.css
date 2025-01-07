@@ -132,6 +132,19 @@ section {
     color: var(--color-black);
 }
 
+.badge {
+    font-size: 0.75em; /* Smaller text size */
+    margin-right: 2rem;
+    margin-top: .5rem;
+    position: absolute;
+    top: 0.25rem; /* Adjust position closer to the icon */
+    left: 0.25rem; /* Adjust position closer to the icon */
+    transform: translate(-50%, -50%);
+    background-color: #dc3545; /* Red background */
+    color: white; /* White text */
+    border-radius: 75%; /* Circle shape */
+}
+
 @media screen and (min-width: 600px) {
     body {
         overflow-x: hidden;

@@ -1,6 +1,10 @@
 <?php
     session_start();
     
+    if (!isset($_SESSION['email'])) {
+        header("Location: sign_in.php");
+    }
+
     $email = $_SESSION['email'];
     include "../assets/cdn/cdn_links.php";
     include "../render/connection.php";

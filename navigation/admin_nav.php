@@ -1,5 +1,5 @@
 <?php
-  $email = $_SESSION['email'];
+  $email = $_SESSION['admin_email'];
 
   $sql = "SELECT * FROM admin_account WHERE email = '$email'";
   $result = mysqli_query($conn, $sql);
@@ -13,13 +13,11 @@
         <ul class="nav nav-pills flex-column mb-auto">
             <li><a class="nav_bar nav-link" href="calendar.php"><i class="fa-regular fa-calendar"></i> Calendar</a></li>
             <li><a class="nav_bar nav-link" href="dashboard.php"><i class="fa-solid fa-gauge"></i> Dashboard</a></li>
-            <li><a class="nav_bar nav-link" href="chats.php"><i class="fa-regular fa-comments"></i> Inbox</a></li>
             <li><a class="nav_bar nav-link" href="order.php"><i class="fa-solid fa-cart-shopping"></i> Orders</a></li>
             <li><a class="nav_bar nav-link" href="bookings.php"><i class="fa-solid fa-book"></i> Bookings</a></li>
             <li><a class="nav_bar nav-link" href="inventory.php"><i class="fa-solid fa-warehouse"></i> Inventory</a></li>
             <li><a class="nav_bar nav-link" href="cms.php"><i class="fa-solid fa-arrows-to-circle"></i> CMS</a></li>
             <li><a class="nav_bar nav-link" href="staff.php"><i class="fa-solid fa-clipboard-user"></i> Staff</a></li>
-            <li><a class="nav_bar nav-link" href="account_settings.php"><i class="fa-solid fa-user"></i> Account Settings</a></li>
             <li><a class="nav_bar nav-link" data-bs-toggle="modal" data-bs-target="#admin_logout" style="cursor: pointer;"><i class="fa-solid fa-arrow-right-from-bracket"></i> Log out</a></li>
         </ul>
       </div>

@@ -59,9 +59,9 @@
                     <br><br>
                     <div class="ms-3">
                         <?php
-                            if (!empty($_SESSION['user_email'])) {
+                            if (!empty($_SESSION['email'])) {
                                 ?>
-                                    <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#add_to_cart<?php echo $id; ?>">Add to Cart</button>
+                                    <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#add_package_modal<?php echo $id; ?>">Add to Cart</button>
                                 <?php
                             } else {
                                 ?>
@@ -71,7 +71,7 @@
                         ?>
                         <button 
                             class="btn btn-primary ms-2" 
-                            onclick="checkLoginStatusAndShowModal(<?php echo isset($_SESSION['user_email']) ? 'true' : 'false'; ?>)">
+                            onclick="checkLoginStatusAndShowModal(<?php echo isset($_SESSION['email']) ? 'true' : 'false'; ?>)">
                             Buy Now
                         </button>
                     </div>
@@ -169,7 +169,7 @@
                                     <div class="position-relative overflow-hidden d-flex justify-content-center align-items-center" style="height: 200px;">
                                         <img 
                                             src="../assets/image/package_image/<?php echo $row1['package_image']; ?>" 
-                                            alt="Product Image" 
+                                            alt="package Image" 
                                             class="img-fluid w-100 h-100" 
                                             style="object-fit: cover;">
                                         <div class="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-dark bg-opacity-50 opacity-0 hover-overlay">
@@ -177,7 +177,7 @@
                                         </div>
                                     </div>
 
-                                    <!-- Product Details -->
+                                    <!-- package Details -->
                                     <div class="card-body">
                                         <?php
                                             $packageName = $row1['package_name'];
@@ -218,7 +218,7 @@
                     window.location.href = "sign_in.php";
                 } else {
                     // Show the Bootstrap modal
-                    const modalElement = document.getElementById("product_buy_now");
+                    const modalElement = document.getElementById("package_buy_now");
                     const modal = new bootstrap.Modal(modalElement);
                     modal.show();
                 }
@@ -240,35 +240,33 @@
                     alert("You cannot select more than the available stock.");
                 }
             }
-
-
         </script>
     </body>
 </html>
 
 
 <!-- Modal for Buy Now -->
-<div class="modal fade" id="product_buy_now" tabindex="-1" aria-labelledby="product_buy_now_label" aria-hidden="true">
+<div class="modal fade" id="package_buy_now" tabindex="-1" aria-labelledby="package_buy_now_label" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="product_buy_now_label"><?php echo $product['product_name']; ?></h5>
+                <h5 class="modal-title" id="package_buy_now_label"><?php echo $package['package']; ?></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="text-center">
-                    <img src="../assets/image/product_image/<?php echo $product['product_image']; ?>" alt="Product Image" class="img-fluid mb-3 p-2 border shadow" style="max-height: 200px;">
+                    <img src="../assets/image/package_image/<?php echo $package['package_image']; ?>" alt="Package Image" class="img-fluid mb-3 p-2 border shadow" style="max-height: 200px;">
                 </div>
-                <p class="text-muted text-center">Price: &#8369; <?php echo number_format($product['price'], 2); ?></p>
+                <p class="text-muted text-center">Price: &#8369; <?php echo number_format($package['package_price'], 2); ?></p>
                 <div class="d-flex justify-content-center align-items-center">
-                    <button class="btn btn-outline-secondary me-2" onclick="adjustQuantity(-1, <?php echo $product['stocks']; ?>)">-</button>
+                    <button class="btn btn-outline-secondary me-2" onclick="adjustQuantity(-1, <?php echo $package['stocks']; ?>)">-</button>
                     <input type="text" id="quantityInput" class="form-control text-center" value="1" style="width: 60px;" readonly>
-                    <button class="btn btn-outline-secondary ms-2" onclick="adjustQuantity(1, <?php echo $product['stocks']; ?>)">+</button>
+                    <button class="btn btn-outline-secondary ms-2" onclick="adjustQuantity(1, <?php echo $package['stocks']; ?>)">+</button>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <a class="btn btn-primary" id="confirmPurchaseLink" href="confirm_product_purchase.php?id=<?php echo $product['id']; ?>&quantity=1">Confirm Purchase</a>
+                <a class="btn btn-primary" id="confirmPurchaseLink" href="confirm_package_purchase.php?id=<?php echo $package['id']; ?>&quantity=1">Confirm Purchase</a>
             </div>
         </div>
     </div>
