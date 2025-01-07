@@ -4,6 +4,10 @@
     include "../assets/cdn/cdn_links.php";
     include "../render/connection.php";
     include "../render/modals.php";
+
+    // Get search query from URL parameters if present
+    $searchQuery = isset($_GET['search']) ? mysqli_real_escape_string($conn, $_GET['search']) : '';
+
 ?>
 
 <!DOCTYPE html>
@@ -14,14 +18,13 @@
         <title>HFA Computer Parts and Repair Services</title>
 
         <link rel="stylesheet" href="../assets/style/user_style.css">
-
     </head>
 
     <body>
         <?php include "../navigation/user_nav.php"; ?>
 
         <div class="carousel-container mb-3">
-            <div id="continuousCarousel" class="carousel slide shadow border" data-bs-ride="carousel" data-bs-interval="1000">
+            <div id="continuousCarousel" class="carousel slide shadow border" data-bs-ride="carousel" data-bs-interval="3000">
                 <div class="carousel-inner">
                     <?php
                     $sql = "SELECT * FROM carousel";
@@ -43,38 +46,63 @@
             </div>
         </div>
 
-        <div class="container" id="computer" style="margin-top: 100px;">
-            <div class="row">qweqweqwe
-            </div>
-        </div>
-
-        <div class="container" id="laptop" style="margin-top: 100px;">
-            <div class="row">qeqweqw
-            </div>
-        </div>
-        
-        <!-- product display -->
-        <div class="container" id="cctv" style="margin-top: 100px;">
+        <div class="container" id="computer">
             <div class="row">
                 <?php
-                    $sql = "SELECT * FROM products";
-                    // $sql1 = "SELECT * FROM package";
+                    // Filter packages based on search query
+                    $sql1 = "SELECT * FROM package WHERE package_name LIKE '%$searchQuery%'";
+                    $result1 = mysqli_query($conn, $sql1);
 
-                    $result = mysqli_query($conn, $sql);
-                    // $result1 = mysqli_query($conn, $sql1);
-
-                    if($result) {  //$result && $result1
-                        while($row = mysqli_fetch_assoc($result)) {
+                    if ($result1) {
+                        while ($row1 = mysqli_fetch_assoc($result1)) {
                             ?>
-                            <div class="col">
+                            <div class="col-lg-3">
+                                <div class="card m-2">
+                                    <div class="position-relative overflow-hidden d-flex justify-content-center align-items center">
+                                        <img src="../assets/image/package_image/<?php echo $row1['package_image']; ?>" alt="Package Image" class="img-fluid w-100 h-100">
+                                        <div class="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-dark bg-opacity-50 opacity-0 hover-overlay">
+                                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_package_modal<?php echo $row1['id']; ?>">Add to Cart</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <?php
+                                            $packageName = $row1['package_name'];
+                                            if (strlen($packageName) > 35) {
+                                                $displayName = substr($packageName, 0, 35) . '...';
+                                            } else {
+                                                $displayName = $packageName;
+                                            }
+                                        ?>
+                                        <a class="nav-link" href="view_package.php?id=<?php echo $row1['id']; ?>">
+                                            <span><b><?php echo $displayName; ?></b> &#8369; <?php echo number_format($row1['package_price'], 2); ?></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php
+                        }
+                    }
+                ?>
+            </div>
+        </div>
+
+        <!-- product display -->
+        <div class="container" id="cctv">
+            <div class="row">
+                <?php
+                    // Filter products based on search query
+                    $sql = "SELECT * FROM products WHERE product_name LIKE '%$searchQuery%'";
+                    $result = mysqli_query($conn, $sql);
+
+                    if ($result) {
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            ?>
+                            <div class="col-lg-3">
                                 <div class="card m-2">
                                     <!-- Image Section -->
                                     <div class="position-relative overflow-hidden d-flex justify-content-center align-items-center" style="height: 200px;">
-                                        <img 
-                                            src="../assets/image/product_image/<?php echo $row['product_image']; ?>" 
-                                            alt="Product Image" 
-                                            class="img-fluid w-100 h-100" 
-                                            style="object-fit: cover;">
+                                        <img src="../assets/image/product_image/<?php echo $row['product_image']; ?>" alt="Product Image" class="img-fluid w-100 h-100" style="object-fit: cover;">
                                         <div class="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-dark bg-opacity-50 opacity-0 hover-overlay">
                                             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_to_cart<?php echo $row['id']; ?>">Add to Cart</button>
                                         </div>
@@ -112,26 +140,27 @@
 
         <script>
             document.addEventListener("DOMContentLoaded", function () {
-                const navbarHeight = document.querySelector('.navbar').offsetHeight;
-                const links = document.querySelectorAll('a.nav-link[href^="#"]');
+                const navbarHeight = document.querySelector('.navbar').offsetHeight;  // Get navbar height dynamically
+                const links = document.querySelectorAll('a.nav-link[href^="#"]');  // Select all navigation links with href starting with '#'
 
                 links.forEach(link => {
                     link.addEventListener('click', function (event) {
-                        event.preventDefault();
-                        const targetId = this.getAttribute('href').substring(1);
-                        const targetElement = document.getElementById(targetId);
+                        event.preventDefault();  // Prevent default anchor click behavior
+                        const targetId = this.getAttribute('href').substring(1);  // Get the target ID from href
+                        const targetElement = document.getElementById(targetId);  // Get the target element by ID
 
                         if (targetElement) {
-                            const targetPosition = targetElement.offsetTop - navbarHeight;
+                            const targetPosition = targetElement.offsetTop - navbarHeight;  // Adjust position by navbar height
 
                             window.scrollTo({
-                                top: targetPosition,
-                                behavior: 'smooth',
+                                top: targetPosition,  // Scroll to the correct position
+                                behavior: 'smooth',  // Smooth scroll effect
                             });
                         }
                     });
                 });
             });
+
         </script>
     </body>
 </html>

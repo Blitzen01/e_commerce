@@ -1,7 +1,7 @@
 <?php
     session_start();
 
-    $email = $_SESSION['email'];
+    $email = $_SESSION['user_email'];
     
     include "../assets/cdn/cdn_links.php";
     include "../render/connection.php";

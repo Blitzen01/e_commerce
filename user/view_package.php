@@ -6,24 +6,24 @@
     include "../render/connection.php";
     include "../render/modals.php";
 
-    // Get the product ID from the query parameter
+    // Get the package ID from the query parameter
     if (isset($_GET['id'])) {
         $id = intval($_GET['id']);
         
-        // Fetch product details from the database
-        $query = "SELECT * FROM products WHERE id = ?";
+        // Fetch package details from the database
+        $query = "SELECT * FROM package WHERE id = ?";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("i", $id);
         $stmt->execute();
         $result = $stmt->get_result();
-        $product = $result->fetch_assoc();
+        $package = $result->fetch_assoc();
         
-        if (!$product) {
-            echo "Product not found.";
+        if (!$package) {
+            echo "package not found.";
             exit;
         }
     } else {
-        echo "No product selected.";
+        echo "No package selected.";
         exit;
     }
 ?>
@@ -34,7 +34,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>
-            <?php echo $product['product_name']; ?>
+            <?php echo $package['package_name']; ?>
         </title>
         
         <link rel="stylesheet" href="../assets/style/user_style.css">
@@ -47,14 +47,15 @@
             <div class="row">
                 <div class="col-lg-6 col-sm-10">
                     <div class="text-center p-2">
-                        <!-- Product Image -->
-                        <img src="../assets/image/product_image/<?php echo $product['product_image']; ?>" alt="Product Image" class="image-fluid border shadow fixed-height-image">
+                        <!-- package Image -->
+                        <img src="../assets/image/package_image/<?php echo $package['package_image']; ?>" alt="package Image" class="image-fluid border shadow fixed-height-image">
                     </div>
                 </div>
                 <div class="col-lg-6 col-sm-10">
-                    <!-- Product Details -->
-                    <h2><?php echo $product['product_name']; ?></h2>
-                    <p class="text-muted">Price: &#8369; <?php echo number_format($product['price'], 2); ?></p>
+                    <!-- package Details -->
+                    <span class="fs-2"><b><?php echo $package['package']; ?></b></span>
+                    <span class="fs-5">(<?php echo $package['package_name']; ?>)</span>
+                    <p class="text-muted">Price: &#8369; <?php echo number_format($package['package_price'], 2); ?></p>
                     <br><br>
                     <div class="ms-3">
                         <?php
@@ -70,20 +71,90 @@
                         ?>
                         <button 
                             class="btn btn-primary ms-2" 
-                            onclick="checkLoginStatusAndShowModal(<?php echo isset($_SESSION['user_email']) ? 'true' : 'false'; ?>)"
-                        >
+                            onclick="checkLoginStatusAndShowModal(<?php echo isset($_SESSION['user_email']) ? 'true' : 'false'; ?>)">
                             Buy Now
                         </button>
                     </div>
                 </div>
             </div>
+            
+            <br>
+            <h4>Package Inclusions</h4>
+            <table class="table">
+                <thead>
+                    <th>
+                        <td></td>
+                        <td></td>
+                    </th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>processor</b></td>
+                        <td><?php echo $package['processor']; ?></td>
+                        <td>&#8369; <?php echo number_format($package['processor_price']); ?></td>
+                    </tr>
+                    <tr>
+                        <td><b>ram</b></td>
+                        <td><?php echo $package['ram']; ?></td>
+                        <td>&#8369; <?php echo number_format($package['ram_price']); ?></td>
+                    </tr>
+                    <tr>
+                        <td><b>ssd</b></td>
+                        <td><?php echo $package['ssd']; ?></td>
+                        <td>&#8369; <?php echo number_format($package['ssd_price']); ?></td>
+                    </tr>
+                    <tr>
+                        <td><b>hdd</b></td>
+                        <td><?php echo $package['hdd']; ?></td>
+                        <td>&#8369; <?php echo number_format($package['hdd_price']); ?></td>
+                    </tr>
+                    <tr>
+                        <td><b>monitor</b></td>
+                        <td><?php echo $package['monitor']; ?></td>
+                        <td>&#8369; <?php echo number_format($package['monitor_price']); ?></td>
+                    </tr>
+                    <tr>
+                        <td><b>display</b></td>
+                        <td><?php echo $package['display']; ?></td>
+                        <td>&#8369; <?php echo number_format($package['display_price']); ?></td>
+                    </tr>
+                    <tr>
+                        <td><b>psu</b></td>
+                        <td><?php echo $package['psu']; ?></td>
+                        <td>&#8369; <?php echo number_format($package['psu_price']); ?></td>
+                    </tr>
+                    <tr>
+                        <td><b>keyboard_mouse</b></td>
+                        <td><?php echo $package['keyboard_mouse']; ?></td>
+                        <td>&#8369; <?php echo number_format($package['keyboard_mouse_price']); ?></td>
+                    </tr>
+                    <tr>
+                        <td><b>avr</b></td>
+                        <td><?php echo $package['avr']; ?></td>
+                        <td>&#8369; <?php echo number_format($package['avr_price']); ?></td>
+                    </tr>
+                    <tr>
+                        <td><b>speaker</b></td>
+                        <td><?php echo $package['speaker']; ?></td>
+                        <td>&#8369; <?php echo number_format($package['speaker_price']); ?></td>
+                    </tr>
+                    <tr>
+                        <td><b>processor</b></td>
+                        <td><?php echo $package['processor']; ?></td>
+                        <td>&#8369; <?php echo number_format($package['processor_price']); ?></td>
+                    </tr>
+                    <tr>
+                        <td><b>CPU only</b></td>
+                        <td></td>
+                        <td><b>&#8369; <?php echo number_format($package['cpu_only']); ?></b></td>
+                    </tr>
+                </tbody>
+            </table>
 
-            <br><br><br><br><br><br><br>
-
-            <div class="row">
-                <span class="text-secondary">Other Products</span>
+            <div class="row mt-5">
+                <span class="text-secondary">Other Package</span>
                 <?php
-                    $sql1 = "SELECT * FROM products WHERE id != $id";
+                    $sql1 = "SELECT * FROM package WHERE id != $id";
                     // $sql1 = "SELECT * FROM package";
 
                     $result1 = mysqli_query($conn, $sql1);
@@ -92,12 +163,12 @@
                     if($result1) {  //$result && $result1
                         while($row1 = mysqli_fetch_assoc($result1)) {
                             ?>
-                            <div class="col">
+                            <div class="col-lg-3">
                                 <div class="card m-2">
                                     <!-- Image Section -->
                                     <div class="position-relative overflow-hidden d-flex justify-content-center align-items-center" style="height: 200px;">
                                         <img 
-                                            src="../assets/image/product_image/<?php echo $row1['product_image']; ?>" 
+                                            src="../assets/image/package_image/<?php echo $row1['package_image']; ?>" 
                                             alt="Product Image" 
                                             class="img-fluid w-100 h-100" 
                                             style="object-fit: cover;">
@@ -109,15 +180,15 @@
                                     <!-- Product Details -->
                                     <div class="card-body">
                                         <?php
-                                            $productName = $row1['product_name'];
-                                            if (strlen($productName) > 35) {
-                                                $displayName = substr($productName, 0, 35) . '...';
+                                            $packageName = $row1['package_name'];
+                                            if (strlen($packageName) > 35) {
+                                                $displayName = substr($packageName, 0, 35) . '...';
                                             } else {
-                                                $displayName = $productName;
+                                                $displayName = $packageName;
                                             }
                                         ?>
-                                        <a class="nav-link" href="view_product.php?id=<?php echo $row1['id']; ?>">
-                                            <span><b><?php echo $displayName; ?></b> &#8369; <?php echo number_format($row1['price'], 2); ?></span>
+                                        <a class="nav-link" href="view_package.php?id=<?php echo $row1['id']; ?>">
+                                            <span><b><?php echo $displayName; ?></b> &#8369; <?php echo number_format($row1['package_price'], 2); ?></span>
                                         </a>
                                     </div>
                                 </div>

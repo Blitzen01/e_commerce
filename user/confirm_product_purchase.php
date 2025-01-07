@@ -6,7 +6,7 @@
     include "../assets/cdn/cdn_links.php";
     include "../render/connection.php";
     
-    $email = $_SESSION['email'];
+    $email = $_SESSION['user_email'];
     $email = mysqli_real_escape_string($conn, $email);
 
     // Get the product ID from the query parameter

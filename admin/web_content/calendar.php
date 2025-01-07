@@ -17,6 +17,7 @@
         <title>Admin: Calendar</title>
 
         <link rel="stylesheet" href="../../assets/style/admin_style.css">
+        <link rel="icon" href="/e_commerce/assets/image/hfa_logo.png" type="image/png">
 
         <!-- Add the evo-calendar.css for styling -->
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/evo-calendar@1.1.2/evo-calendar/css/evo-calendar.min.css"/>

@@ -23,7 +23,7 @@
             if ($password == $row['password']) {
                 // Start the session and redirect on successful login
                 session_start();
-                $_SESSION['email'] = $email; // Store the email in session
+                $_SESSION['user_email'] = $email; // Store the email in session
                 echo "<script>
                         window.location.href = 'index.php';
                     </script>";

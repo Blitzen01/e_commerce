@@ -18,6 +18,7 @@
         <title>Admin: Inventory</title>
         
         <link rel="stylesheet" href="../../assets/style/admin_style.css">
+        <link rel="icon" href="/e_commerce/assets/image/hfa_logo.png" type="image/png">
 
     </head>
 
@@ -38,41 +39,94 @@
                             <thead>
                                 <tr>
                                     <th></th>
-                                    <th>Category</th>
-                                    <th>Package Name</th>
-                                    <th>Price</th>
-                                    <th>Stocks</th>
                                     <th>Action</th>
+                                    <th>Package</th>
+                                    <th>Package Name</th>
+                                    <th>Processor</th>
+                                    <th>RAM</th>
+                                    <th>SSD</th>
+                                    <th>HDD</th>
+                                    <th>Monitor</th>
+                                    <th>Display</th>
+                                    <th>PSU</th>
+                                    <th>Keyboard and Mouse</th>
+                                    <th>AVR</th>
+                                    <th>Speaker</th>
+                                    <th>CPU Only</th>
+                                    <th>Stocks</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td></td>
-                                    <td>Inter i3 14gen</td>
-                                    <td>INTEL CORE i3-12100 12GEN PACKAGE</td>
-                                    <td> ₱17,975.00</td>
-                                    <td>12</td>
-                                    <td>
-                                        <button 
-                                            class="bg-success border-0 text-light p-1" 
-                                            data-bs-toggle="modal" 
-                                            data-bs-target="#update_package_modal" 
-                                            data-id="<?php echo $row['id']; ?>" 
-                                            data-category="<?php echo $row['category']; ?>" 
-                                            data-name="<?php echo $row['product_name']; ?>" 
-                                            data-price="<?php echo $row['price']; ?>" 
-                                            data-stocks="<?php echo $row['stocks']; ?>">
-                                            Update
-                                        </button>
-                                        <button 
-                                            class="bg-danger border-0 text-light p-1" 
-                                            data-bs-toggle="modal" 
-                                            data-bs-target="#delete_package_modal" 
-                                            data-id="<?php echo $row['id']; ?>">
-                                            Delete
-                                        </button>
-                                    </td>
-                                </tr>
+                                <?php
+                                    $sql = "SELECT * FROM package";
+                                    $result = mysqli_query($conn, $sql);
+
+                                    if($result) {
+                                        while($row = mysqli_fetch_assoc($result)) {
+                                            ?>
+                                            <tr>
+                                                <td></td>
+                                                <td>
+                                                    <button class="bg-success border-0 text-light p-1">Update</button> 
+                                                    <button class="bg-danger border-0 text-light p-1">Delete</button>
+                                                </td>
+                                                <td>
+                                                    <?php echo $row['package']; ?>
+                                                </td>
+                                                <td>
+                                                    <b><?php echo $row['package_name']; ?> <br>Price: </b>
+                                                    &#8369; <?php echo number_format($row['package_price'], 2); ?>
+                                                </td>
+                                                <td>
+                                                    <b><?php echo $row['processor']; ?> <br>Price: </b>
+                                                    &#8369;  <?php echo number_format($row['processor_price'], 2); ?>
+                                                </td>
+                                                <td>
+                                                    <b><?php echo $row['ram']; ?> <br>Price: </b>
+                                                    &#8369; <?php echo number_format($row['ram_price']); ?>
+                                                </td>
+                                                <td>
+                                                    <b><?php echo $row['ssd']; ?> <br> Price: </b>
+                                                    &#8369; <?php echo $row['ssd_price']; ?>
+                                                </td>
+                                                <td>
+                                                    <b><?php echo $row['hdd']; ?> <br> </b>
+                                                    <?php if ($row['hdd_price'] != null && $row['hdd_price'] != 0): echo "&#8369;" + $row['hdd_price']; endif;?>
+                                                </td>
+                                                <td>
+                                                    <b><?php echo $row['monitor']; ?> <br> Price:</b>
+                                                    &#8369; <?php echo number_format($row['monitor_price']); ?>
+                                                </td>
+                                                <td>
+                                                    <b><?php echo $row['display']; ?> <br> Price: </b>
+                                                    &#8369; <?php echo number_format($row['display_price']); ?>
+                                                </td>
+                                                <td>
+                                                    <b><?php echo $row['psu']; ?> <br> Price: </b>
+                                                    &#8369; <?php echo number_format($row['psu_price']); ?>
+                                                </td>
+                                                <td>
+                                                    <b><?php echo $row['keyboard_mouse']; ?> <br> Price: </b>
+                                                    &#8369; <?php echo number_format($row['keyboard_mouse_price']); ?>
+                                                </td>
+                                                <td>
+                                                    <b><?php echo $row['avr']; ?> <br> Price:</b>
+                                                    &#8369; <?php echo number_format($row['avr_price']); ?>
+                                                </td>
+                                                <td>
+                                                    <b><?php echo $row['speaker']; ?> - </b> <?php if ($row['speaker_price'] != null && $row['speaker_price'] != 0): echo number_format($row['speaker_price']); endif;?>
+                                                </td>
+                                                <td>
+                                                    <b>&#8369; <?php echo number_format($row['cpu_only']); ?></b>
+                                                </td>
+                                                <td>
+                                                    <b><?php echo $row['stocks']; ?></b>
+                                                </td>
+                                            </tr>
+                                            <?php
+                                        }
+                                    }
+                                ?>
                             </tbody>
                         </table>
                     </section>
@@ -180,6 +234,23 @@
                         }
                     ]
                 });
+
+                $('#package_table').DataTable({
+                    columnDefs: [
+                        {
+                            className: 'dtr-control',
+                            orderable: false,
+                            target: 0
+                        }
+                    ],
+                    order: [1, 'asc'],
+                    responsive: {
+                        details: {
+                            type: 'column',
+                            target: 'tr'
+                        }
+                    }
+                });
             });
 
 
@@ -212,85 +283,6 @@
 
                     // Set the product ID in the hidden input field
                     deleteModal.querySelector('#delete_product_id').value = productId;
-                });
-            });
-
-            // Detailed specifications
-            const specifications = `
-                <table class="table table-bordered">
-                    <tbody>
-                        <tr>
-                            <td>INTEL CORE i3-12100+GA-H610M-K-D4</td>
-                            <td>₱10,945.00</td>
-                        </tr>
-                        <tr>
-                            <td>ADATA 8GB DDR4-3200hz</td>
-                            <td>₱1,150.00</td>
-                        </tr>
-                        <tr>
-                            <td>ADATA 256Gb SATA III NAND SSD</td>
-                            <td>₱1,200.00</td>
-                        </tr>
-                        <tr>
-                            <td>HIKVISION DS-D5022FN10</td>
-                            <td>₱2,950.00</td>
-                        </tr>
-                        <tr>
-                            <td>21.5" 1080P, HDMI/VGA 75Hz</td>
-                            <td>Included</td>
-                        </tr>
-                        <tr>
-                            <td>INPLAY X10+GP200W Case+PSU Bundle</td>
-                            <td>₱850.00</td>
-                        </tr>
-                        <tr>
-                            <td>A4Tech USB Keyboard and Mouse</td>
-                            <td>₱590.00</td>
-                        </tr>
-                        <tr>
-                            <td>AVR Secure</td>
-                            <td>₱290.00</td>
-                        </tr>
-                        <tr>
-                            <td>Novus/Inplay Desktop Speaker</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td>CPU ONLY</td>
-                            <td>₱15,945.00</td>
-                        </tr>
-                    </tbody>
-                </table>
-            `;
-
-            $(document).ready(function () {
-                const table = $('#package_table').DataTable({
-                    columnDefs: [
-                        {
-                            className: 'dt-control',
-                            orderable: false,
-                            data: null,
-                            defaultContent: '',
-                            targets: 0
-                        }
-                    ],
-                    order: [[1, 'asc']]
-                });
-
-                // Add event listener for opening and closing details
-                $('#package_table tbody').on('click', 'td.dt-control', function () {
-                    const tr = $(this).closest('tr');
-                    const row = table.row(tr);
-
-                    if (row.child.isShown()) {
-                        // Close the row details
-                        row.child.hide();
-                        tr.removeClass('shown');
-                    } else {
-                        // Open the row details
-                        row.child(specifications).show();
-                        tr.addClass('shown');
-                    }
                 });
             });
         </script>
