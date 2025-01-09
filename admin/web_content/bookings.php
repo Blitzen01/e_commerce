@@ -60,40 +60,45 @@
                                     <td>Scheduled Date</td>
                                     <td>Scheduled Time</td>
                                     <td>Type of Booking</td>
+                                    <td>Total Amount</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
-                                        $sql = "SELECT * FROM booked";
-                                        $result = mysqli_query($conn, $sql);
+                                    $sql = "SELECT * FROM booked";
+                                    $result = mysqli_query($conn, $sql);
 
-                                        if($result) {
-                                            while($row = mysqli_fetch_assoc($result)) {
-                                                $formattedDate = date("F j, Y", strtotime($row['date'])); // Month Day, Year
-                                                $formattedTime = date("g:i A", strtotime($row['time']));  // 12-hour format with AM/PM
-                                                ?>
-                                                <tr>
-                                                    <td>
-                                                        <button class="bg-success border-0 p-1 text-light" 
-                                                                data-bs-toggle="modal" 
-                                                                data-bs-target="#accept_booking<?php echo $row["id"]; ?>">
-                                                            Accept
-                                                        </button>
-                                                        <button class="bg-danger border-0 p-1 text-light">Decline</button>
-                                                    </td>
-                                                    <td><?php echo $row['name']; ?></td>
-                                                    <td><?php echo $row['email']; ?></td>
-                                                    <td><?php echo $row['address']; ?></td>
-                                                    <td><?php echo $row['contact_number']; ?></td>
-                                                    <td><?php echo $formattedDate; ?></td>
-                                                    <td><?php echo $formattedTime; ?></td>
-                                                    <td><?php echo $row['type_of_booking']; ?></td>
-                                                    
-                                                </tr>
-                                                <?php
-                                            }
+                                    if($result) {
+                                        while($row = mysqli_fetch_assoc($result)) {
+                                            $formattedDate = date("F j, Y", strtotime($row['date'])); // Month Day, Year
+                                            $formattedTime = date("g:i A", strtotime($row['time']));  // 12-hour format with AM/PM
+                                            ?>
+                                            <tr>
+                                                <td>
+                                                <button class="bg-success border-0 p-1 text-light" 
+                                                            data-bs-toggle="modal" 
+                                                            data-bs-target="#accept_booking_<?php echo $row["id"]; ?>">
+                                                        Accept
+                                                    </button>
+                                                    <button class="bg-danger border-0 p-1 text-light" 
+                                                            data-bs-toggle="modal" 
+                                                            data-bs-target="#decline_booking_<?php echo $row["id"]; ?>">
+                                                        Decline
+                                                    </button>
+                                                </td>
+                                                <td><?php echo $row['name']; ?></td>
+                                                <td><?php echo $row['email']; ?></td>
+                                                <td><?php echo $row['address']; ?></td>
+                                                <td><?php echo $row['contact_number']; ?></td>
+                                                <td><?php echo $formattedDate; ?></td>
+                                                <td><?php echo $formattedTime; ?></td>
+                                                <td><?php echo $row['type_of_booking']; ?></td>
+                                                <td><?php echo $row['price']; ?></td>
+                                            </tr>
+                                            <?php
                                         }
-                                    ?>
+                                    }
+                                ?>
                             </tbody>
                         </table>
                     </section>
@@ -109,11 +114,42 @@
                                     <td>Address</td>
                                     <td>Contact Number</td>
                                     <td>Scheduled Date</td>
+                                    <td>Scheduled Time</td>
                                     <td>Type of Booking</td>
+                                    <td>Total Amount</td>
                                 </tr>
                             </thead>
                             <tbody>
-                                
+                                <?php
+                                    $sql = "SELECT * FROM booking";
+                                    $result = mysqli_query($conn, $sql);
+
+                                    if($result) {
+                                        while($row = mysqli_fetch_assoc($result)) {
+                                            $formattedDate = date("F j, Y", strtotime($row['date'])); // Month Day, Year
+                                            $formattedTime = date("g:i A", strtotime($row['time']));  // 12-hour format with AM/PM
+                                            ?>
+                                            <tr>
+                                                <td>
+                                                    <button class="bg-success border-0 p-1 text-light" 
+                                                            data-bs-toggle="modal" 
+                                                            data-bs-target="#finish_booking_<?php echo $row["id"]; ?>">
+                                                        Finish
+                                                    </button>
+                                                </td>
+                                                <td><?php echo $row['name']; ?></td>
+                                                <td><?php echo $row['email']; ?></td>
+                                                <td><?php echo $row['address']; ?></td>
+                                                <td><?php echo $row['contact_number']; ?></td>
+                                                <td><?php echo $formattedDate; ?></td>
+                                                <td><?php echo $formattedTime; ?></td>
+                                                <td><?php echo $row['type_of_booking']; ?></td>
+                                                <td><?php echo $row['price']; ?></td>
+                                            </tr>
+                                            <?php
+                                        }
+                                    }
+                                ?>
                             </tbody>
                         </table>
                     </section>
@@ -128,12 +164,37 @@
                                     <td>Address</td>
                                     <td>Contact Number</td>
                                     <td>Scheduled Date</td>
+                                    <td>Scheduled Time</td>
                                     <td>Type of Booking</td>
+                                    <td>Total Amount</td>
                                     <td>Status</td>
                                 </tr>
                             </thead>
                             <tbody>
-                                
+                                <?php
+                                    $sql = "SELECT * FROM transaction_history";
+                                    $result = mysqli_query($conn, $sql);
+
+                                    if($result) {
+                                        while($row = mysqli_fetch_assoc($result)) {
+                                            $formattedDate = date("F j, Y", strtotime($row['transaction_date'])); // Month Day, Year
+                                            $formattedTime = date("g:i A", strtotime($row['time']));  // 12-hour format with AM/PM
+                                            ?>
+                                            <tr>
+                                                <td><?php echo $row['name']; ?></td>
+                                                <td><?php echo $row['email']; ?></td>
+                                                <td><?php echo $row['address']; ?></td>
+                                                <td><?php echo $row['contact_number']; ?></td>
+                                                <td><?php echo $formattedDate; ?></td>
+                                                <td><?php echo $formattedTime; ?></td>
+                                                <td><?php echo $row['type_of_booking']; ?></td>
+                                                <td><?php echo $row['total_amount']; ?></td>
+                                                <td><?php echo $row['status']; ?></td>
+                                            </tr>
+                                            <?php
+                                        }
+                                    }
+                                ?>
                             </tbody>
                         </table>
                     </section>

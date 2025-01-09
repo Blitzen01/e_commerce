@@ -219,38 +219,32 @@
                                     while($row = mysqli_fetch_assoc($result)) {
                                         $user_fullname = $row['full_name'];
                                         $user_profile_picture = $row['profile_picture'];
+                                        $user_id = $row['id']; // Add user ID for identification
                                         ?>
-                                        <div>
+                                        <div class="user_item" onclick="loadUserMessages(<?php echo $user_id; ?>)">
                                             <img id="user_image_list" class="border" src="../../assets/image/profile_picture/<?php echo $user_profile_picture; ?>" alt="User Image">
-                                            <?php
-                                                echo $row['full_name'];
-                                            ?>
+                                            <?php echo $row['full_name']; ?>
                                         </div>
                                         <?php
                                     }
                                 }
                             ?>
                         </div>
+
                         <div id="user_message" class="col">
                             <div class="p-2">
-                                <!-- Image of the user aligned to the left -->
-                                <img id="user_image" class="border" src="../../assets/image/profile_picture/<?php echo $user_profile_picture; ?>" alt="User Image">
-                                <!-- User's full name next to the image -->
-                                <h3><?php echo $user_fullname; ?></h3>
+                                <!-- User's image and full name will be updated dynamically -->
+                                <img id="user_image" class="border" src="../../assets/image/profile_picture/blank_profile_picture.png" alt="User Image">
+                                <h3 id="user_name"></h3>
                             </div>
                             <div id="messages_container">
-                                <!-- Messages will appear here -->
-                                <div id="admin_chat">
-                                    admin
-                                </div>
-                                <div id="user_chat">
-                                    us er uqews er us qewer uqes er us er us erqe us er ueqws
-                                </div>
+                                <!-- Messages will be loaded dynamically here -->
                             </div>
                             <div id="chat_input">
-                                <form action="" method="post">
+                                <form id="message_form" action="../../assets/php_script/send_to_user.php" method="post">
+                                    <input type="hidden" name="receiver_id" id="receiver_id" value="<?php echo $user_id; ?>">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" autocomplete="off" placeholder="Type your message here">
+                                        <input type="text" class="form-control" name="adminMessage" id="adminMessage" autocomplete="off" placeholder="Type your message here">
                                         <button type="submit">
                                             <i class="fa-solid fa-caret-right"></i>
                                         </button>
@@ -262,5 +256,69 @@
                 </div>
             </div>
         </div>
+
+        <script>
+            function loadUserMessages(userId) {
+                // Use AJAX to load messages for the selected user
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', `../../assets/php_script/load_user_messages.php?user_id=${userId}`, true);
+
+                xhr.onload = function () {
+                    if (this.status === 200) {
+                        try {
+                            const response = JSON.parse(this.responseText);
+
+                            // Update user details
+                            document.getElementById('user_image').src = `../../assets/image/profile_picture/${response.profile_picture}`;
+                            document.getElementById('user_name').textContent = response.full_name;
+
+                            // Update the message container
+                            const messagesContainer = document.getElementById('messages_container');
+                            messagesContainer.innerHTML = response.messages;
+
+                            // Update the hidden input field for receiver ID
+                            document.getElementById('receiver_id').value = userId;
+
+                            // Scroll to the bottom of the messages container
+                            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                        } catch (e) {
+                            console.error('Failed to parse JSON:', this.responseText);
+                        }
+                    } else {
+                        console.error('Failed to load messages:', this.status, this.statusText);
+                    }
+                };
+
+                xhr.onerror = function () {
+                    console.error('Request error');
+                };
+
+                xhr.send();
+            }
+
+
+            // Auto-scroll after sending a message
+            const messageForm = document.getElementById('message_form');
+            messageForm.addEventListener('submit', function (e) {
+                e.preventDefault(); // Prevent default form submission
+
+                const formData = new FormData(this);
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', this.action, true);
+
+                xhr.onload = function () {
+                    if (this.status === 200) {
+                        // Reload the messages for the current user
+                        const userId = document.getElementById('receiver_id').value;
+                        loadUserMessages(userId);
+
+                        // Clear the message input field
+                        document.getElementById('adminMessage').value = '';
+                    }
+                };
+
+                xhr.send(formData);
+            });
+        </script>
     </body>
 </html>

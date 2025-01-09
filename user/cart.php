@@ -43,68 +43,71 @@
                     ?>
                 </div>
 
-                <form action="" method="post">
-    <?php
-    $sql = "SELECT * FROM product_cart WHERE email = '$email'";
-    $result = mysqli_query($conn, $sql);
+                <form action="../assets/php_script/check_out_order.php" method="post">
+                    <?php
+                    $sql = "SELECT * FROM product_cart WHERE email = '$email'";
+                    $result = mysqli_query($conn, $sql);
 
-    if ($result) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            ?>
-            <div class="form-check border p-1 my-3">
-                <div class="row">
-                    <!-- Checkbox Column -->
-                    <div class="col-lg-1 col-sm-1 d-flex align-items-center justify-content-center">
-                        <input 
-                            class="form-check-input product-checkbox" 
-                            type="checkbox" 
-                            value="<?php echo $row['id']; ?>" 
-                            data-name="<?php echo $row['product_name']; ?>"
-                            data-price="<?php echo $row['total_price']; ?>" 
-                            id="flexCheckChecked_<?php echo $row['id']; ?>">
-                    </div>
-                    <!-- Image Column -->
-                    <div class="col-lg-1 col-sm-1">
-                        <?php
-                        $product_name = $row["product_name"];
-                        $sql1 = "SELECT * FROM products WHERE product_name = '$product_name'";
-                        $result1 = mysqli_query($conn, $sql1);
+                    if ($result) {
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            ?>
+                            <div class="form-check border p-1 my-3">
+                                <div class="row">
+                                    <!-- Checkbox Column -->
+                                    <div class="col-lg-1 col-sm-1 d-flex align-items-center justify-content-center">
+                                        <input 
+                                            class="form-check-input product-checkbox" 
+                                            type="checkbox" 
+                                            value="<?php echo $row['id']; ?>" 
+                                            data-name="<?php echo $row['product_name']; ?>"
+                                            data-price="<?php echo $row['total_price']; ?>" 
+                                            id="flexCheckChecked_<?php echo $row['id']; ?>">
+                                    </div>
+                                    <!-- Image Column -->
+                                    <div class="col-lg-1 col-sm-1">
+                                        <?php
+                                        $product_name = $row["product_name"];
+                                        $sql1 = "SELECT * FROM products WHERE product_name = '$product_name'";
+                                        $result1 = mysqli_query($conn, $sql1);
 
-                        if ($result1) {
-                            while ($row1 = mysqli_fetch_assoc($result1)) {
-                                ?>
-                                <img src="../assets/image/product_image/<?php echo $row1['product_image']; ?>" 
-                                    alt="Product Image" 
-                                    class="img-fluid w-100 h-100" 
-                                    style="object-fit: cover;">
-                                <?php
-                            }
+                                        if ($result1) {
+                                            while ($row1 = mysqli_fetch_assoc($result1)) {
+                                                ?>
+                                                <img src="../assets/image/product_image/<?php echo $row1['product_image']; ?>" 
+                                                    alt="Product Image" 
+                                                    class="img-fluid w-100 h-100" 
+                                                    style="object-fit: cover;">
+                                                <?php
+                                            }
+                                        }
+                                        ?>
+                                    </div>
+                                    <!-- Product Details Column -->
+                                    <div class="col">
+                                        <span><b><?php echo $row["product_name"]; ?></b></span>
+                                        <br>
+                                        <span>&#8369; <?php echo $row["total_price"] / $row["quantity"]; ?> <b>x<?php echo $row["quantity"]; ?></b></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php
                         }
-                        ?>
+                    }
+                    ?>
+                    <select name="mop" id="mop" class="form-select w-25 mt-3" required>
+                        <option value="cod">Cash on Delivery</option>
+                        <option value="otc">Over the Counter</option>
+                    </select>
+                    <div class="text-end">
+                        <input type="hidden" name="product_ids[]" id="product_ids">
+                        <h3 id="cart-total" class="mb-3">Total: &#8369; 0</h3>
+                        <!-- Button to trigger modal -->
+                        <button type="submit" class="btn btn-primary">
+                            Check Out
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#deleteItemsModal">Delete</button>
                     </div>
-                    <!-- Product Details Column -->
-                    <div class="col">
-                        <span><b><?php echo $row["product_name"]; ?></b></span>
-                        <br>
-                        <span>&#8369; <?php echo $row["total_price"] / $row["quantity"]; ?> <b>x<?php echo $row["quantity"]; ?></b></span>
-                        <br>
-                        <span><b>Total: </b> &#8369; <?php echo $row["total_price"]; ?></span>
-                    </div>
-                </div>
-            </div>
-            <?php
-        }
-    }
-    ?>
-    <div class="text-end">
-        <h3 id="cart-total" class="mb-3">Total: &#8369; 0</h3>
-        <!-- Button to trigger modal -->
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#checkedItemsModal">
-            View Checked Items
-        </button>
-        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#deleteItemsModal">Delete</button>
-    </div>
-</form>
+                </form>
             </div>
         </div>
 
@@ -119,6 +122,7 @@
                 const checkboxes = document.querySelectorAll(".product-checkbox");
                 const totalDisplay = document.getElementById("cart-total");
 
+                // Function to update the total price based on selected checkboxes
                 function updateTotal() {
                     let total = 0;
                     checkboxes.forEach((checkbox) => {
@@ -131,44 +135,24 @@
 
                 // Attach event listeners to all checkboxes
                 checkboxes.forEach((checkbox) => {
-                    checkbox.addEventListener("change", updateTotal);
+                    checkbox.addEventListener("change", () => {
+                        // Uncheck all checkboxes except the one clicked
+                        checkboxes.forEach((otherCheckbox) => {
+                            if (otherCheckbox !== checkbox) {
+                                otherCheckbox.checked = false;
+                            }
+                        });
+                        updateTotal(); // Update the total whenever a checkbox is changed
+                    });
                 });
             });
 
-            document.addEventListener("DOMContentLoaded", () => {
-                const checkboxes = document.querySelectorAll(".product-checkbox");
-                const modalList = document.getElementById("checkedItemsList");
-                const modalTotal = document.getElementById("modalTotal");
 
-                function updateModal() {
-                    modalList.innerHTML = ""; // Clear previous list
-                    let total = 0;
-
-                    checkboxes.forEach((checkbox) => {
-                        if (checkbox.checked) {
-                            const name = checkbox.dataset.name;
-                            const price = parseFloat(checkbox.dataset.price);
-
-                            // Add item to modal list
-                            const listItem = document.createElement("li");
-                            listItem.textContent = `${name} - ₱ ${price.toFixed(2)}`;
-                            modalList.appendChild(listItem);
-
-                            // Update total
-                            total += price;
-                        }
-                    });
-
-                    modalTotal.textContent = total.toFixed(2); // Update total in modal
-                }
-
-                // Attach event listeners to all checkboxes
-                checkboxes.forEach((checkbox) => {
-                    checkbox.addEventListener("change", updateModal);
-                });
-
-                // Update modal when modal is shown
-                document.getElementById("checkedItemsModal").addEventListener("shown.bs.modal", updateModal);
+            document.querySelector('form').addEventListener('submit', function (e) {
+                const selectedCheckboxes = document.querySelectorAll('.product-checkbox:checked');
+                const productIds = [];
+                selectedCheckboxes.forEach(checkbox => productIds.push(checkbox.value));
+                document.getElementById('product_ids').value = JSON.stringify(productIds);
             });
 
             document.addEventListener("DOMContentLoaded", () => {
@@ -207,25 +191,6 @@
         </script>
     </body>
 </html>
-
-<div class="modal fade" id="checkedItemsModal" tabindex="-1" aria-labelledby="checkedItemsModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="checkedItemsModalLabel">Checked Items</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <h5 id="checkedItemsList"></h5>
-                <h3 class="mt-3">Total: &#8369; <span id="modalTotal">0.00</span></h3>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Check Out</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div class="modal fade" id="deleteItemsModal" tabindex="-1" aria-labelledby="deleteItemsModalLabel" aria-hidden="true">
     <div class="modal-dialog">

@@ -4,11 +4,11 @@ include '../../render/connection.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Ensure user is logged in
-    if (!isset($_SESSION['user_email'])) {
+    if (!isset($_SESSION['email'])) {
         header("Location: ../../user/sign_in.php");
     }
 
-    $email = $_SESSION['user_email'];
+    $email = $_SESSION['email'];
     $product_name = mysqli_real_escape_string($conn, $_POST['product_name']);
     $quantity = (int)$_POST['quantity'];
     $price = (float)$_POST['price'];

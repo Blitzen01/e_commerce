@@ -7,6 +7,8 @@
         header("Location: ../index.php"); // Redirect to the index if not logged in
         exit;
     }
+
+    $email = $_SESSION['admin_email'];
 ?>
 
 <!DOCTYPE html>
@@ -62,13 +64,20 @@
                                                     <h5><strong>Name: </strong> <?php echo $row['first_name']; ?> <?php echo $row['last_name']; ?></h5>
                                                 </div>
                                                 <div class="col-lg-6 col-sm-11">
+                                                    <h5><strong>Username: </strong> <?php echo $row['username']; ?></h5>
+                                                </div>
+                                                <div class="col-lg-6 col-sm-11">
                                                     <h5><strong>Password: </strong>
                                                         <?php
                                                             $password = $row['password'];
                                                             echo str_repeat('*', strlen($password));
                                                         ?>
                                                     </h5>
-                                                    <button class="nav-link text-primary ms-3" data-bs-toggle="modal" data-bs-target="#change_password_modal"><u>change password</u></button>
+                                                    <small>
+                                                        <button class="nav-link text-primary ms-3" data-bs-toggle="modal" data-bs-target="#change_password_modal">
+                                                                <u>change password</u>
+                                                        </button>
+                                                    </small>
                                                 </div>
                                                 <div class="col-lg-6 col-sm-11">
                                                     <h5><strong>Email: </strong> <?php echo $row['email']; ?></h5>
@@ -109,3 +118,83 @@
         <script src="../../assets/script/admin_script.js"></script>
     </body>
 </html>
+
+<?php
+    $sql = "SELECT * FROM admin_account WHERE email = '$email'";
+    $result = mysqli_query($conn, $sql);
+
+    if ($result) {
+        while ($row = mysqli_fetch_assoc($result)) {
+?>
+            <!-- Modal -->
+            <div class="modal fade" id="admin_update_profile_information_modal" tabindex="-1" aria-labelledby="update_profile_label" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="update_profile_label">Update Profile</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="../../assets/php_script/update_admin_profile.php" method="post">
+                                
+                                <!-- Hidden field to pass user ID -->
+                                <input type="hidden" name="user_id" value="<?php echo $row['id']; ?>">
+
+                                <!-- Name -->
+                                <div class="mb-3">
+                                    <label for="first_name" class="form-label"><strong>First Name</strong></label>
+                                    <input type="text" class="form-control" id="first_name" name="first_name" value="<?php echo $row['first_name']; ?>" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="last_name" class="form-label"><strong>Last Name</strong></label>
+                                    <input type="text" class="form-control" id="last_name" name="last_name" value="<?php echo $row['last_name']; ?>" required>
+                                </div>
+
+                                <!-- Username -->
+                                <div class="mb-3">
+                                    <label for="username" class="form-label"><strong>Username</strong></label>
+                                    <input type="text" class="form-control" id="username" name="username" value="<?php echo $row['username']; ?>" required>
+                                </div>
+
+                                <!-- Contact Number -->
+                                <div class="mb-3">
+                                    <label for="contact_number" class="form-label"><strong>Contact Number</strong></label>
+                                    <input type="text" class="form-control" id="contact_number" name="contact_number" value="<?php echo $row['contact_number']; ?>" required>
+                                </div>
+
+                                <!-- Birthday -->
+                                <div class="mb-3">
+                                    <label for="birthday" class="form-label"><strong>Birthday</strong></label>
+                                    <input type="date" class="form-control" id="birthday" name="birthday" value="<?php echo $row['birthday']; ?>" required>
+                                </div>
+
+                                <!-- Gender -->
+                                <div class="mb-3">
+                                    <label for="gender" class="form-label"><strong>Gender</strong></label>
+                                    <select class="form-control" id="gender" name="gender" required>
+                                        <option value="male" <?php echo $row['gender'] == 'male' ? 'selected' : ''; ?>>Male</option>
+                                        <option value="female" <?php echo $row['gender'] == 'female' ? 'selected' : ''; ?>>Female</option>
+                                        <option value="other" <?php echo $row['gender'] == 'other' ? 'selected' : ''; ?>>Other</option>
+                                    </select>
+                                </div>
+
+                                <!-- Bio -->
+                                <div class="mb-3">
+                                    <label for="bio" class="form-label"><strong>Bio</strong></label>
+                                    <textarea class="form-control" id="bio" name="bio" rows="3"><?php echo $row['bio']; ?></textarea>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<?php
+        }
+    }
+?>

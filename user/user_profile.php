@@ -97,7 +97,7 @@
                                             </div>
                                             <hr class="mx-auto" style="width:80%;">
                                             <h5><strong>Bio: </strong> <?php echo $row['bio']; ?></h5>
-                                            <button class="btn btn-danger w-100 text-light" data-bs-toggle="modal" data-bs-target="#user_update_profile_information_modal">Update Profile</button>
+                                            <button class="btn btn-danger w-100 text-light" data-bs-toggle="modal" data-bs-target="#update_user_profile_modal">Update Profile</button>
                                         </div>
                                     </div>
                                     <?php
@@ -169,7 +169,7 @@
                         </tbody>
                     </table>
 
-                    <table id="booking_transaction" class="table table-sm nowrap table-striped compact table-hover border" style="display: none;>
+                    <table id="booking_transaction" class="table table-sm nowrap table-striped compact table-hover border" style="display: none;">
                         <thead class="table-secondary">
                             <tr>
                                 <td>Type of Booking</td>
@@ -185,14 +185,14 @@
 
                                 if ($result) {
                                     while ($row = mysqli_fetch_assoc($result)) {
-                                        $formattedDate = date('m/d/Y', strtotime($row['date'])); // Format date as MM/DD/YYYY
+                                        $formattedDate = date('m/d/Y', strtotime($row['transaction_date'])); // Format date as MM/DD/YYYY
                                         $formattedTime = date('h:i A', strtotime($row['time'])); // Format time as 12-hour with AM/PM
                                         ?>
                                         <tr>
                                             <td><?php echo $row['type_of_booking']; ?></td>
                                             <td><?php echo $formattedTime; ?></td>
                                             <td><?php echo $formattedDate; ?></td>
-                                            <td><?php echo $row['staus']; ?></td>
+                                            <td><?php echo $row['status']; ?></td>
                                         </tr>
                                         <?php
                                     }
@@ -284,7 +284,7 @@
                                         <tr>
                                             <td><?php echo $row['item']; ?></td>
                                             <td><?php echo $row['quantity']; ?></td>
-                                            <td><?php echo $row['price']; ?></td>
+                                            <td><?php echo $row['total_amount']; ?></td>
                                             <td><?php echo strtoupper($row['mop']); ?></td>
                                             <td><?php echo $row['status']; ?></td>
                                         </tr>
@@ -314,3 +314,78 @@
         </script>
     </body>
 </html>
+
+<?php
+    $sql = "SELECT * FROM user_account WHERE email = '$email'";
+    $result = mysqli_query($conn, $sql);
+
+    if ($result) {
+        while ($row = mysqli_fetch_assoc($result)) {
+?>
+            <!-- Modal -->
+            <div class="modal fade" id="update_user_profile_modal" tabindex="-1" aria-labelledby="update_profile_label" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="update_profile_label">Update User Profile</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="../assets/php_script/update_user_profile.php" method="post">
+                                
+                                <!-- Hidden field to pass user ID -->
+                                <input type="hidden" name="user_id" value="<?php echo $row['id']; ?>">
+
+                                <!-- Full Name -->
+                                <div class="mb-3">
+                                    <label for="full_name" class="form-label"><strong>Full Name</strong></label>
+                                    <input type="text" class="form-control" id="full_name" name="full_name" value="<?php echo $row['full_name']; ?>" required>
+                                </div>
+
+                                <!-- Address -->
+                                <div class="mb-3">
+                                    <label for="address" class="form-label"><strong>Address</strong></label>
+                                    <input type="text" class="form-control" id="address" name="address" value="<?php echo $row['address']; ?>" required>
+                                </div>
+
+                                <!-- Contact Number -->
+                                <div class="mb-3">
+                                    <label for="contact_number" class="form-label"><strong>Contact Number</strong></label>
+                                    <input type="text" class="form-control" id="contact_number" name="contact_number" value="<?php echo $row['contact_number']; ?>" required>
+                                </div>
+
+                                <!-- Birthday -->
+                                <div class="mb-3">
+                                    <label for="birthday" class="form-label"><strong>Birthday</strong></label>
+                                    <input type="date" class="form-control" id="birthday" name="birthday" value="<?php echo $row['birthday']; ?>" required>
+                                </div>
+
+                                <!-- Gender -->
+                                <div class="mb-3">
+                                    <label for="gender" class="form-label"><strong>Gender</strong></label>
+                                    <select class="form-control" id="gender" name="gender" required>
+                                        <option value="male" <?php echo $row['gender'] == 'male' ? 'selected' : ''; ?>>Male</option>
+                                        <option value="female" <?php echo $row['gender'] == 'female' ? 'selected' : ''; ?>>Female</option>
+                                        <option value="other" <?php echo $row['gender'] == 'other' ? 'selected' : ''; ?>>Other</option>
+                                    </select>
+                                </div>
+
+                                <!-- Bio -->
+                                <div class="mb-3">
+                                    <label for="bio" class="form-label"><strong>Bio</strong></label>
+                                    <textarea class="form-control" id="bio" name="bio" rows="3"><?php echo $row['bio']; ?></textarea>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<?php
+        }
+    }
+?>

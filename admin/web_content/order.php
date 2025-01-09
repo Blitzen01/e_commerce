@@ -74,8 +74,8 @@
                                             ?>
                                             <tr>
                                                 <td>
-                                                    <button class="bg-success border-0 p-1 text-light">Accept</button>
-                                                    <button class="bg-danger border-0 p-1 text-light">Decline</button>
+                                                    <button class="bg-success border-0 p-1 text-light" data-bs-toggle="modal" data-bs-target="#accept_order_<?php echo $row['id']; ?>">Accept</button>
+                                                    <button class="bg-danger border-0 p-1 text-light" data-bs-toggle="modal" data-bs-target="#decline_order_<?php echo $row['id']; ?>">Decline</button>
                                                 </td>
                                                 <td><?php echo $row['name']; ?></td>
                                                 <td><?php echo $row['email']; ?></td>
@@ -130,7 +130,7 @@
                                             ?>
                                             <tr>
                                                 <td>
-                                                    <button class="bg-success border-0 p-1 text-light">Accept</button>
+                                                    <button class="bg-success border-0 p-1 text-light" data-bs-toggle="modal" data-bs-target="#finish_order">Finish</button>
                                                 </td>
                                                 <td><?php echo $row['name']; ?></td>
                                                 <td><?php echo $row['email']; ?></td>
@@ -184,18 +184,14 @@
                                         while($row = mysqli_fetch_assoc($result)) {
                                             ?>
                                             <tr>
-                                                <td>
-                                                    <button class="bg-success border-0 p-1 text-light">Accept</button>
-                                                    <button class="bg-danger border-0 p-1 text-light">Decline</button>
-                                                </td>
                                                 <td><?php echo $row['name']; ?></td>
                                                 <td><?php echo $row['email']; ?></td>
                                                 <td><?php echo $row['address']; ?></td>
                                                 <td><?php echo $row['contact_number']; ?></td>
-                                                <td><?php echo $row['date']; ?></td>
+                                                <td><?php echo $row['transaction_date']; ?></td>
                                                 <td><?php echo $row['item']; ?></td>
                                                 <td><?php echo $row['quantity']; ?></td>
-                                                <td><?php echo $row['price']; ?></td>
+                                                <td><?php echo $row['total_amount']; ?></td>
                                                 <td>
                                                     <?php 
                                                         if ($row['mop'] === 'otc') {
@@ -289,3 +285,45 @@
         </script>
     </body>
 </html>
+
+<?php
+    $sql = "SELECT * FROM order_booked";
+    $result = mysqli_query($conn, $sql);
+
+    if($result) {
+        while($row = mysqli_fetch_assoc($result)) {
+?>
+            <!-- Modal -->
+            <div class="modal fade" id="finish_order" tabindex="-1" aria-labelledby="finish_order" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="finish_order">Finish Order</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="../../assets/php_script/finish_order.php" method="post">
+                                <h3>Are you sure the order is finish?</h3>
+                                <input type="hidden" name="order_id" id="order_id" value="<?php echo $row['id']; ?>">
+                                <p><b>Name:</b> <?php echo $row['name']; ?></p>
+                                <p><b>Email:</b> <?php echo $row['email']; ?></p>
+                                <p><b>Address:</b> <?php echo $row['address']; ?></p>
+                                <p><b>Contact_number:</b> <?php echo $row['contact_number']; ?></p>
+                                <p><b>Date:</b> <?php echo $row['date']; ?></p>
+                                <p><b>Item:</b> <?php echo $row['item']; ?></p>
+                                <p><b>Quantity:</b> <?php echo $row['quantity']; ?></p>
+                                <p><b>Price:</b> <?php echo $row['price']; ?></p>
+                                <p><b>MOP:</b> <?php echo $row['mop']; ?></p>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-success">Finish</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<?php
+        }
+    }
+?>
