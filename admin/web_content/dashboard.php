@@ -54,7 +54,7 @@
                                     <span>Pending Booking</span>
                                 </div>
                                 <div class="row">
-                                    <h4><?php echo $weeklyTotalBooking; ?></h4>
+                                    <h4><?php echo $weeklyTotalPendingBooking; ?></h4>
                                 </div>
                             </div>
 
@@ -72,7 +72,7 @@
                                     <span>Pending Order</span>
                                 </div>
                                 <div class="row">
-                                    <h4><?php echo $weeklyTotalOrder; ?></h4>
+                                    <h4><?php echo $weeklyTotalPendingOrder; ?></h4>
                                 </div>
                             </div>
 

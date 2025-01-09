@@ -25,8 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Check if a row was returned
     if ($result->num_rows == 1) {
         $row = $result->fetch_assoc();
-        // Verify the password (you should ideally hash and verify using password_hash() and password_verify())
-        if ($password === $row['password']) { // Replace with password_verify($password, $row['password']) if hashing is used
+        if ($password === $row['password']) { 
             // Start the session and redirect on successful login
             session_start();
             $_SESSION['admin_email'] = $row['email']; // Store email in session

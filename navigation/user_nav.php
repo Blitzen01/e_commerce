@@ -11,31 +11,35 @@
                         <button class="nav-link" type="submit"><i class="fa-solid fa-magnifying-glass search-icon"></i></button>
                     </form>
                 </div>
-                <div class="col-1 my-auto">
-                    <?php
-                        if (isset($_SESSION['email'])) {
-                            ?>
-                                <a class="nav-link text-light" href="cart.php"><i class="fa-solid fa-cart-shopping text-dark"></i></a> 
+                <div class="col my-auto">
+                    <div class="row">
+                        <div class="col-1 ms-auto">
                             <?php
-                        } else {
+                                if (isset($_SESSION['email'])) {
+                                    ?>
+                                        <a class="nav-link text-light" href="cart.php"><i class="fa-solid fa-cart-shopping text-dark"></i></a>
+                                    <?php
+                                } else {
+                                    ?>
+                                        <a class="nav-link text-light" href="sign_in.php"><i class="fa-solid fa-cart-shopping text-dark"></i></a>
+                                    <?php
+                                }
                             ?>
-                                <a class="nav-link text-light" href="sign_in.php"><i class="fa-solid fa-cart-shopping text-dark"></i></a>
+                        </div>
+                        <div class="col-1"> 
                             <?php
-                        }
-                    ?>
-                </div>
-                <div class="col-1 my-auto"> 
-                    <?php
-                        if (isset($_SESSION['email'])) {
+                                if (isset($_SESSION['email'])) {
+                                    ?>
+                                        <a class="nav-link text-light" href="user_profile.php"><i class="fa-solid fa-user text-dark"></i></a>
+                                    <?php
+                                } else {
+                                    ?>
+                                        <a class="nav-link text-light" href="sign_in.php"><i class="fa-solid fa-user text-dark"></i></a>
+                                    <?php
+                                }
                             ?>
-                                <a class="nav-link text-light" href="user_profile.php"><i class="fa-solid fa-user text-dark"></i></a>
-                            <?php
-                        } else {
-                            ?>
-                                <a class="nav-link text-light" href="sign_in.php"><i class="fa-solid fa-user text-dark"></i></a>
-                            <?php
-                        }
-                    ?>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div id="user_navbar" class="row">

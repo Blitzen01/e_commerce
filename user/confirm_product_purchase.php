@@ -48,6 +48,7 @@
 
     <body>
         <?php include "../navigation/user_nav.php"; ?>
+        <?php include "chat.php"; ?>
 
         <?php
             $sql1 = "SELECT * FROM user_account WHERE email = '$email'";

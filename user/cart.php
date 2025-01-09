@@ -23,6 +23,7 @@
 
     <body>
         <?php include "../navigation/user_nav.php"; ?>
+        <?php include "chat.php"; ?>
 
         <div class="m-3">
             <div class="container">
@@ -85,7 +86,7 @@
                     <div class="col">
                         <span><b><?php echo $row["product_name"]; ?></b></span>
                         <br>
-                        <span>&#8369; <?php echo $row["total_price"] / $row["quantity"]; ?> x<?php echo $row["quantity"]; ?></span>
+                        <span>&#8369; <?php echo $row["total_price"] / $row["quantity"]; ?> <b>x<?php echo $row["quantity"]; ?></b></span>
                         <br>
                         <span><b>Total: </b> &#8369; <?php echo $row["total_price"]; ?></span>
                     </div>

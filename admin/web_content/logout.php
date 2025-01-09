@@ -1,14 +1,8 @@
 <?php
-// Start the session
 session_start();
+// Destroy the session and logout the user
+unset($_SESSION['admin_email']);
 
-// Unset all session variables
-$_SESSION = array();
+header("Location: ../index.php"); // Redirect to the login page after logout
 
-// Destroy the session
-session_destroy();
-
-// Redirect to login page or homepage
-header("Location: ../index.php"); // Change to your login page URL
 exit;
-?>

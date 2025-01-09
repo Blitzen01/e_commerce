@@ -22,6 +22,7 @@
 
     <body>
         <?php include "../navigation/user_nav.php"; ?>
+        <?php include "chat.php"; ?>
 
         <div class="carousel-container mb-3">
             <div id="continuousCarousel" class="carousel slide shadow border" data-bs-ride="carousel" data-bs-interval="3000">
@@ -68,8 +69,8 @@
                                     <div class="card-body">
                                         <?php
                                             $packageName = $row1['package_name'];
-                                            if (strlen($packageName) > 35) {
-                                                $displayName = substr($packageName, 0, 35) . '...';
+                                            if (strlen($packageName) > 25) {
+                                                $displayName = substr($packageName, 0, 25) . '...';
                                             } else {
                                                 $displayName = $packageName;
                                             }
@@ -112,8 +113,8 @@
                                     <div class="card-body">
                                         <?php
                                             $productName = $row['product_name'];
-                                            if (strlen($productName) > 35) {
-                                                $displayName = substr($productName, 0, 35) . '...';
+                                            if (strlen($productName) > 25) {
+                                                $displayName = substr($productName, 0, 25) . '...';
                                             } else {
                                                 $displayName = $productName;
                                             }

@@ -21,6 +21,7 @@
 
     <body>
         <?php include "../navigation/user_nav.php"; ?>
+        <?php include "chat.php"; ?>
 
         <div class="container">
             <div class="row d-flex justify-content-center">

@@ -315,6 +315,10 @@
                 <input class="form-control" id="staff_username" type="text" name="staff_username" autocomplete="off">
             </div>
             <div class="mb-3">
+                <label for="staff_email">Email:</label>
+                <input class="form-control" id="staff_email" type="email" name="staff_email" autocomplete="off">
+            </div>
+            <div class="mb-3">
                 <label for="staff_contact_number">Contact Number:</label>
                 <input class="form-control" id="staff_contact_number" type="text" name="staff_contact_number" autocomplete="off">
             </div>

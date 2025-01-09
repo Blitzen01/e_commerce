@@ -7,11 +7,12 @@
         $first_name = $_POST['staff_first_name'];
         $last_name = $_POST['staff_last_name'];
         $username = $_POST['staff_username'];
+        $email = $_POST['staff_email'];
         $contact_number = $_POST['staff_contact_number'];
         $position = $_POST['staff_position'];
 
         // Insert data into admin_account table
-        $sql = "INSERT INTO admin_account (first_name, last_name, username, password, contact_number, role) VALUES ('$first_name', '$last_name', '$username', '$username', '$contact_number', '$position')";
+        $sql = "INSERT INTO admin_account (first_name, last_name, username, email, password, contact_number, role) VALUES ('$first_name', '$last_name', '$username', '$email', '$username', '$contact_number', '$position')";
         $result = mysqli_query($conn, $sql);
 
         if ($result) {

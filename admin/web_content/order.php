@@ -19,6 +19,24 @@
         <link rel="stylesheet" href="../../assets/style/admin_style.css">
         <link rel="icon" href="/e_commerce/assets/image/hfa_logo.png" type="image/png">
 
+        <style>
+            #downloadCsvButtonOrder, #downloadCsvButton {
+                background-color:rgb(24, 180, 219); /* Blue */
+                color: white;
+                border-radius: 0.25rem;
+            }
+            #downloadExcelButtonOrder, #downloadExcelButton {
+                background-color:rgb(42, 196, 78); /* Green */
+                color: white;
+                border-radius: 0.25rem;
+            }
+            #downloadPdfButtonOrder, #downloadPdfButton {
+                background-color:rgb(207, 83, 96) !important; /* Red */
+                color: white;
+                border-radius: 0.25rem;
+            }
+        </style>
+
     </head>
 
     <body>
@@ -227,15 +245,27 @@
                     buttons: [
                         {
                             extend: 'csv',
-                            title: `Order Transaction History - ${currentDate}`
+                            title: `Order Transaction History - ${currentDate}`,
+                            init: function(api, node, config) {
+                                $(node).attr('id', 'downloadCsvButtonOrder'); // Set unique ID for CSV button
+                                $(node).addClass('btn btn-primary rounded'); // Blue button for CSV
+                            },
                         },
                         {
                             extend: 'excel',
-                            title: `Order Transaction History - ${currentDate}`
+                            title: `Order Transaction History - ${currentDate}`,
+                            init: function(api, node, config) {
+                                $(node).attr('id', 'downloadExcelButtonOrder'); // Set unique ID for Excel button
+                                $(node).addClass('btn btn-success rounded'); // Green button for Excel
+                            },
                         },
                         {
                             extend: 'pdf',
                             title: `Order Transaction History - ${currentDate}`,
+                            init: function(api, node, config) {
+                                $(node).attr('id', 'downloadPdfButtonOrder'); // Set unique ID for PDF button
+                                $(node).addClass('btn btn-danger rounded'); // Red button for PDF
+                            },
                             orientation: 'landscape', // Horizontal layout
                             pageSize: 'A4', // Page size
                             customize: function (doc) {
@@ -247,17 +277,6 @@
                                 };
                             }
                         },
-                        {
-                            extend: 'print',
-                            title: `Order Transaction History - ${currentDate}`,
-                            customize: function (win) {
-                                $(win.document.body).css('font-size', '10pt');
-                                $(win.document.body).find('table')
-                                    .addClass('compact')
-                                    .css('font-size', 'inherit')
-                                    .css('width', '100%');
-                            }
-                        }
                     ],
                     scrollX: true, // Enable horizontal scrolling
                     autoWidth: false // Prevent automatic width calculation

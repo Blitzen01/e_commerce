@@ -19,6 +19,7 @@
         <title>Admin: Staff</title>
         
         <link rel="stylesheet" href="../../assets/style/admin_style.css">
+        <link rel="icon" href="/e_commerce/assets/image/hfa_logo.png" type="image/png">
 
     </head>
 

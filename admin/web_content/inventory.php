@@ -51,7 +51,7 @@
                     <h3 class="p-3 text-center"><i class="fa-solid fa-warehouse"></i> Inventory</h3>
                     <section id="package_section" class="my-2 px-4">
                         <h4 class="pt-3">Package List</h4>
-                        <button class="btn p-1 mb-3 border border-1" data-bs-toggle="modal" data-bs-target="#add_package_modal">
+                        <button class="btn p-1 mb-3 border border-1" data-bs-toggle="modal" data-bs-target="#add_package">
                             <i class="fa-solid fa-plus"></i> Add Package
                         </button>
                         <table id="package_table" class="table nowrap table-strip compact table-hover">
@@ -86,8 +86,14 @@
                                             <tr id="package_<?php echo $row['id']; ?>">
                                                 <td></td>
                                                 <td>
-                                                    <button class="bg-success border-0 text-light p-1">Update</button> 
-                                                    <button class="bg-danger border-0 text-light p-1">Delete</button>
+                                                    <button
+                                                        class="bg-success border-0 text-light p-1" 
+                                                        data-bs-toggle="modal" 
+                                                        data-bs-target="#update_package_<?php echo $row['id']; ?>">Update</button> 
+                                                    <button
+                                                        class="bg-danger border-0 text-light p-1" 
+                                                        data-bs-toggle="modal" 
+                                                        data-bs-target="#delete_package_<?php echo $row['id']; ?>">Delete</button>
                                                 </td>
                                                 <td>
                                                     <?php echo $row['package']; ?>
@@ -109,8 +115,8 @@
                                                     &#8369; <?php echo $row['ssd_price']; ?>
                                                 </td>
                                                 <td>
-                                                    <b><?php echo $row['hdd']; ?> <br> </b>
-                                                    <?php if ($row['hdd_price'] != null && $row['hdd_price'] != 0): echo "&#8369;" + $row['hdd_price']; endif;?>
+                                                    <b><?php echo isset($row['hdd']) && !empty($row['hdd']) ? $row['hdd'] : '-'; ?> <br> Price: </b>
+                                                    &#8369; <?php echo $row['hdd_price']; ?>
                                                 </td>
                                                 <td>
                                                     <b><?php echo $row['monitor']; ?> <br> Price:</b>
@@ -396,3 +402,169 @@
         </script>
     </body>
 </html>
+
+<!-- add package -->
+<div class="modal fade" id="add_package" tabindex="-1" aria-labelledby="add_package_label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="add_package_label">Add Package</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="../../assets/php_script/add_package_script.php" method="post" enctype="multipart/form-data">
+                    <div class="mb-4">
+                        <label for="package_image">Package Image</label>
+                        <input type="file" class="form-control" name="package_image" id="package_image" accept="image/*" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="package">Package</label>
+                        <input type="text" class="form-control" name="package" id="package" autocomplete="off">
+                        <label for="package_price">Package Price</label>
+                        <input type="number" class="form-control" name="package_price" id="package_price" required autocomplete="off">
+                    </div>
+                    <div class="mb-4">
+                        <label for="package_name">Package Name</label>
+                        <input type="text" class="form-control" name="package_name" id="package_name" required autocomplete="off">
+                    </div>
+                    <div class="mb-4">
+                        <label for="processor">Processor</label>
+                        <input type="text" class="form-control" name="processor" id="processor" required autocomplete="off">
+                        <label for="processor_price">Processor Price</label>
+                        <input type="number" class="form-control" name="processor_price" id="processor_price" required autocomplete="off">
+                    </div>
+                    <div class="mb-4">
+                        <label for="ram">RAM</label>
+                        <input type="text" class="form-control" name="ram" id="ram" required autocomplete="off">
+                        <label for="ram_price">RAM Price</label>
+                        <input type="number" class="form-control" name="ram_price" id="ram_price" required autocomplete="off">
+                    </div>
+                    <div class="mb-4">
+                        <label for="ssd">SSD</label>
+                        <input type="text" class="form-control" name="ssd" id="ssd" required autocomplete="off">
+                        <label for="ssd_price">SSD Price</label>
+                        <input type="number" class="form-control" name="ssd_price" id="ssd_price" required autocomplete="off">
+                    </div>
+                    <div class="mb-4">
+                        <label for="hdd">HDD</label>
+                        <input type="text" class="form-control" name="hdd" id="hdd">
+                        <label for="hdd_price">HDD Price</label>
+                        <input type="number" class="form-control" name="hdd_price" id="hdd_price">
+                    </div>
+                    <div class="mb-4">
+                        <label for="monitor">Monitor</label>
+                        <input type="text" class="form-control" name="monitor" id="monitor" required autocomplete="off">
+                        <label for="monitor_price">Monitor Price</label>
+                        <input type="number" class="form-control" name="monitor_price" id="monitor_price" required autocomplete="off">
+                    </div>
+                    <div class="mb-4">
+                        <label for="display">Display</label>
+                        <input type="text" class="form-control" name="display" id="display" required autocomplete="off">
+                        <label for="display_price">Display Price</label>
+                        <input type="number" class="form-control" name="display_price" id="display_price" required autocomplete="off">
+                    </div>
+                    <div class="mb-3">
+                        <label for="psu">PSU</label>
+                        <input type="text" class="form-control" name="psu" id="psu" required autocomplete="off">
+                        <label for="psu_price">PSU Price</label>
+                        <input type="number" class="form-control" name="psu_price" id="psu_price" required autocomplete="off">
+                    </div>
+                    <div class="mb-4">
+                        <label for="keyboard_mouse">Keyboard and Mouse</label>
+                        <input type="text" class="form-control" name="keyboard_mouse" id="keyboard_mouse" required autocomplete="off">
+                        <label for="keyboard_mouse_price">Keyboard and Mouse Price</label>
+                        <input type="number" class="form-control" name="keyboard_mouse_price" id="keyboard_mouse_price" required autocomplete="off">
+                    </div>
+                    <div class="mb-4">
+                        <label for="avr">AVR</label>
+                        <input type="text" class="form-control" name="avr" id="avr" required autocomplete="off">
+                        <label for="avr_price">AVR Price</label>
+                        <input type="number" class="form-control" name="avr_price" id="avr_price" required autocomplete="off">
+                    </div>
+                    <div class="mb-4">
+                        <label for="speaker">Speaker</label>
+                        <input type="text" class="form-control" name="speaker" id="speaker required autocomplete="off"">
+                        <label for="speaker_price">Speaker Price</label>
+                        <input type="number" class="form-control" name="speaker_price" id="speaker_price" required autocomplete="off">
+                    </div>
+                    <div class="mb-4">
+                        <label for="cpu_only">CPU only</label>
+                        <input type="text" class="form-control" name="cpu_only" id="cpu_only" required autocomplete="off">
+                    </div>
+                    <div class="mb-4">
+                        <label for="stocks">Stocks</label>
+                        <input type="number" class="form-control" name="stocks" id="stocks" required autocomplete="off">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- update package -->
+<?php
+    $sql = "SELECT * FROM package";
+    $result = mysqli_query($conn, $sql);
+
+    if($result) {
+        while($row = mysqli_fetch_assoc($result)) {
+            ?>
+            <div class="modal fade" id="update_package_<?php echo $row['id']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Update Package</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            ...
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php
+        }
+    }
+?>
+
+<!-- delete package -->
+<?php
+    $sql = "SELECT * FROM package";
+    $result = mysqli_query($conn, $sql);
+
+    if($result) {
+        while($row = mysqli_fetch_assoc($result)) {
+            ?>
+            <div class="modal fade" id="delete_package_<?php echo $row['id']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Are you sure you want to delete this package ?</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="" method="post">
+                                <div class="mb-3">
+                                    
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Delete</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php
+        }
+    }
+?>

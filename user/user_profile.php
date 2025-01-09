@@ -20,6 +20,7 @@
 
     <body>
         <?php include "../navigation/user_nav.php"; ?>
+        <?php include "chat.php"; ?>
 
         <div class="m-3">
             <div class="container">
@@ -37,7 +38,12 @@
                                         <div class="dropdown">
                                             <div id="square-image-container">
                                                 <a class="btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <img class="rounded-circle" id="profile_picture" src="../assets/image/profile_picture/blank_profile_picture.png" alt="" srcset="">
+                                                <img 
+                                                    class="rounded-circle" 
+                                                    id="profile_picture" 
+                                                    src="../assets/image/profile_picture/<?php echo !empty($row["profile_picture"]) ? $row["profile_picture"] : "blank_profile_picture.png"; ?>" 
+                                                    alt="Profile Picture" 
+                                                    srcset="">
                                                 </a>
                                                 <ul class="dropdown-menu">
                                                     <li><a class="btn drop-item" data-bs-toggle="modal" data-bs-target="#update_profile_picture_modal">Update profile picture</a></li>
