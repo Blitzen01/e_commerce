@@ -45,12 +45,22 @@
 
                 <form action="../assets/php_script/check_out_order.php" method="post">
                     <?php
-                    
-                    $sql = "SELECT * FROM product_cart WHERE email = '$email'";
+                    $sql = "
+                        SELECT pc.*, p.product_image, p.product_name AS prod_name, pk.package_image 
+                        FROM product_cart pc
+                        LEFT JOIN products p ON pc.product_name = p.product_name
+                        LEFT JOIN package pk ON pc.product_name = pk.package_name
+                        WHERE pc.email = '$email'
+                    ";
                     $result = mysqli_query($conn, $sql);
 
                     if ($result) {
                         while ($row = mysqli_fetch_assoc($result)) {
+                            $imagePath = !empty($row['product_image']) 
+                                ? "../assets/image/product_image/{$row['product_image']}" 
+                                : (!empty($row['package_image']) 
+                                    ? "../assets/image/package_image/{$row['package_image']}" 
+                                    : "../assets/image/placeholder.png");
                             ?>
                             <div class="form-check border p-1 my-3">
                                 <div class="row">
@@ -62,53 +72,15 @@
                                             value="<?php echo $row['id']; ?>" 
                                             data-name="<?php echo $row['product_name']; ?>"
                                             data-price="<?php echo $row['total_price']; ?>" 
-                                            id="<?php echo $row['id']; ?>"
+                                            id="product-<?php echo $row['id']; ?>" 
                                             name="product_id">
                                     </div>
                                     <!-- Image Column -->
                                     <div class="col-lg-1 col-sm-1">
-                                        <?php
-                                        $product_name = $row["product_name"];
-                                        $sql1 = "SELECT * FROM products WHERE product_name = '$product_name'";
-                                        $result1 = mysqli_query($conn, $sql1);
-
-                                        if ($result1) {
-                                            while ($row1 = mysqli_fetch_assoc($result1)) {
-                                                $product = "SELECT * FROM products";
-                                                $product_result = mysqli_query($conn, $product);
-
-                                                if($product_result) {
-                                                    while($product_row = mysqli_fetch_assoc($product_result)) {
-                                                        if($product_row['product_image'] == $row1['product_image']) {
-                                                            ?>
-                                                            <img src="../assets/image/product_image/<?php echo $row1['product_image']; ?>" 
-                                                                alt="Product Image" 
-                                                                class="img-fluid w-100 h-100" 
-                                                                style="object-fit: cover;">
-                                                            <?php
-                                                        } else {
-                                                            $package = "SELECT * FROM package";
-                                                            $package_result = mysqli_query($conn, $package);
-
-                                                            if($package_result) {
-                                                                while($package_row = mysqli_fetch_assoc($package_result)) {
-                                                                    if($package_row['package_image'] == $row1['product_image']) {
-                                                                        ?>
-                                                                        <img src="../assets/image/package_image/<?php echo $package_row['package_image']; ?>" 
-                                                                            alt="Product Image" 
-                                                                            class="img-fluid w-100 h-100" 
-                                                                            style="object-fit: cover;">
-                                                                        <?php
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                                
-                                            }
-                                        }
-                                        ?>
+                                        <img src="<?php echo $imagePath; ?>" 
+                                            alt="Product Image" 
+                                            class="img-fluid w-100 h-100" 
+                                            style="object-fit: cover;">
                                     </div>
                                     <!-- Product Details Column -->
                                     <div class="col">
@@ -118,7 +90,6 @@
                                     </div>
                                 </div>
                             </div>
-                                <input type="hidden" name="<?php echo $row['id']; ?>" id="<?php echo $row['id']; ?>" value="<?php echo $row['id']; ?>">
                             <?php
                         }
                     }

@@ -23,6 +23,24 @@
         
         <link rel="stylesheet" href="../../assets/style/admin_style.css">
         <link rel="icon" href="/e_commerce/assets/image/hfa_logo.png" type="image/png">
+
+        <style>
+            #downloadCsvButtonSummary, #downloadCSVButtonReport {
+                background-color:rgb(24, 180, 219); /* Blue */
+                color: white;
+                border-radius: 0.25rem;
+            }
+            #downloadExcelButtonSummary, #downloadExcelButtonReport {
+                background-color:rgb(42, 196, 78); /* Green */
+                color: white;
+                border-radius: 0.25rem;
+            }
+            #downloadPdfButtonSummary, #downloadPdfButtonReport {
+                background-color:rgb(207, 83, 96) !important; /* Red */
+                color: white;
+                border-radius: 0.25rem;
+            }
+        </style>
     </head>
 
     <body>
@@ -36,6 +54,40 @@
                     <h3 class="p-3 text-center">
                         <i class="fa-solid fa-gauge"></i> Dashboard <br> <span id="currentTime"><?php echo $initialTime; ?></span>
                     </h3>
+
+                    <div class="mx-3">
+                        <table id="generate_reports" class="table table-sm nowrap table-striped compact table-hover text-center" style="display: none;">
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Weekly Monitoring</th>
+                                    <th>Monthly Monitoring Order</th>
+                                    <th>Yearly Monitory</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Order</td>
+                                    <td><?php echo $weeklyTotalOrder; ?></td>
+                                    <td><?php echo $monthlyTotalOrder; ?></td>
+                                    <td><?php echo $yearlyTotalOrder; ?></td>
+                                </tr>
+                                <tr>
+                                    <td>Booking</td>
+                                    <td><?php echo $weeklyTotalBooking; ?></td>
+                                    <td><?php echo $monthlyTotalBooking; ?></td>
+                                    <td><?php echo $yearlyTotalBooking; ?></td>
+                                </tr>
+                                <tr>
+                                    <td>Income</td>
+                                    <td><?php echo $weeklyTotalIncome; ?></td>
+                                    <td><?php echo $monthlyIncome; ?></td>
+                                    <td><?php echo $yearlyIncome; ?></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
                     <!-- daily monitoring -->
                     <section class="my-2 px-4">
                         <h4 class="text-center pt-2 pb-3">Weekly Monitoring</h4>
@@ -89,11 +141,9 @@
                         <!-- graphical presentation -->
                         <div class="row mt-4">
                             <div class="col-lg-6">
-                                <!-- Line graph -->
                                 <canvas id="line_graph"></canvas>
                             </div>
                             <div class="col-lg-6">
-                                <!-- Bar chart -->
                                 <canvas id="bar_chart"></canvas>
                             </div>
                         </div>
@@ -266,6 +316,8 @@
             </div>
         </div>
 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
         <script>
             // Line chart configuration
             const lineCtx = document.getElementById('line_graph').getContext('2d');
@@ -336,7 +388,112 @@
             setInterval(updateTime, 1000);
 
             $(document).ready(function () {
-                var table_booking = $('#satisfactionRating').DataTable();
+                var currentDate = new Date().toLocaleDateString();  // Get current date for title
+
+                $('#satisfactionRating').DataTable({
+                    dom: 'Bfrtip', // Buttons on top of the table
+                    buttons: [
+                        {
+                            extend: 'csv',
+                            title: `Satisfaction Rating - ${currentDate}`,
+                            init: function(api, node, config) {
+                                $(node).attr('id', 'downloadCsvButtonSummary'); // Set unique ID for CSV button
+                                $(node).addClass('btn btn-primary rounded'); // Blue button for CSV
+                            },
+                        },
+                        {
+                            extend: 'excel',
+                            title: `Satisfaction Rating - ${currentDate}`,
+                            init: function(api, node, config) {
+                                $(node).attr('id', 'downloadExcelButtonSummary'); // Set unique ID for Excel button
+                                $(node).addClass('btn btn-success rounded'); // Green button for Excel
+                            },
+                        },
+                        {
+                            extend: 'pdf',
+                            title: `Satisfaction Rating - ${currentDate}`,
+                            init: function(api, node, config) {
+                                $(node).attr('id', 'downloadPdfButtonSummary'); // Set unique ID for PDF button
+                                $(node).addClass('btn btn-danger rounded'); // Red button for PDF
+                            },
+                            orientation: 'landscape', // Horizontal layout
+                            pageSize: 'A4', // Page size
+                            customize: function (doc) {
+                                doc.styles.tableHeader = {
+                                    bold: true,
+                                    fontSize: 12,
+                                    color: 'black',
+                                    alignment: 'center'
+                                };
+                            }
+                        }
+                    ],
+                    autoWidth: false, // Prevent automatic width calculation
+                    initComplete: function () {
+                        var tableWidth = this.api().table().node().offsetWidth;
+                        var containerWidth = $(this.api().table().container()).parent().width();
+                        if (tableWidth > containerWidth) {
+                            this.api().settings()[0].oScroll.sX = '100%';
+                            this.api().draw();
+                        }
+                    }
+                });
+            });
+
+            $(document).ready(function () {
+                var currentDate = new Date().toLocaleDateString();  // Get current date for title
+
+                $('#generate_reports').DataTable({
+                    dom: 'Bfrtip', // Buttons on top of the table
+                    buttons: [
+                        {
+                            extend: 'csv',
+                            title: `Reports - ${currentDate}`,
+                            init: function(api, node, config) {
+                                $(node).attr('id', 'downloadCSVButtonReport'); // Set unique ID for CSV button
+                                $(node).addClass('btn btn-primary rounded'); // Blue button for CSV
+                            },
+                        },
+                        {
+                            extend: 'excel',
+                            title: `Reports - ${currentDate}`,
+                            init: function(api, node, config) {
+                                $(node).attr('id', 'downloadExcelButtonReport'); // Set unique ID for Excel button
+                                $(node).addClass('btn btn-success rounded'); // Green button for Excel
+                            },
+                        },
+                        {
+                            extend: 'pdf',
+                            title: `Reports - ${currentDate}`,
+                            init: function(api, node, config) {
+                                $(node).attr('id', 'downloadPdfButtonReport'); // Set unique ID for PDF button
+                                $(node).addClass('btn btn-danger rounded'); // Red button for PDF
+                            },
+                            orientation: 'landscape', // Horizontal layout
+                            pageSize: 'A4', // Page size
+                            customize: function (doc) {
+                                doc.styles.tableHeader = {
+                                    bold: true,
+                                    fontSize: 12,
+                                    color: 'black',
+                                    alignment: 'center'
+                                };
+                            }
+                        }
+                    ],
+                    autoWidth: false, // Prevent automatic width calculation
+                    initComplete: function () {
+                        var tableWidth = this.api().table().node().offsetWidth;
+                        var containerWidth = $(this.api().table().container()).parent().width();
+                        if (tableWidth > containerWidth) {
+                            this.api().settings()[0].oScroll.sX = '100%';
+                            this.api().draw();
+                        }
+                    },
+                    paging: false,  // Disable pagination
+                    searching: false,  // Disable search bar
+                    info: false  // Disable "Showing 1 to 3 of 3 entries" text
+                });
             });
         </script>
     </body>

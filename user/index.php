@@ -7,7 +7,6 @@
 
     // Get search query from URL parameters if present
     $searchQuery = isset($_GET['search']) ? mysqli_real_escape_string($conn, $_GET['search']) : '';
-
 ?>
 
 <!DOCTYPE html>
@@ -139,7 +138,5 @@
 
         <script defer src="../assets/script/user_script.js"></script>
 
-        <script>
-        </script>
     </body>
 </html>

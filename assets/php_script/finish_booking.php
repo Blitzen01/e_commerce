@@ -17,12 +17,14 @@
                 $contact_number = $row['contact_number'];
                 $date = $row['date'];
                 $time = $row['time'];
+                $type_of_booking = $row['type_of_booking'];
                 $price = $row['price'];
                 $status = "Order Finish";  // Set status as 'Declined'
+                $remarks = $row['remarks'];
 
                 // Insert the data into the 'declined_bookings' table with status 'Declined'
-                $insert_sql = "INSERT INTO transaction_history (name, email, address, contact_number, transaction_date, time, total_amount, status)
-                VALUES ('$name', '$email', '$address', '$contact_number', '$date', '$time', '$price', '$status')";
+                $insert_sql = "INSERT INTO transaction_history (name, email, address, contact_number, transaction_date, time, total_amount, status, remarks, type_of_booking)
+                VALUES ('$name', '$email', '$address', '$contact_number', '$date', '$time', '$price', '$status', '$remarks', '$type_of_booking')";
 
                 if (mysqli_query($conn, $insert_sql)) {
                     // After successful insertion, delete the booking from 'booked' table

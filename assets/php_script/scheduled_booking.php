@@ -8,6 +8,7 @@ include '../../render/connection.php';
 $type_of_booking = $_POST['type_of_booking'];
 $dateInput = $_POST['dateInput'];
 $timeInput = $_POST['timeInput'];
+$remarks = $_POST['remarks'];
 
 // Fetch user details from the database using email
 $userQuery = "SELECT * FROM user_account WHERE email = '$email'";
@@ -21,8 +22,8 @@ if ($result && mysqli_num_rows($result) > 0) {
     $contact_number = $row['contact_number'];
 
     // Insert data into 'booked' table
-    $sql = "INSERT INTO booked (name, email, address, contact_number, type_of_booking, date, time) 
-            VALUES ('$name', '$email', '$address', '$contact_number', '$type_of_booking', '$dateInput', '$timeInput')";
+    $sql = "INSERT INTO booked (name, email, address, contact_number, type_of_booking, date, time, remarks) 
+            VALUES ('$name', '$email', '$address', '$contact_number', '$type_of_booking', '$dateInput', '$timeInput', '$remarks')";
 
     if (mysqli_query($conn, $sql)) {
         $redirectUrl = "../../user/index.php";

@@ -19,10 +19,11 @@
                 $time = $row['time'];
                 $type_of_booking = $row['type_of_booking'];
                 $price = $row['price'];
+                $remarks = $row['remarks'];
                 
                 // Insert the data into the 'accepted_bookings' table
-                $insert_sql = "INSERT INTO booking (name, email, address, contact_number, date, time, type_of_booking, price)
-                VALUES ('$name', '$email', '$address', '$contact_number', '$date', '$time', '$type_of_booking', '$price')";
+                $insert_sql = "INSERT INTO booking (name, email, address, contact_number, date, time, type_of_booking, price, remarks)
+                VALUES ('$name', '$email', '$address', '$contact_number', '$date', '$time', '$type_of_booking', '$price', '$remarks')";
 
                 if (mysqli_query($conn, $insert_sql)) {
                     // After successful insertion, delete the booking from 'booked' table

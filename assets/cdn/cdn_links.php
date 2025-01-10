@@ -24,8 +24,15 @@
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script defer src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
 <script defer src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
-<script defer src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js" type="text/javascript"></script>
+<script defer src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"
+  type="text/javascript"></script>
+
 <!-- Data table script -->
+
+
+<!-- JWT-Decode script -->
+<script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
+<!-- JWT-Decode script -->
 
 <!-- Include jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>

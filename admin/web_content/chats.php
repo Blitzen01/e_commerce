@@ -258,8 +258,12 @@
         </div>
 
         <script>
+            function scrollToBottom() {
+                const chatboxContainer = document.getElementById('messages_container');
+                chatboxContainer.scrollTop = chatboxContainer.scrollHeight;
+            }
             function loadUserMessages(userId) {
-                // Use AJAX to load messages for the selected user
+                // Fetch user messages when a user is selected
                 const xhr = new XMLHttpRequest();
                 xhr.open('GET', `../../assets/php_script/load_user_messages.php?user_id=${userId}`, true);
 
@@ -268,24 +272,21 @@
                         try {
                             const response = JSON.parse(this.responseText);
 
-                            // Update user details
+                            // Set the user details
                             document.getElementById('user_image').src = `../../assets/image/profile_picture/${response.profile_picture}`;
                             document.getElementById('user_name').textContent = response.full_name;
 
-                            // Update the message container
-                            const messagesContainer = document.getElementById('messages_container');
-                            messagesContainer.innerHTML = response.messages;
+                            // Load messages into the container
+                            document.getElementById('messages_container').innerHTML = response.messages;
 
-                            // Update the hidden input field for receiver ID
-                            document.getElementById('receiver_id').value = userId;
+                            // Start auto-loading of new messages
+                            autoLoadNewMessages(userId);
 
-                            // Scroll to the bottom of the messages container
-                            messagesContainer.scrollTop = messagesContainer.scrollHeight;
                         } catch (e) {
                             console.error('Failed to parse JSON:', this.responseText);
                         }
                     } else {
-                        console.error('Failed to load messages:', this.status, this.statusText);
+                        console.error('Failed to load user messages:', this.status, this.statusText);
                     }
                 };
 
@@ -294,7 +295,43 @@
                 };
 
                 xhr.send();
+                scrollToBottom();
             }
+
+            function autoLoadNewMessages(userId) {
+                setInterval(function () {
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('GET', `../../assets/php_script/load_user_messages.php?user_id=${userId}`, true);
+
+                    xhr.onload = function () {
+                        if (this.status === 200) {
+                            try {
+                                const response = JSON.parse(this.responseText);
+
+                                // Check if there are new messages to add
+                                const messagesContainer = document.getElementById('messages_container');
+                                if (messagesContainer.innerHTML !== response.messages) {
+                                    messagesContainer.innerHTML = response.messages;
+                                    // Scroll to the bottom of the messages container
+                                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                                }
+                            } catch (e) {
+                                console.error('Failed to parse JSON:', this.responseText);
+                            }
+                        } else {
+                            console.error('Failed to load messages:', this.status, this.statusText);
+                        }
+                    };
+
+                    xhr.onerror = function () {
+                        console.error('Request error');
+                    };
+
+                    xhr.send();
+                }, 500); // Poll every 5 seconds
+                scrollToBottom();
+            }
+
 
 
             // Auto-scroll after sending a message

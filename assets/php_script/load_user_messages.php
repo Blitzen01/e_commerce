@@ -17,13 +17,27 @@ if (isset($_GET['user_id'])) {
 
         $messages_html = '';
         while ($message = mysqli_fetch_assoc($messages_result)) {
+            // Check if it's an admin message or user message
             if ($message['is_admin'] == 0) {
-                $messages_html .= '<div id="user_chat"><p>' . htmlspecialchars($message['message']) . '</p></div>';
+                // Fetch the sender's name for the user message
+                $sender_sql = "SELECT full_name FROM user_account WHERE id = '" . $message['sender_id'] . "'";
+                $sender_result = mysqli_query($conn, $sender_sql);
+                $sender = mysqli_fetch_assoc($sender_result);
+                $sender_name = $sender['full_name'];
+
+                // Create user message div with sender's name
+                $messages_html .= '<div id="user_chat">';
+                $messages_html .= '<p><strong>' . htmlspecialchars($sender_name) . ':</strong> ' . htmlspecialchars($message['message']) . '</p>';
+                $messages_html .= '</div>';
             } else {
-                $messages_html .= '<div id="admin_chat"><p>' . htmlspecialchars($message['message']) . '</p></div>';
+                // Create admin message div
+                $messages_html .= '<div id="admin_chat">';
+                $messages_html .= '<p><strong>Admin:</strong> ' . htmlspecialchars($message['message']) . '</p>';
+                $messages_html .= '</div>';
             }
         }
 
+        // Return response as JSON
         echo json_encode([
             'full_name' => $user['full_name'],
             'profile_picture' => $user['profile_picture'],

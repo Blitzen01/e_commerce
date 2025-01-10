@@ -8,6 +8,18 @@
         if($result) {
             while($row = mysqli_fetch_assoc($result)) {
                 $userId = $row['id'];
+                $isFirstLogin = $row['is_new'];
+                if ($isFirstLogin == '0') { // Replace $condition with your logic
+                    echo "<script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            var myModal = new bootstrap.Modal(document.getElementById('myModal'), {
+                                backdrop: 'static', // Optional: prevent closing by clicking outside
+                                keyboard: false     // Optional: prevent closing with Escape key
+                            });
+                            myModal.show();
+                        });
+                    </script>";
+                }
             }
         }
 ?>
@@ -237,31 +249,6 @@
                         }
                     });
 
-                    // Toggle chatbox visibility and update URL
-                    function toggleChatbox() {
-                        const chatbox = document.getElementById('chatbox');
-                        const isOpen = chatbox.style.display === 'block';
-                        chatbox.style.display = isOpen ? 'none' : 'block';
-
-                        const url = new URL(window.location);
-                        if (isOpen) {
-                            url.searchParams.delete("chatbox");
-                        } else {
-                            url.searchParams.set("chatbox", "open");
-                        }
-                        window.history.replaceState(null, null, url);
-                    }
-
-                    // Close chatbox and update URL
-                    function closeChatbox() {
-                        const chatbox = document.getElementById('chatbox');
-                        chatbox.style.display = 'none';
-
-                        const url = new URL(window.location);
-                        url.searchParams.delete("chatbox");
-                        window.history.replaceState(null, null, url);
-                    }
-
                     // Function to scroll the chatbox to the bottom
                     function scrollToBottom() {
                         const chatboxContainer = document.getElementById('chatboxContainer');
@@ -278,9 +265,86 @@
                             setTimeout(scrollToBottom, 300);  // Wait for the new message to appear
                         });
                     });
+
+                    function autoLoadNewMessages(userId) {
+                        setInterval(function () {
+                            const xhr = new XMLHttpRequest();
+                            xhr.open('GET', `../../assets/php_script/load_admin_messages.php?user_id=${userId}`, true);
+
+                            xhr.onload = function () {
+                                if (this.status === 200) {
+                                    try {
+                                        const response = JSON.parse(this.responseText);
+
+                                        // If there are new messages to display
+                                        if (response.messages !== document.getElementById('chatboxContainer').innerHTML) {
+                                            document.getElementById('chatboxContainer').innerHTML = response.messages;
+                                            scrollToBottom(); // Scroll to the bottom after loading new messages
+                                        }
+                                    } catch (e) {
+                                        console.error('Failed to parse JSON:', this.responseText);
+                                    }
+                                } else {
+                                    console.error('Failed to load messages:', this.status, this.statusText);
+                                }
+                            };
+
+                            xhr.onerror = function () {
+                                console.error('Request error');
+                            };
+
+                            xhr.send();
+                        }, 500); // Poll every 5 seconds
+                    }
+
+                    function scrollToBottom() {
+                        const chatboxContainer = document.getElementById('chatboxContainer');
+                        chatboxContainer.scrollTop = chatboxContainer.scrollHeight;  // Scroll to the bottom
+                    }
+
+                    document.addEventListener("DOMContentLoaded", function () {
+                        const userId = "<?php echo $userId; ?>";
+                        autoLoadNewMessages(userId);  // Start auto-loading messages
+                    });
                 </script>
             </body>
         </html>
 <?php
     }
 ?>
+
+
+<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel">Please update your profile.</h5>
+            </div>
+            <div class="modal-body">
+                <form action="../assets/php_script/first_update_profile_script.php" method="post">
+                    <div class="mb-3">
+                        <label for="password">Password</label>
+                        <input class="form-control" type="password" name="password" id="password" placeholder="Password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirm_password">Confirm Password</label>
+                        <input class="form-control" type="password" name="confirm_password" id="confirm_password" placeholder="Confirm Password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="address">Address</label>
+                        <input class="form-control" type="text" name="address" id="address" placeholder="Password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="contact_number">Contact Number</label>
+                        <input class="form-control" type="text" name="contact_number" id="contact_number" placeholder="Password" required>
+                    </div>
+                    <input type="hidden" name="is_new" id="is_new" value="1">
+                    <input type="hidden" name="email" id="email" value="<?php echo $email; ?>">
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -145,6 +145,57 @@
                         <label for="timeInput">Select Time</label>
                         <input type="time" class="form-control" id="timeInput" name="timeInput" required>
                     </div>
+                    <div class="">
+                        <label for="remarks">Remarks</label>
+                        <textarea type="text" class="form-control" row="15" id="remarks" name="remarks" placeholder="Leave a your remarks here"></textarea>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-text">
+                            <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Checkbox for following text input" required>
+                        </div>
+                        <small class="ms-2">Accept Terms and Conditions. <button class="btn bg-light text-primary fs-small" onclick="showWarranty()";>Show warranty</button></small>
+                    </div>
+                    <!-- warranty display -->
+                    <small id="show_warranty" style="display: none;">
+                        WARRANTY:
+                            1. HFA provides a 30 days warranty on labor only repairs carried out on computer equipment requested by the client. 
+                            HFA makes no warranty for data or computer files either expressed or implied. HFA DISCLAIMS any data warranty of any kind. 
+                            If the same problem re-occurs within 30 days of the original repair, HFA will undertake the repair again without charge. However, 
+                            charges will be incurred if additional parts are required. This warranty includes faults caused by viruses or software issues.
+                            <br>
+                            2. All parts supplied by HFA are new and come with a 1-year manufacturer's warranty from the date of repair. In some instances, 
+                            we may offer second hand or used parts at a reduced cost. The client will be consulted if they are willing to accept second hand or 
+                            used parts prior to fitting. No warranty will be provided with second hand or used parts.
+                            <br>
+                            3. Any warranty offered will become invalid if the manufacturer's marked label is removed or tampered with in any way from the parts 
+                            installed during a repair.
+                            <br>
+                            4. Parts are only covered under warranty that fail dure to manufacturing defects for the said parts and confirmed by the component manufacturer. 
+                            Should the part fail because of mishandling of the computer equipment or inadequate subsequent servicing or failure from 
+                            "fair wear and tear" the warranty becomes invalid.
+                            <br>
+                            5. Damage to a computer system or its components supplied by HFA under a repair contract caused by a power surge or spikes, including 
+                            but not limited to main power and telecoms connections or other unspecified sources e.g., voltage fluctuation, amperage fluctuation, water 
+                            ingress are not covered under the warranty.
+                            <br>
+                            6. Furthermore, the warranty does not cover for any loss or damage due to negligence, mishandling, accidents, theft, 
+                            water flooding, war outbreak, electrical storms, fire outbreak, earthquakes, or any other act of environment.
+                            <br>
+                            7. HFA only perform and provide computer services, repairs, and upgrades as requested by the customer. HFA will conduct honest, 
+                            reasonable, and considerate services. The goals to is to provide the highest quality of service and support, but specific results 
+                            cannot be guaranteed. Computer service/repairs are provided as a service. There are many be circumstances under which your computer 
+                            can not be repaired. It will have to be rebuilt or upgraded. Examples: Age of PC, repair/replacement parts obsolete 
+                            (memory chips, motherboards, etc.) The length of time required to service/repair your computer cannot be predicted. 
+                            You understand that in the process of working on your computer equipment, there is a potential for data loss. You agree that you have 
+                            make the necessary backups of your data so that, in the event of such loss, the data can be restored. HFA will not be responsible for data loss.
+                            <br>
+                            8. Customer satisfaction is our utmost importance. All services will be conducted in a professional, reasonable and timely manner. 
+                            Also, taking into consideration the circumstances and nature of the technical problems.
+                            <br>
+                            <span class="text-danger">
+                                9. HFA will charge client 30 per day storage fee for all units not claim within 90 days. Unclaimed units will dispose after the noticed.
+                            </span>
+                    </small>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Submit</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -153,6 +204,19 @@
             </div>
         </div>
     </div>
+    <script>
+        function showWarranty() {
+            // Get the element with id "show_warranty"
+            var warrantyElement = document.getElementById("show_warranty");
+            
+            // Toggle the display property
+            if (warrantyElement.style.display === "none") {
+                warrantyElement.style.display = "inline";  // Show the warranty message
+            } else {
+                warrantyElement.style.display = "none";  // Hide the warranty message
+            }
+        }
+    </script>
 </div>
 <!-- Create Scheduled Booking Modal -->
 
@@ -379,129 +443,3 @@
   </div>
 </div>
 <!-- remove staff Modal -->
-
-<!-- accept booking -->
-<?php
-    $sql = "SELECT * FROM booked";
-    $result = mysqli_query($conn, $sql);
-
-    if($result) {
-        while($row = mysqli_fetch_assoc($result)) {
-?>
-            <!-- Modal -->
-            <div class="modal fade" id="accept_booking_<?php echo $row['id']; ?>" tabindex="-1" aria-labelledby="accept_booking_label" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="accept_booking_label">Accept Booking</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form action="../../assets/php_script/accept_booking.php" method="post">
-                                <h3>Confirm Booking</h3>
-                                <!-- Pass the booking_id instead of name -->
-                                <input type="hidden" name="booking_id" id="booking_id" value="<?php echo $row['id']; ?>">
-                                <p><b>Name:</b> <?php echo $row['name']; ?></p>
-                                <p><b>Email:</b> <?php echo $row['email']; ?></p>
-                                <p><b>Address:</b> <?php echo $row['address']; ?></p>
-                                <p><b>Contact_number:</b> <?php echo $row['contact_number']; ?></p>
-                                <p><b>Date:</b> <?php echo $row['date']; ?></p>
-                                <p><b>Price:</b> <?php echo $row['price']; ?></p>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="Submit" class="btn btn-success">Accept</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-<?php
-        }
-    }
-?>
-<!-- accept booking -->
-
-<!-- decline booking -->
-<?php
-    $sql = "SELECT * FROM booked";
-    $result = mysqli_query($conn, $sql);
-
-    if($result) {
-        while($row = mysqli_fetch_assoc($result)) {
-?>
-            <!-- Modal -->
-            <div class="modal fade" id="decline_booking_<?php echo $row['id']; ?>" tabindex="-1" aria-labelledby="decline_booking_label" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="decline_booking_label">Decline Booking</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form action="../../assets/php_script/decline_booking.php" method="post">
-                                <h3>Are you sure you want to decline this booking?</h3>
-                                <!-- Pass the booking_id instead of name -->
-                                <input type="hidden" name="booking_id" id="booking_id" value="<?php echo $row['id']; ?>">
-                                <p><b>Name:</b> <?php echo $row['name']; ?></p>
-                                <p><b>Email:</b> <?php echo $row['email']; ?></p>
-                                <p><b>Address:</b> <?php echo $row['address']; ?></p>
-                                <p><b>Contact_number:</b> <?php echo $row['contact_number']; ?></p>
-                                <p><b>Date:</b> <?php echo $row['date']; ?></p>
-                                <p><b>Price:</b> <?php echo $row['price']; ?></p>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="Submit" class="btn btn-danger">Decline</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-<?php
-        }
-    }
-?>
-<!-- decline booking -->
-
-<!-- finish booking -->
-<?php
-    $sql = "SELECT * FROM booking";
-    $result = mysqli_query($conn, $sql);
-
-    if($result) {
-        while($row = mysqli_fetch_assoc($result)) {
-?>
-            <!-- Modal -->
-            <div class="modal fade" id="finish_booking_<?php echo $row['id']; ?>" tabindex="-1" aria-labelledby="finish_booking_label" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="finish_booking_label">Finish Booking</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form action="../../assets/php_script/finish_booking.php" method="post">
-                                <h3>Are you sure the booking is finish?</h3>
-                                <!-- Pass the booking_id instead of name -->
-                                <input type="hidden" name="booking_id" id="booking_id" value="<?php echo $row['id']; ?>">
-                                <p><b>Name:</b> <?php echo $row['name']; ?></p>
-                                <p><b>Email:</b> <?php echo $row['email']; ?></p>
-                                <p><b>Address:</b> <?php echo $row['address']; ?></p>
-                                <p><b>Contact_number:</b> <?php echo $row['contact_number']; ?></p>
-                                <p><b>Date:</b> <?php echo $row['date']; ?></p>
-                                <p><b>Price:</b> <?php echo $row['price']; ?></p>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="Submit" class="btn btn-success">Finish</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-<?php
-        }
-    }
-?>
-<!-- finish booking -->
