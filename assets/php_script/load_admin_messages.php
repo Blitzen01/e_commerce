@@ -12,7 +12,7 @@ if (isset($_GET['user_id'])) {
         $user = mysqli_fetch_assoc($user_result);
 
         // Fetch messages
-        $messages_sql = "SELECT * FROM messages WHERE sender_id = '$user_id' OR receiver_id = '$user_id' ORDER BY timestamp DESC";
+        $messages_sql = "SELECT * FROM messages WHERE sender_id = '$user_id' OR receiver_id = '$user_id' ORDER BY timestamp ASC";
         $messages_result = mysqli_query($conn, $messages_sql);
 
         $messages_html = '';

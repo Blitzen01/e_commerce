@@ -19,36 +19,42 @@
         // Check if a row was returned
         if ($result->num_rows == 1) {
             $row = $result->fetch_assoc();
-            // Verify the password
-            if ($password == $row['password']) {
+            // Verify the password with password_verify()
+            if (password_verify($password, $row['password'])) {
                 // Start the session and redirect on successful login
                 $_SESSION['email'] = $email; // Store the email in session
                 echo "<script>
                             window.location.href = 'index.php';
                         </script>";
+            } else {
+                // Invalid password
+                echo "<script>
+                        alert('Invalid password. Please try again.');
+                    </script>";
             }
         } else {
-            // Display alert for invalid email or password
+            // Invalid email
             echo "<script>
                     alert('Invalid email. Please try again.');
                 </script>";
         }
     }
 
-    if(isset($_SESSION['email'])) {
+    if (isset($_SESSION['email'])) {
         $email = $_SESSION['email']; // User's email stored in the session
 
         // Check if the user is logging in for the first time
-        $sql = "SELECT is_login FROM user_account WHERE email = ?";
+        $sql = "SELECT is_new FROM user_account WHERE email = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
         $user = $result->fetch_assoc();
 
-        $isFirstLogin = $user['is_new'] == 0; // Check if `is_login` is 0
+        $isFirstLogin = $user['is_new'] == 0; // Check if `is_new` is 0 (first-time login)
     }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

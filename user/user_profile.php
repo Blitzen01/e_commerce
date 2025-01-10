@@ -79,7 +79,7 @@ $email = $_SESSION['email'];
                                             ?>
                                         </h5>
                                         <button class="nav-link text-primary ms-3" data-bs-toggle="modal"
-                                            data-bs-target="#change_password_modal"><u><small>change password</small></u></button>
+                                            data-bs-target="#change_user_password_modal"><u><small>change password</small></u></button>
                                     </div>
                                     <div class="col-lg-6 col-sm-11">
                                         <h5><strong>Email: </strong> <?php echo $row['email']; ?></h5>
@@ -126,7 +126,7 @@ $email = $_SESSION['email'];
 
             <br>
 
-            <h3 class="p-3 text-center"><i class="fa-solid fa-book"></i> Bookings</h3>
+            <h3 class="p-3 text-center" id="profile_booking_view"><i class="fa-solid fa-book"></i> Bookings</h3>
             <section class="my-2 px-4">
                 <div class="row text-center">
                     <div class="col">
@@ -234,7 +234,7 @@ $email = $_SESSION['email'];
 
             <br>
 
-            <h3 class="p-3 text-center"><i class="fa-solid fa-shop"></i> Orders</h3>
+            <h3 class="p-3 text-center" id="profile_order_view"><i class="fa-solid fa-shop"></i> Orders</h3>
             <section class="my-2 px-4">
                 <div class="row text-center">
                     <div class="col">
@@ -456,3 +456,48 @@ if ($result) {
         </div>
     </div>
 </div>
+
+<?php
+    $sql = "SELECT * FROM user_account WHERE email = '$email'";
+    $result = mysqli_query($conn, $sql);
+
+    if ($result) {
+        while ($row = mysqli_fetch_assoc($result)) {
+?>
+            <!-- Modal -->
+            <div class="modal fade" id="change_user_password_modal" tabindex="-1" aria-labelledby="change_user_password_modal_label" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="change_user_password_modal_label">Change Password</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="../assets/php_script/change_user_password_script.php" method="post">
+                                <div class="mb-3">
+                                    <label for="current_password" class="form-label">Current Password</label>
+                                    <input type="password" class="form-control" id="current_password" name="current_password" required>
+                                </div>
+                                <!-- New Password -->
+                                <div class="mb-3">
+                                    <label for="new_password" class="form-label">New Password</label>
+                                    <input type="password" class="form-control" id="new_password" name="new_password" required>
+                                </div>
+                                <!-- Confirm New Password -->
+                                <div class="mb-3">
+                                    <label for="confirm_password" class="form-label">Confirm New Password</label>
+                                    <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" name="submit" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<?php
+        }
+    }
+?>

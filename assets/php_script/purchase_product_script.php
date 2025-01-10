@@ -40,7 +40,7 @@ if (isset($_GET['email'])) {
                         VALUES ('$name', '$email', '$address', '$contact_number', '$date', '$product_name', $stock, $price, '$mop')";
 
         if (mysqli_query($conn, $insertQuery)) {
-            $redirectUrl = "../../user/index.php";
+            $redirectUrl = "../../user/user_profile.php#profile_order_view";
             // Redirect back to the previous window using window.location
             echo '<script type="text/javascript">';
             echo 'window.location.href = "' . $redirectUrl . '";';

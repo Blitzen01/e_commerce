@@ -262,6 +262,7 @@
                 const chatboxContainer = document.getElementById('messages_container');
                 chatboxContainer.scrollTop = chatboxContainer.scrollHeight;
             }
+
             function loadUserMessages(userId) {
                 // Fetch user messages when a user is selected
                 const xhr = new XMLHttpRequest();
@@ -281,7 +282,6 @@
 
                             // Start auto-loading of new messages
                             autoLoadNewMessages(userId);
-
                         } catch (e) {
                             console.error('Failed to parse JSON:', this.responseText);
                         }
@@ -299,7 +299,8 @@
             }
 
             function autoLoadNewMessages(userId) {
-                setInterval(function () {
+                let pollingInterval = 500; // Poll every 10 seconds to avoid continuous refresh
+                const intervalId = setInterval(function () {
                     const xhr = new XMLHttpRequest();
                     xhr.open('GET', `../../assets/php_script/load_user_messages.php?user_id=${userId}`, true);
 
@@ -328,16 +329,22 @@
                     };
 
                     xhr.send();
-                }, 500); // Poll every 5 seconds
+                }, pollingInterval);
+
+                // Stop polling after 1 minute
+                setTimeout(function () {
+                    clearInterval(intervalId);
+                }, 60000); // Stop polling after 1 minute
                 scrollToBottom();
             }
 
-
-
-            // Auto-scroll after sending a message
+            // Handle form submission with a check to avoid multiple submissions
             const messageForm = document.getElementById('message_form');
             messageForm.addEventListener('submit', function (e) {
                 e.preventDefault(); // Prevent default form submission
+
+                const submitButton = this.querySelector('button');
+                submitButton.disabled = true; // Disable the button to prevent multiple submissions
 
                 const formData = new FormData(this);
                 const xhr = new XMLHttpRequest();
@@ -352,10 +359,13 @@
                         // Clear the message input field
                         document.getElementById('adminMessage').value = '';
                     }
+
+                    submitButton.disabled = false; // Re-enable the button after request is complete
                 };
 
                 xhr.send(formData);
             });
+
         </script>
     </body>
 </html>

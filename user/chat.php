@@ -252,7 +252,7 @@
                     // Function to scroll the chatbox to the bottom
                     function scrollToBottom() {
                         const chatboxContainer = document.getElementById('chatboxContainer');
-                        chatboxContainer.scrollTop = chatboxContainer.scrollHeight;
+                        chatboxContainer.scrollTop = chatboxContainer.scrollHeight;  // Scroll to the bottom
                     }
 
                     // Ensure chatbox scrolls to the bottom after page load or new message
@@ -266,20 +266,59 @@
                         });
                     });
 
+                    // Function to load user messages
+                    function loadUserMessages(userId) {
+                        const xhr = new XMLHttpRequest();
+                        xhr.open('GET', `../../assets/php_script/load_user_messages.php?user_id=${userId}`, true);
+
+                        xhr.onload = function () {
+                            if (this.status === 200) {
+                                try {
+                                    const response = JSON.parse(this.responseText);
+
+                                    // Set the user details
+                                    document.getElementById('user_image').src = `../../assets/image/profile_picture/${response.profile_picture}`;
+                                    document.getElementById('user_name').textContent = response.full_name;
+
+                                    // Load messages into the container
+                                    document.getElementById('messages_container').innerHTML = response.messages;
+
+                                    // Start auto-loading of new messages
+                                    autoLoadNewMessages(userId);
+                                } catch (e) {
+                                    console.error('Failed to parse JSON:', this.responseText);
+                                }
+                            } else {
+                                console.error('Failed to load user messages:', this.status, this.statusText);
+                            }
+                        };
+
+                        xhr.onerror = function () {
+                            console.error('Request error');
+                        };
+
+                        xhr.send();
+                        scrollToBottom();
+                    }
+
+                    // Function to auto-load new messages
                     function autoLoadNewMessages(userId) {
-                        setInterval(function () {
+                        let pollingInterval = 500; // Poll every 5 seconds
+                        const intervalId = setInterval(function () {
                             const xhr = new XMLHttpRequest();
-                            xhr.open('GET', `../../assets/php_script/load_admin_messages.php?user_id=${userId}`, true);
+                            xhr.open('GET', `../../assets/php_script/load_user_messages.php?user_id=${userId}`, true);
 
                             xhr.onload = function () {
                                 if (this.status === 200) {
                                     try {
                                         const response = JSON.parse(this.responseText);
 
-                                        // If there are new messages to display
-                                        if (response.messages !== document.getElementById('chatboxContainer').innerHTML) {
-                                            document.getElementById('chatboxContainer').innerHTML = response.messages;
-                                            scrollToBottom(); // Scroll to the bottom after loading new messages
+                                        // Check if there are new messages to add
+                                        const messagesContainer = document.getElementById('messages_container');
+                                        if (messagesContainer.innerHTML !== response.messages) {
+                                            messagesContainer.innerHTML = response.messages;
+                                            // Scroll to the bottom of the messages container
+                                            messagesContainer.scrollTop = messagesContainer.scrollHeight;
                                         }
                                     } catch (e) {
                                         console.error('Failed to parse JSON:', this.responseText);
@@ -294,17 +333,41 @@
                             };
 
                             xhr.send();
-                        }, 500); // Poll every 5 seconds
+                        }, pollingInterval);
+
+                        // Stop polling after 1 minute
+                        setTimeout(function () {
+                            clearInterval(intervalId);
+                        }, 60000); // Stop polling after 1 minute
+                        scrollToBottom();
                     }
 
-                    function scrollToBottom() {
-                        const chatboxContainer = document.getElementById('chatboxContainer');
-                        chatboxContainer.scrollTop = chatboxContainer.scrollHeight;  // Scroll to the bottom
-                    }
+                    // Handle form submission with a check to avoid multiple submissions
+                    const messageForm = document.getElementById('message_form');
+                    messageForm.addEventListener('submit', function (e) {
+                        e.preventDefault(); // Prevent default form submission
 
-                    document.addEventListener("DOMContentLoaded", function () {
-                        const userId = "<?php echo $userId; ?>";
-                        autoLoadNewMessages(userId);  // Start auto-loading messages
+                        const submitButton = this.querySelector('button');
+                        submitButton.disabled = true; // Disable the button to prevent multiple submissions
+
+                        const formData = new FormData(this);
+                        const xhr = new XMLHttpRequest();
+                        xhr.open('POST', this.action, true);
+
+                        xhr.onload = function () {
+                            if (this.status === 200) {
+                                // Reload the messages for the current user
+                                const userId = document.getElementById('receiver_id').value;
+                                loadUserMessages(userId);
+
+                                // Clear the message input field
+                                document.getElementById('adminMessage').value = '';
+                            }
+
+                            submitButton.disabled = false; // Re-enable the button after request is complete
+                        };
+
+                        xhr.send(formData);
                     });
                 </script>
             </body>

@@ -23,8 +23,8 @@ if (isset($_GET['email'], $_GET['id'], $_GET['quantity'], $_GET['mop'])) {
 
         // Fetch product details
         $productData = mysqli_fetch_assoc($productResult);
-        $product_name = $productData['product_name'];
-        $price = $stock * $productData['price'];
+        $package_name = $productData['package_name'];
+        $price = $stock * $productData['package_price'];
 
         // Set timezone to Philippine Time
         date_default_timezone_set('Asia/Manila');
@@ -33,11 +33,11 @@ if (isset($_GET['email'], $_GET['id'], $_GET['quantity'], $_GET['mop'])) {
         // Query to insert data into the order_booking table
         $insertQuery = "
             INSERT INTO order_booking (name, email, address, contact_number, date, item, quantity, price, mop)
-            VALUES ('$name', '$email', '$address', '$contact_number', '$date', '$product_name', $stock, $price, '$mop')
+            VALUES ('$name', '$email', '$address', '$contact_number', '$date', '$package_name', $stock, $price, '$mop')
         ";
 
         if (mysqli_query($conn, $insertQuery)) {
-            $redirectUrl = "../../user/index.php";
+            $redirectUrl = "../../user/user_profile.php#profile_order_view";
             echo '<script type="text/javascript">';
             echo 'window.location.href = "' . $redirectUrl . '";';
             echo '</script>';

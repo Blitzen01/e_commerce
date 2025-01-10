@@ -26,7 +26,7 @@ if ($result && mysqli_num_rows($result) > 0) {
             VALUES ('$name', '$email', '$address', '$contact_number', '$type_of_booking', '$dateInput', '$timeInput', '$remarks')";
 
     if (mysqli_query($conn, $sql)) {
-        $redirectUrl = "../../user/index.php";
+        $redirectUrl = "../../user/user_profile.php#profile_booking_view";
             // Redirect back to the previous window using window.location
             echo '<script type="text/javascript">';
             echo 'window.location.href = "' . $redirectUrl . '";';
