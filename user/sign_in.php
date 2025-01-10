@@ -46,7 +46,7 @@
         $result = $stmt->get_result();
         $user = $result->fetch_assoc();
 
-        $isFirstLogin = $user['is_login'] == 0; // Check if `is_login` is 0
+        $isFirstLogin = $user['is_new'] == 0; // Check if `is_login` is 0
     }
 ?>
 

@@ -130,7 +130,7 @@
                                             ?>
                                             <tr>
                                                 <td>
-                                                    <button class="bg-success border-0 p-1 text-light" data-bs-toggle="modal" data-bs-target="#finish_order">Finish</button>
+                                                    <button class="bg-success border-0 p-1 text-light" data-bs-toggle="modal" data-bs-target="#finish_order_<?php echo $row['id']; ?>">Finish</button>
                                                 </td>
                                                 <td><?php echo $row['name']; ?></td>
                                                 <td><?php echo $row['email']; ?></td>
@@ -298,7 +298,7 @@
         while($row = mysqli_fetch_assoc($result)) {
 ?>
             <!-- Modal -->
-            <div class="modal fade" id="finish_order" tabindex="-1" aria-labelledby="finish_order" aria-hidden="true">
+            <div class="modal fade" id="finish_order_<?php echo $row['id']; ?>" tabindex="-1" aria-labelledby="finish_order" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
