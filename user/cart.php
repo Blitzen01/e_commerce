@@ -45,6 +45,7 @@
 
                 <form action="../assets/php_script/check_out_order.php" method="post">
                     <?php
+                    
                     $sql = "SELECT * FROM product_cart WHERE email = '$email'";
                     $result = mysqli_query($conn, $sql);
 
@@ -61,7 +62,8 @@
                                             value="<?php echo $row['id']; ?>" 
                                             data-name="<?php echo $row['product_name']; ?>"
                                             data-price="<?php echo $row['total_price']; ?>" 
-                                            id="flexCheckChecked_<?php echo $row['id']; ?>">
+                                            id="<?php echo $row['id']; ?>"
+                                            name="product_id">
                                     </div>
                                     <!-- Image Column -->
                                     <div class="col-lg-1 col-sm-1">
@@ -72,12 +74,38 @@
 
                                         if ($result1) {
                                             while ($row1 = mysqli_fetch_assoc($result1)) {
-                                                ?>
-                                                <img src="../assets/image/product_image/<?php echo $row1['product_image']; ?>" 
-                                                    alt="Product Image" 
-                                                    class="img-fluid w-100 h-100" 
-                                                    style="object-fit: cover;">
-                                                <?php
+                                                $product = "SELECT * FROM products";
+                                                $product_result = mysqli_query($conn, $product);
+
+                                                if($product_result) {
+                                                    while($product_row = mysqli_fetch_assoc($product_result)) {
+                                                        if($product_row['product_image'] == $row1['product_image']) {
+                                                            ?>
+                                                            <img src="../assets/image/product_image/<?php echo $row1['product_image']; ?>" 
+                                                                alt="Product Image" 
+                                                                class="img-fluid w-100 h-100" 
+                                                                style="object-fit: cover;">
+                                                            <?php
+                                                        } else {
+                                                            $package = "SELECT * FROM package";
+                                                            $package_result = mysqli_query($conn, $package);
+
+                                                            if($package_result) {
+                                                                while($package_row = mysqli_fetch_assoc($package_result)) {
+                                                                    if($package_row['package_image'] == $row1['product_image']) {
+                                                                        ?>
+                                                                        <img src="../assets/image/package_image/<?php echo $package_row['package_image']; ?>" 
+                                                                            alt="Product Image" 
+                                                                            class="img-fluid w-100 h-100" 
+                                                                            style="object-fit: cover;">
+                                                                        <?php
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                
                                             }
                                         }
                                         ?>
@@ -90,6 +118,7 @@
                                     </div>
                                 </div>
                             </div>
+                                <input type="hidden" name="<?php echo $row['id']; ?>" id="<?php echo $row['id']; ?>" value="<?php echo $row['id']; ?>">
                             <?php
                         }
                     }
@@ -99,7 +128,6 @@
                         <option value="otc">Over the Counter</option>
                     </select>
                     <div class="text-end">
-                        <input type="hidden" name="product_ids[]" id="product_ids">
                         <h3 id="cart-total" class="mb-3">Total: &#8369; 0</h3>
                         <!-- Button to trigger modal -->
                         <button type="submit" class="btn btn-primary">

@@ -5,6 +5,7 @@ include '../../render/connection.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Ensure the required POST data is set
     if (isset($_POST['product_id']) && isset($_POST['mop'])) {
+        $productId = $_POST['product_id']; // Selected product ID
         $mop = $_POST['mop']; // Mode of Payment
         $email = $_SESSION['email']; // Get email from session
         $totalPrice = 0;
@@ -15,16 +16,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($result1 && mysqli_num_rows($result1) > 0) {
             $row1 = mysqli_fetch_assoc($result1);
-            $address = $row1['address']; // Get address from user_account table
-            $contact_number = $row1['contact_number']; // Get contact number from user_account table
-            $date = date('Y-m-d'); // Get current date
+            $address = $row1['address']; // User address
+            $contact_number = $row1['contact_number']; // User contact number
+            $date = date('Y-m-d'); // Current date
+            $name = $row1['full_name'];
         } else {
             echo "User details not found.";
             exit;
         }
-
-        // Get the selected product ID from POST
-        $productId = $_POST['product_id'];
 
         // Fetch product details from product_cart
         $sql = "SELECT * FROM product_cart WHERE id = '$productId' AND email = '$email'";
@@ -34,12 +33,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $row = mysqli_fetch_assoc($result);
 
             // Insert product into order_booking
-            $name = $row['name'];
             $productName = $row['product_name'];
             $quantity = $row['quantity'];
             $price = $row['total_price'];
 
-            $insertSql = "INSERT INTO order_booking (email, name, address, contact_number, product_name, quantity, total_price, mop, order_date)
+            $insertSql = "INSERT INTO order_booking (email, name, address, contact_number, item, quantity, price, mop, date)
                           VALUES ('$email', '$name', '$address', '$contact_number', '$productName', '$quantity', '$price', '$mop', '$date')";
             $insertResult = mysqli_query($conn, $insertSql);
 
@@ -50,14 +48,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         } else {
             echo "Product not found in the cart.";
+            exit;
         }
 
         // Clear the selected item from the product_cart after adding it to order_booking
         $deleteSql = "DELETE FROM product_cart WHERE id = '$productId' AND email = '$email'";
         mysqli_query($conn, $deleteSql);
 
-        // Output the total price of the order
-        echo "Order placed successfully! Total: &#8369; $totalPrice";
+        $redirectUrl = "../../user/cart.php";
+        echo '<script type="text/javascript">';
+        echo 'window.location.href = "' . $redirectUrl . '";';
+        echo '</script>';
     } else {
         echo "No product selected or mode of payment not specified.";
     }

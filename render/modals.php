@@ -262,8 +262,8 @@
                                         style="object-fit: cover;">
                                 </div>
                                 <h5><?php echo $row['package_name']; ?> <span> &#8369;<?php echo number_format($row['package_price'], 2); ?></span></h5>
-                                <input type="hidden" name="package_name" value="<?php echo $row['package_name']; ?>">
-                                <input type="hidden" name="package_price" value="<?php echo $row['package_price']; ?>">
+                                <input type="hidden" name="product_name" value="<?php echo $row['package_name']; ?>">
+                                <input type="hidden" name="price" value="<?php echo $row['package_price']; ?>">
                                 <label for="add_to_cart_product_quantity">Quantity</label>
                                 <?php
                                     $stock = $row['stocks'];
@@ -379,95 +379,6 @@
   </div>
 </div>
 <!-- remove staff Modal -->
-
-<!-- accept order -->
-<?php
-    $sql = "SELECT * FROM order_booking";
-    $result = mysqli_query($conn, $sql);
-
-    if($result) {
-        while($row = mysqli_fetch_assoc($result)) {
-?>
-            <!-- Modal -->
-            <div class="modal fade" id="accept_order_<?php echo $row['id']; ?>" tabindex="-1" aria-labelledby="accept_order_label" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="accept_order_label">Accept Order</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form action="../../assets/php_script/accept_order.php" method="post">
-                                <h3>Confirm order</h3>
-                                <!-- Pass the order_id instead of name -->
-                                <input type="hidden" name="order_id" id="order_id" value="<?php echo $row['id']; ?>">
-                                <p><b>Name:</b> <?php echo $row['name']; ?></p>
-                                <p><b>Email:</b> <?php echo $row['email']; ?></p>
-                                <p><b>Address:</b> <?php echo $row['address']; ?></p>
-                                <p><b>Contact_number:</b> <?php echo $row['contact_number']; ?></p>
-                                <p><b>Date:</b> <?php echo $row['date']; ?></p>
-                                <p><b>Item:</b> <?php echo $row['item']; ?></p>
-                                <p><b>Quantity:</b> <?php echo $row['quantity']; ?></p>
-                                <p><b>Price:</b> <?php echo $row['price']; ?></p>
-                                <p><b>MOP:</b> <?php echo $row['mop']; ?></p>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="Submit" class="btn btn-success">Accept</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-<?php
-        }
-    }
-?>
-<!-- accept order -->
-
-<!-- decline order -->
-<?php
-    $sql = "SELECT * FROM order_booking";
-    $result = mysqli_query($conn, $sql);
-
-    if($result) {
-        while($row = mysqli_fetch_assoc($result)) {
-?>
-            <!-- Modal -->
-            <div class="modal fade" id="decline_order_<?php echo $row['id']; ?>" tabindex="-1" aria-labelledby="decline_order_label" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="decline_order_label">Decline Order</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form action="../../assets/php_script/decline_order.php" method="post">
-                                <h3>Are you sure do you want to decline this order?</h3>
-                                <input type="hidden" name="order_id" id="order_id" value="<?php echo $row['id']; ?>">
-                                <p><b>Name:</b> <?php echo $row['name']; ?></p>
-                                <p><b>Email:</b> <?php echo $row['email']; ?></p>
-                                <p><b>Address:</b> <?php echo $row['address']; ?></p>
-                                <p><b>Contact_number:</b> <?php echo $row['contact_number']; ?></p>
-                                <p><b>Date:</b> <?php echo $row['date']; ?></p>
-                                <p><b>Item:</b> <?php echo $row['item']; ?></p>
-                                <p><b>Quantity:</b> <?php echo $row['quantity']; ?></p>
-                                <p><b>Price:</b> <?php echo $row['price']; ?></p>
-                                <p><b>MOP:</b> <?php echo $row['mop']; ?></p>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-danger">Decline</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <?php
-        }
-    }
-?>
-<!-- decline order -->
 
 <!-- accept booking -->
 <?php
