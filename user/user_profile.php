@@ -411,6 +411,13 @@ if ($result) {
                                 </select>
                             </div>
 
+                            <!-- Age -->
+                            <div class="mb-3">
+                                <label for="age" class="form-label"><strong>Age</strong></label>
+                                <input type="text" class="form-control" id="age" name="age"
+                                    value="<?php echo $row['age']; ?>" required>
+                            </div>
+
                             <!-- Bio -->
                             <div class="mb-3">
                                 <label for="bio" class="form-label"><strong>Bio</strong></label>

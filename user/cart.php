@@ -32,8 +32,8 @@
                         $sql = "SELECT * FROM user_account WHERE email = '$email'";
                         $result = mysqli_query($conn, $sql);
 
-                        if($result) {
-                            while($row = mysqli_fetch_assoc($result)) {
+                        if ($result) {
+                            while ($row = mysqli_fetch_assoc($result)) {
                                 ?>
                                 <span><b><?php echo $row["full_name"]; ?></b> (<?php echo $row["contact_number"]; ?>)</span>
                                 <span><?php echo $row["address"]; ?></span>
@@ -43,7 +43,7 @@
                     ?>
                 </div>
 
-                <form action="../assets/php_script/check_out_order.php" method="post">
+                <form id="checkoutForm" action="../assets/php_script/check_out_order.php" method="post">
                     <?php
                     $sql = "
                         SELECT pc.*, p.product_image, p.product_name AS prod_name, pk.package_image 
@@ -64,7 +64,6 @@
                             ?>
                             <div class="form-check border p-1 my-3">
                                 <div class="row">
-                                    <!-- Checkbox Column -->
                                     <div class="col-lg-1 col-sm-1 d-flex align-items-center justify-content-center">
                                         <input 
                                             class="form-check-input product-checkbox" 
@@ -73,16 +72,14 @@
                                             data-name="<?php echo $row['product_name']; ?>"
                                             data-price="<?php echo $row['total_price']; ?>" 
                                             id="product-<?php echo $row['id']; ?>" 
-                                            name="product_id">
+                                            name="product_id[]">
                                     </div>
-                                    <!-- Image Column -->
                                     <div class="col-lg-1 col-sm-1">
                                         <img src="<?php echo $imagePath; ?>" 
                                             alt="Product Image" 
                                             class="img-fluid w-100 h-100" 
                                             style="object-fit: cover;">
                                     </div>
-                                    <!-- Product Details Column -->
                                     <div class="col">
                                         <span><b><?php echo $row["product_name"]; ?></b></span>
                                         <br>
@@ -100,9 +97,8 @@
                     </select>
                     <div class="text-end">
                         <h3 id="cart-total" class="mb-3">Total: &#8369; 0</h3>
-                        <!-- Button to trigger modal -->
-                        <button type="submit" class="btn btn-primary">
-                            Check Out
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#viewProductsModal">
+                            View Products
                         </button>
                         <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#deleteItemsModal">Delete</button>
                     </div>
@@ -114,14 +110,13 @@
 
         <?php include "../navigation/user_footer.php"; ?>
 
-        <script defer src="../assets/script/user_script.js"></script>
-
         <script>
             document.addEventListener("DOMContentLoaded", () => {
                 const checkboxes = document.querySelectorAll(".product-checkbox");
                 const totalDisplay = document.getElementById("cart-total");
+                const viewProductsList = document.getElementById("viewProductsList");
 
-                // Function to update the total price based on selected checkboxes
+                // Function to update the total price
                 function updateTotal() {
                     let total = 0;
                     checkboxes.forEach((checkbox) => {
@@ -132,84 +127,72 @@
                     totalDisplay.textContent = `Total: ₱ ${total.toFixed(2)}`;
                 }
 
-                // Attach event listeners to all checkboxes
-                checkboxes.forEach((checkbox) => {
-                    checkbox.addEventListener("change", () => {
-                        // Uncheck all checkboxes except the one clicked
-                        checkboxes.forEach((otherCheckbox) => {
-                            if (otherCheckbox !== checkbox) {
-                                otherCheckbox.checked = false;
-                            }
-                        });
-                        updateTotal(); // Update the total whenever a checkbox is changed
-                    });
-                });
-            });
-
-
-            document.querySelector('form').addEventListener('submit', function (e) {
-                const selectedCheckboxes = document.querySelectorAll('.product-checkbox:checked');
-                const productIds = [];
-                selectedCheckboxes.forEach(checkbox => productIds.push(checkbox.value));
-                document.getElementById('product_ids').value = JSON.stringify(productIds);
-            });
-
-            document.addEventListener("DOMContentLoaded", () => {
-                const deleteButton = document.querySelector("button[data-bs-target='#deleteItemsModal']");
-                const checkboxes = document.querySelectorAll(".product-checkbox");
-                const deleteItemsList = document.getElementById("deleteItemsList");
-                const deleteIdsInput = document.getElementById("deleteIds");
-
-                // Function to update modal content and store selected IDs
-                function updateDeleteModal() {
-                    deleteItemsList.innerHTML = ""; // Clear previous list
-                    const selectedIds = []; // Array to store selected IDs
-
+                // Function to update the modal with selected products
+                function updateViewModal() {
+                    viewProductsList.innerHTML = ""; // Clear previous content
                     checkboxes.forEach((checkbox) => {
                         if (checkbox.checked) {
                             const name = checkbox.dataset.name;
-                            const id = checkbox.value;
+                            const price = parseFloat(checkbox.dataset.price).toFixed(2); // Format price
+                            const productRow = checkbox.closest(".row"); // Find the parent row
+                            const imageElement = productRow.querySelector("img"); // Get the image element
+                            const imageSrc = imageElement ? imageElement.src : "../assets/image/placeholder.png";
 
-                            // Add item name to the modal list
-                            const listItem = document.createElement("li");
-                            listItem.textContent = name;
-                            deleteItemsList.appendChild(listItem);
+                            // Create a container for each product
+                            const productContainer = document.createElement("div");
+                            productContainer.classList.add("d-flex", "align-items-center", "mb-3");
 
-                            // Add ID to the array
-                            selectedIds.push(id);
+                            // Create the image element for the modal
+                            const productImage = document.createElement("img");
+                            productImage.src = imageSrc;
+                            productImage.alt = name;
+                            productImage.style.width = "50px";
+                            productImage.style.height = "50px";
+                            productImage.style.objectFit = "cover";
+                            productImage.classList.add("me-3");
+
+                            // Create the text element for the name and price
+                            const productText = document.createElement("span");
+                            productText.textContent = `${name} - Price: ₱${price}`;
+
+                            // Append the image and text to the container
+                            productContainer.appendChild(productImage);
+                            productContainer.appendChild(productText);
+
+                            // Append the container to the modal body
+                            viewProductsList.appendChild(productContainer);
                         }
                     });
-
-                    // Store selected IDs in the hidden input
-                    deleteIdsInput.value = JSON.stringify(selectedIds);
                 }
 
-                // Update modal content when the delete button is clicked
-                deleteButton.addEventListener("click", updateDeleteModal);
+                // Attach event listeners to update total and modal content
+                checkboxes.forEach((checkbox) => {
+                    checkbox.addEventListener("change", updateTotal);
+                });
+
+                document
+                    .querySelector("button[data-bs-target='#viewProductsModal']")
+                    .addEventListener("click", updateViewModal);
             });
+
         </script>
     </body>
 </html>
 
-<div class="modal fade" id="deleteItemsModal" tabindex="-1" aria-labelledby="deleteItemsModalLabel" aria-hidden="true">
+<div class="modal fade" id="viewProductsModal" tabindex="-1" aria-labelledby="viewProductsModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="deleteItemsModalLabel">Confirm Deletion</h5>
+                <h5 class="modal-title" id="viewProductsModalLabel">Selected Products</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="deleteForm" action="../assets/php_script/cart_delete_items.php" method="POST">
-                <div class="modal-body">
-                    <p>The following items will be deleted:</p>
-                    <ul id="deleteItemsList"></ul>
-                    <!-- Hidden input to store selected IDs -->
-                    <input type="hidden" name="delete_ids" id="deleteIds">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-danger">Confirm Delete</button>
-                </div>
-            </form>
+            <div class="modal-body">
+                <ul id="viewProductsList"></ul>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" form="checkoutForm" class="btn btn-success">Proceed to Checkout</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
         </div>
     </div>
 </div>

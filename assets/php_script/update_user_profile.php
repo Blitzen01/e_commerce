@@ -12,6 +12,7 @@
         $birthday = $_POST['birthday'];
         $gender = $_POST['gender'];
         $bio = $_POST['bio'];
+        $age = $_POST['age'];
 
         // Prepare the SQL query to update the user's profile
         $sql = "UPDATE user_account SET 
@@ -20,7 +21,8 @@
                     contact_number = '$contact_number', 
                     birthday = '$birthday', 
                     gender = '$gender', 
-                    bio = '$bio' 
+                    bio = '$bio',
+                    age = '$age'  
                 WHERE id = '$user_id'";
 
         // Execute the query
