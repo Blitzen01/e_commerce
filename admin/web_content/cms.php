@@ -14,7 +14,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Admin: Account Settings</title>
+        <title>Admin: Content Management System</title>
         
         <link rel="stylesheet" href="../../assets/style/admin_style.css">
 
@@ -94,18 +94,26 @@
                                 <div class="col">
                                     <div class="row">
                                         <div class="col">
-                                            <label for="removeImageSelect">Select Image to Remove:</label>
-                                            <select id="removeImageSelect" class="form-select">
-                                                <option value="">-- Select Image --</option>
-                                                <?php
-                                                // Fetch images from the database and create a list of options
-                                                $sql = "SELECT * FROM carousel";
-                                                $result = mysqli_query($conn, $sql);
-                                                while ($row = mysqli_fetch_assoc($result)) {
-                                                    echo "<option value='{$row['id']}'>Image: {$row['img_name']}</option>";
-                                                }
-                                                ?>
-                                            </select>
+                                            <div class="form-group">
+                                                <label for="removeImageSelect">Select Image</label>
+                                                <select id="removeImageSelect" class="form-select">
+                                                    <option value="">-- Select Image --</option>
+                                                    <?php
+                                                    // Fetch images from the database and create a list of options
+                                                    $sql = "SELECT * FROM carousel";
+                                                    $result = mysqli_query($conn, $sql);
+                                                    while ($row = mysqli_fetch_assoc($result)) {
+                                                        echo "<option value='{$row['id']}' data-img='../../assets/image/carousel/{$row['img_name']}'>
+                                                                {$row['img_name']}
+                                                            </option>";
+                                                    }
+                                                    ?>
+                                                </select>
+                                                <!-- Image Preview Section -->
+                                                <div id="imagePreview" class="mt-3" style="display:none;">
+                                                    <img id="previewImg" src="" alt="Image Preview" width="300" height="150" />
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="col">
                                             <button id="removeImageButton" class="btn btn-danger mt-2" disabled>Remove Image</button>
@@ -295,6 +303,29 @@
                             alert('Failed to remove image');
                         }
                     });
+                }
+            });
+
+            // JavaScript to handle selection and preview image
+            const selectElement = document.getElementById("removeImageSelect");
+            const removeButton = document.getElementById("removeImageButton");
+            const imagePreview = document.getElementById("imagePreview");
+            const previewImg = document.getElementById("previewImg");
+
+            selectElement.addEventListener("change", function() {
+                const selectedOption = selectElement.options[selectElement.selectedIndex];
+                const imgSrc = selectedOption.getAttribute("data-img");
+
+                if (imgSrc) {
+                    // Show image preview
+                    previewImg.src = imgSrc;
+                    imagePreview.style.display = "block";
+                    // Enable Remove Image button
+                    removeButton.disabled = false;
+                } else {
+                    // Hide image preview and disable Remove Image button
+                    imagePreview.style.display = "none";
+                    removeButton.disabled = true;
                 }
             });
         </script>

@@ -407,6 +407,10 @@
                                 <p><b>Quantity:</b> <?php echo $row['quantity']; ?></p>
                                 <p><b>Price:</b> <?php echo $row['price']; ?></p>
                                 <p><b>MOP:</b> <?php echo $row['mop']; ?></p>
+                                <div class="mb-3">
+                                    <label for="reason">Reason</label>
+                                    <input type="text" name="reason" id="reason" class="form-control" required placeholder="Please state your reason here.">
+                                </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                     <button type="submit" class="btn btn-danger">Decline</button>

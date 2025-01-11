@@ -4,6 +4,7 @@
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Assuming a connection to your database is already established
         $order_id = $_POST['order_id'];
+        $reason = $_POST['reason'];
 
         // Fetch order data from order_booking based on the order_id
         $sql = "SELECT * FROM order_booking WHERE id = '$order_id'";
@@ -19,7 +20,7 @@
                 $item = $row['item'];
                 $quantity = $row['quantity'];
                 $price = $row['price'];
-                $status = "Declined";
+                $status = "Declined: " . $reason;
                 $mop = $row['mop'];
                 
                 // Correct the SQL by adding a comma between $status and $mop

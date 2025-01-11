@@ -364,6 +364,10 @@
                                 <p><b>Type of Booking:</b> <?php echo $row['type_of_booking']; ?></p>
                                 <p><b>Price:</b> <?php echo $row['price']; ?></p>
                                 <p><b>Remarks:</b> <?php echo $row['remarks']; ?></p>
+                                <div class="mb-3">
+                                    <label for="reason">Reason</label>
+                                    <input type="text" name="reason" id="reason" class="form-control" required placeholder="Please state your reason here.">
+                                </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                     <button type="Submit" class="btn btn-danger">Decline</button>

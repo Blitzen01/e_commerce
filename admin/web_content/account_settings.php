@@ -52,7 +52,7 @@
                                                         srcset="">
                                                     </a>
                                                     <ul class="dropdown-menu">
-                                                        <li><a class="btn drop-item" data-bs-toggle="modal" data-bs-target="#update_profile_picture_modal">Update profile picture</a></li>
+                                                        <li><a class="btn drop-item" data-bs-toggle="modal" data-bs-target="#update_admin_profile_picture_modal">Update profile picture</a></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -242,3 +242,29 @@
 <?php
         }
     }
+?>
+
+<!-- Modal -->
+<div class="modal fade" id="update_admin_profile_picture_modal" tabindex="-1" aria-labelledby="update_admin_profile_picture_modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="update_profile_picture_modal">Upload your profile picture</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="../../assets/php_script/upload_admin_profile_image.php" method="post" enctype="multipart/form-data">
+                    <!-- File input for profile picture -->
+                    <div class="mb-3">
+                        <label for="profile_picture" class="form-label">Choose your profile picture</label>
+                        <input type="file" class="form-control" id="profile_picture" name="profile_picture" accept="image/*" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

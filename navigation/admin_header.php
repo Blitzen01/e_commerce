@@ -26,7 +26,7 @@
             ?>
             <a class="nav-link me-3 position-relative" href="#" id="stockDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <h5><i class="fa-solid fa-bell"></i></h5>
-                <?php if ($low_stock_count > 0): ?>
+                <?php if ($total_notif > 0): ?>
                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                         <?php echo $total_notif; ?>
                         <span class="visually-hidden">unread notifications</span>

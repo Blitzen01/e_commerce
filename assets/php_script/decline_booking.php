@@ -4,6 +4,7 @@
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Get the booking_id from the form
         $booking_id = $_POST['booking_id'];
+        $reason = $_POST['reason'];
 
         // Fetch the booking data from the 'booked' table
         $sql = "SELECT * FROM booked WHERE id = '$booking_id'";
@@ -20,7 +21,7 @@
                 $type_of_booking = $row['type_of_booking'];
                 $price = $row['price'];
                 $remarks = $row['remarks'];
-                $status = "Declined";  // Set status as 'Declined'
+                $status = "Declined: " . $reason;  // Set status as 'Declined'
 
                 // Insert the data into the 'declined_bookings' table with status 'Declined'
                 $insert_sql = "INSERT INTO transaction_history (name, email, address, contact_number, transaction_date, time, total_amount, status, remarks, type_of_booking)

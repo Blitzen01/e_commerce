@@ -14,15 +14,7 @@ include "assets/cdn/cdn_links.php";
 </head>
 
 <body>
-    <div class="col">
-        <div class="row">
-            <a href="admin/index.php" class="btn fs-1 text-danger border border-danger">ADMIN</a>
-        </div>
-        <br>
-        <div class="row">
-            <a href="user/index.php" class="btn fs-1 text-danger border border-danger">USER</a>
-        </div>
-    </div>
+    <?php header("Location: user/index.php"); ?>
 </body>
 
 </html>
