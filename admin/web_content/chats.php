@@ -299,7 +299,7 @@
             }
 
             function autoLoadNewMessages(userId) {
-                let pollingInterval = 500; // Poll every 10 seconds to avoid continuous refresh
+                let pollingInterval = 5000; // Poll every 10 seconds to avoid continuous refresh
                 const intervalId = setInterval(function () {
                     const xhr = new XMLHttpRequest();
                     xhr.open('GET', `../../assets/php_script/load_user_messages.php?user_id=${userId}`, true);

@@ -16,12 +16,35 @@
                         <div class="col-1 ms-auto">
                             <?php
                                 if (isset($_SESSION['email'])) {
+                                    $email = $_SESSION['email'];
+
+                                    // Corrected SQL query
+                                    $cart_items = "SELECT COUNT(*) AS cart_count FROM product_cart WHERE email = '$email'";
+                                    $cart_result = mysqli_query($conn, $cart_items);
+
+                                    // Check if the query executed successfully
+                                    if ($cart_result) {
+                                        $cart_result_row = mysqli_fetch_assoc($cart_result);
+                                        $total_cart_result = $cart_result_row['cart_count'] ?? 0;
+                                    } else {
+                                        $total_cart_result = 0; // Fallback if query fails
+                                    }
                                     ?>
-                                        <a class="nav-link text-light" href="cart.php"><i class="fa-solid fa-cart-shopping text-dark"></i></a>
+                                    <a class="nav-link text-light position-relative" href="cart.php">
+                                        <i class="fa-solid fa-cart-shopping text-dark"></i>
+                                        <?php if ($total_cart_result > 0): ?>
+                                            <span class="position-absolute top-50 end-0 translate-middle badge rounded-pill bg-danger" style="font-size: .5rem;">
+                                                <?php echo htmlspecialchars($total_cart_result); ?>
+                                                <span class="visually-hidden">items in cart</span>
+                                            </span>
+                                        <?php endif; ?>
+                                    </a>
                                     <?php
                                 } else {
                                     ?>
-                                        <a class="nav-link text-light" href="sign_in.php"><i class="fa-solid fa-cart-shopping text-dark"></i></a>
+                                    <a class="nav-link text-light" href="sign_in.php">
+                                        <i class="fa-solid fa-cart-shopping text-dark"></i>
+                                    </a>
                                     <?php
                                 }
                             ?>
@@ -52,10 +75,10 @@
                             <a class="nav-link text-light" aria-current="page" href="index.php">Home</a>
                         </li>
                         <li class="nav-item mx-auto">
-                            <a class="nav-link text-light" href="#computer">Computers</a>
+                            <a class="nav-link text-light" href="index.php#computer">Computers</a>
                         </li>
                         <li class="nav-item mx-auto">
-                            <a class="nav-link text-light" href="#cctv">CCTV's</a>
+                            <a class="nav-link text-light" href="index.php#cctv">CCTV's</a>
                         </li>
                         <?php
                         if (isset($_SESSION['email'])) {

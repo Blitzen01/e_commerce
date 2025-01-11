@@ -74,9 +74,9 @@
                                             $formattedDate = date("F j, Y", strtotime($row['date'])); // Month Day, Year
                                             $formattedTime = date("g:i A", strtotime($row['time']));  // 12-hour format with AM/PM
                                             ?>
-                                            <tr>
+                                            <tr id="booking_<?php echo $row["id"]; ?>">
                                                 <td>
-                                                <button class="bg-success border-0 p-1 text-light" 
+                                                    <button class="bg-success border-0 p-1 text-light" 
                                                             data-bs-toggle="modal" 
                                                             data-bs-target="#accept_booking_<?php echo $row["id"]; ?>">
                                                         Accept
