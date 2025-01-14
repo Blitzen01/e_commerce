@@ -22,8 +22,8 @@
                 $mop = $row['mop'];
                 
                 // Prepare SQL to insert data into order_booked
-                $insert_sql = "INSERT INTO order_booked (name, email, address, contact_number, date, item, quantity, price, mop)
-                VALUES ('$name', '$email', '$address', '$contact_number', '$date', '$item', '$quantity', '$price', '$mop')";
+                $insert_sql = "INSERT INTO order_booked (name, email, address, contact_number, date, item, quantity, price, mop, status)
+                VALUES ('$name', '$email', '$address', '$contact_number', '$date', '$item', '$quantity', '$price', '$mop', 'Processing')";
 
                 if (mysqli_query($conn, $insert_sql)) {
                     // After successful insertion, delete the order from order_booking

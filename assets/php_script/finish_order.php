@@ -8,7 +8,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Fetch order data from order_booking based on the order_id
         $sql = "SELECT * FROM order_booked WHERE id = '$order_id'";
-
         $result = mysqli_query($conn, $sql);
 
         if ($result) {
@@ -22,9 +21,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $contact_number = $row['contact_number'];
                     $date = $row['date'];
                     $item = $row['item'];
-                    $quantity = $row['quantity'];
+                    $quantity = intval($row['quantity']);
                     $price = $row['price'];
                     $mop = $row['mop'];
+
+                    // Check if the item exists in the package table
+                    $package_sql = "SELECT * FROM package WHERE package_name = '$item'";
+                    $package_result = mysqli_query($conn, $package_sql);
+
+                    if (mysqli_num_rows($package_result) > 0) {
+                        // If item is in the package table, update the stocks
+                        $package_data = mysqli_fetch_assoc($package_result);
+                        $new_stock = intval($package_data['stocks']) - $quantity;
+
+                        if ($new_stock >= 0) {
+                            $update_package_sql = "UPDATE package SET stocks = '$new_stock' WHERE package_name = '$item'";
+                            mysqli_query($conn, $update_package_sql);
+                        } else {
+                            echo "Not enough stock in the package table!<br>";
+                            exit;
+                        }
+                    } else {
+                        // If not in the package table, check the products table
+                        $product_sql = "SELECT * FROM products WHERE product_name = '$item'";
+                        $product_result = mysqli_query($conn, $product_sql);
+
+                        if (mysqli_num_rows($product_result) > 0) {
+                            $product_data = mysqli_fetch_assoc($product_result);
+                            $new_stock = intval($product_data['stocks']) - $quantity;
+
+                            if ($new_stock >= 0) {
+                                $update_product_sql = "UPDATE products SET stocks = '$new_stock' WHERE product_name = '$item'";
+                                mysqli_query($conn, $update_product_sql);
+                            } else {
+                                echo "Not enough stock in the products table!<br>";
+                                exit;
+                            }
+                        } else {
+                            echo "Item not found in both package and products tables!<br>";
+                            exit;
+                        }
+                    }
 
                     // Insert data into order_transaction_history
                     $insert_sql = "INSERT INTO order_transaction_history (name, email, address, contact_number, transaction_date, item, quantity, total_amount, mop)

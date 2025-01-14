@@ -109,6 +109,7 @@
                             <thead class="table-danger">
                                 <tr>
                                     <td>Action</td>
+                                    <td>Status</td>
                                     <td>Name</td>
                                     <td>Email</td>
                                     <td>Address</td>
@@ -130,8 +131,17 @@
                                             ?>
                                             <tr>
                                                 <td>
-                                                    <button class="bg-success border-0 p-1 text-light" data-bs-toggle="modal" data-bs-target="#finish_order_<?php echo $row['id']; ?>">Finish</button>
+                                                    <?php
+                                                        if($row['mop'] == "cod") {
+                                                            ?>
+                                                                <button class="bg-success border-0 p-1 text-light" data-bs-toggle="modal" data-bs-target="#finish_order_<?php echo $row['id']; ?>">Finish</button>
+                                                            <?php
+                                                        } else if($row['mop'] == "otc") {
+                                                            
+                                                        }
+                                                    ?>
                                                 </td>
+                                                <td><?php echo $row['status']; ?></td>
                                                 <td><?php echo $row['name']; ?></td>
                                                 <td><?php echo $row['email']; ?></td>
                                                 <td><?php echo $row['address']; ?></td>
