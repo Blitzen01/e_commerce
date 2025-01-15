@@ -168,7 +168,7 @@
                         </table>
                     </section>
 
-                    <h3 class="p-3 text-center"><i class="fa-solid fa-book"></i> Orders Transaction History</h3>
+                    <!-- <h3 class="p-3 text-center"><i class="fa-solid fa-book"></i> Orders Transaction History</h3>
                     <section class="my-2 px-4">
                     <table id="table_order_transaction_history" class="table table-sm nowrap table-striped compact table-hover" >
                             <thead class="table-danger">
@@ -219,7 +219,7 @@
                                 ?>
                             </tbody>
                         </table>
-                    </section>
+                    </section> -->
                 </div>
             </div>
         </div>

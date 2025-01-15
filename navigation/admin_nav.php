@@ -15,6 +15,15 @@
             <li><a class="nav_bar nav-link" href="dashboard.php"><i class="fa-solid fa-gauge"></i> Dashboard</a></li>
             <li><a class="nav_bar nav-link" href="order.php"><i class="fa-solid fa-cart-shopping"></i> Orders</a></li>
             <li><a class="nav_bar nav-link" href="bookings.php"><i class="fa-solid fa-book"></i> Bookings</a></li>
+            <li>
+                <a class="nav_bar nav-link text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                  <i class="fa-solid fa-clipboard"></i> Transaction History
+                </a>
+              <div class="collapse ms-3" id="collapseExample">
+                <a class="nav_bar nav-link bg-light" href="transaction_history.php#order" style="cursor: pointer;"><i class="fa-solid fa-cart-shopping"></i> Orders</a>
+                <a class="nav_bar nav-link bg-light" href="transaction_history.php#booking" style="cursor: pointer;"><i class="fa-solid fa-book"></i> Bookings</a>
+              </div>
+            </li>
             <li><a class="nav_bar nav-link" href="inventory.php"><i class="fa-solid fa-warehouse"></i> Inventory</a></li>
             <li><a class="nav_bar nav-link" href="cms.php"><i class="fa-solid fa-arrows-to-circle"></i> CMS</a></li>
             <li><a class="nav_bar nav-link" href="staff.php"><i class="fa-solid fa-clipboard-user"></i> Staff</a></li>
