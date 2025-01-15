@@ -13,6 +13,7 @@
 body, html {
     overflow-x: hidden;
     width: 100%;
+    font-family: Arial, sans-serif !important;
 }
 
 .row {

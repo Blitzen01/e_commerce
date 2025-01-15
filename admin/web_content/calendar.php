@@ -26,24 +26,27 @@
         <style>
             /* Change font for the entire calendar */
             .evo-calendar {
-                font-family: 'YourFontFamily', sans-serif;
+                font-family: Arial, sans-serif;
             }
 
             /* Change font for the event names */
             .evo-calendar .event-name {
-                font-family: 'YourFontFamily', sans-serif;
+                font-family: Arial, sans-serif;
                 font-weight: bold;
             }
 
             /* Change font for the days of the week */
             .evo-calendar .days .day-name {
-                font-family: 'YourFontFamily', sans-serif;
+                font-family: Arial, sans-serif;
                 font-size: 14px;
             }
 
             /* Change font for the calendar navigation (previous/next buttons) */
             .evo-calendar .evo-btn {
-                font-family: 'YourFontFamily', sans-serif;
+                font-family: Arial, sans-serif;
+            }
+            body {
+                font-family: Arial, sans-serif;
             }
         </style>
     </head>

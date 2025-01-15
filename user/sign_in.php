@@ -106,10 +106,13 @@
                                 placeholder="Password" autocomplete="off">
                             <a href="#" class="nav-link text-primary p-0 mt-2">Forgot password?</a>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-1">
                             <button class="btn btn-danger w-100" type="submit">Log In</button>
                         </div>
                     </form>
+                </div>
+                <div class="container mb-3">
+                    <small>Don't have an account yet? <a href="sign_up.php">Sign Up</a></small>
                 </div>
             </div>
         </div>
