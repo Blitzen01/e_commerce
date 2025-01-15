@@ -9,6 +9,7 @@
         header("Location: ../index.php"); // Redirect to the index if not logged in
         exit;
     }
+
 ?>
 
 <!DOCTYPE html>
@@ -31,10 +32,10 @@
                 </div>
                 <div class="col">
                     <?php include "../../navigation/admin_header.php"; ?>
-                    <h3 class="p-3 text-center"><i class="fa-solid fa-clipboard-user"></i> Staff</h3>
+                    <h3 class="p-3 text-center"><i class="fa-solid fa-clipboard-user"></i> Active Staff</h3>
                     <section class="my-2 px-4">
                         <button class="btn btn-success p-1 mb-1 ms-3 text-light border-0" data-bs-toggle="modal" data-bs-target="#add_staff">ADD STAFF</button>
-                        <button class="btn btn-danger p-1 mb-1 text-light border-0" data-bs-toggle="modal" data-bs-target="#remove_staff">REMOVE STAFF</button>
+                        <button class="btn btn-danger p-1 mb-1 text-light border-0" data-bs-toggle="modal" data-bs-target="#remove_staff">Archive STAFF</button>
                         <table id="staff_table" class="table table-sm nowrap table-striped compact table-hover" >
                             <thead class="table-danger">
                                 <tr>
@@ -67,6 +68,41 @@
                             </tbody>
                         </table>
                     </section>
+
+                    <h3 class="p-3 text-center"><i class="fa-solid fa-clipboard-user"></i> Archive Staff</h3>
+                    <section class="my-2 px-4">
+                        <table id="arcive_staff_table" class="table table-sm nowrap table-striped compact table-hover" >
+                            <thead class="table-danger">
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Username</td>
+                                    <td>Contact Number</td>
+                                    <td>Position</td>
+                                    <td>Address</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                    $sql = "SELECT * FROM archive_staff";
+                                    $result = mysqli_query($conn, $sql);
+
+                                    if($result) {
+                                        while($row = mysqli_fetch_assoc($result)) {
+                                            ?>
+                                            <tr>
+                                                <td><?php echo $row['first_name']; ?> <?php echo $row['last_name']; ?></td>
+                                                <td><?php echo $row['username']; ?></td>
+                                                <td><?php echo $row['contact_number']; ?></td>
+                                                <td><?php echo $row['role']; ?></td>
+                                                <td><?php echo $row['address']; ?></td>
+                                            </tr>
+                                            <?php
+                                        }
+                                    }
+                                ?>
+                            </tbody>
+                        </table>
+                    </section>
                 </div>
             </div>
         </div>
@@ -77,6 +113,10 @@
         <script>
             $(document).ready(function () {
                 var table_booking = $('#staff_table').DataTable({
+                    scrollX: true,
+                    autoWidth: false
+                });
+                var table_booking = $('#arcive_staff_table').DataTable({
                     scrollX: true,
                     autoWidth: false
                 });

@@ -17,6 +17,18 @@
         <title>HFA Computer Parts and Repair Services</title>
 
         <link rel="stylesheet" href="../assets/style/user_style.css">
+
+        <style>
+            .modal-dialog {
+                max-height: calc(100% - 1rem); /* Ensures the modal does not overflow the viewport */
+                overflow-y: auto; /* Enables vertical scrolling within the modal */
+            }
+
+            .modal-body {
+                max-height: 70vh; /* Adjust as needed */
+                overflow-y: auto; /* Ensures the scroll is inside the modal body */
+            }
+        </style>
     </head>
 
     <body>
@@ -138,5 +150,12 @@
 
         <script defer src="../assets/script/user_script.js"></script>
 
+        <script>
+            // Get today's date in the format YYYY-MM-DD
+            const today = new Date().toISOString().split('T')[0];
+            
+            // Set the min attribute of the date input to today's date
+            document.getElementById('dateInput').setAttribute('min', today);
+        </script>
     </body>
 </html>

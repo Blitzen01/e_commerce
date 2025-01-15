@@ -411,32 +411,48 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="remove_staff_label">Remove Staff</h1>
+        <h1 class="modal-title fs-5" id="remove_staff_label">Archive Staff</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form action="../../assets/php_script/remove_staff_script.php" method="post">
-            <div class="mb-3">
-                <label for="remove_staff">Select Staff</label>
-                <select name="remove_staff" id="remove_staff" class="form-select">
-                    <?php
-                        $sql = "SELECT * FROM admin_account";
-                        $result = mysqli_query($conn, $sql);
+          <div class="mb-3">
+            <label for="remove_staff">Select Staff</label>
+            <select name="remove_staff" id="remove_staff" class="form-select">
+              <?php
+                session_start();
+                $email = $_SESSION['admin_email'];
+                $role = "";
+                $sql = "SELECT * FROM admin_account WHERE email = '$email'";
+                $result = mysqli_query($conn, $sql);
+                if($result) {
+                    while($row = mysqli_fetch_assoc($result)) {
+                        $role = $row['role'];
+                    }
+                }
+                $sql = "SELECT * FROM admin_account";
+                $result = mysqli_query($conn, $sql);
 
-                        if($result) {
-                            while($row = mysqli_fetch_assoc($result)) {
-                                ?>
-                                <option value="<?php echo $row['id'];?>"><?php echo $row['first_name'];?> <?php echo $row['last_name'];?></option>
-                                <?php
-                            }
-                        }
+                if ($result) {
+                  while ($row = mysqli_fetch_assoc($result)) {
+                    // If the role is 'admin', exclude other admins
+                    if ($role === 'Admin' && $row['role'] === 'Admin') {
+                      continue; // Skip this iteration
+                    }
                     ?>
-                </select>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-danger">Remove</button>
-            </div>
+                    <option value="<?php echo $row['id']; ?>">
+                      <?php echo $row['first_name'] . ' ' . $row['last_name'] . ' (' . $row['role'] . ')'; ?>
+                    </option>
+                    <?php
+                  }
+                }
+              ?>
+            </select>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-danger">Archive</button>
+          </div>
         </form>
       </div>
     </div>

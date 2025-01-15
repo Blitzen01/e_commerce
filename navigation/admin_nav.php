@@ -26,7 +26,13 @@
             </li>
             <li><a class="nav_bar nav-link" href="inventory.php"><i class="fa-solid fa-warehouse"></i> Inventory</a></li>
             <li><a class="nav_bar nav-link" href="cms.php"><i class="fa-solid fa-arrows-to-circle"></i> CMS</a></li>
-            <li><a class="nav_bar nav-link" href="staff.php"><i class="fa-solid fa-clipboard-user"></i> Staff</a></li>
+            <?php
+              if($row['role'] == "Admin" || $row['role'] == "Owner") {
+                ?>
+                <li><a class="nav_bar nav-link" href="staff.php"><i class="fa-solid fa-clipboard-user"></i> Staff</a></li>
+                <?php
+              }
+            ?>
             <li><a class="nav_bar nav-link" data-bs-toggle="modal" data-bs-target="#admin_logout" style="cursor: pointer;"><i class="fa-solid fa-arrow-right-from-bracket"></i> Log out</a></li>
         </ul>
       </div>
