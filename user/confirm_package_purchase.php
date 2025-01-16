@@ -58,6 +58,10 @@
                 while($user = mysqli_fetch_assoc($result1)) {
                     ?>
                     <div class="container mb-3">
+                        <div class="ms-3">
+                            <button class="btn text-primary" data-bs-toggle="modal" data-bs-target="#add_billing_address"><small>ADD NEW BILLING ADDRESS</small></button>
+                            <button class="btn text-secondary" data-bs-toggle="modal" data-bs-target="#change_billing_address"><small>CHANGE BILLING ADDRESS</small></button>
+                        </div>
                         <div class="row border rounded p-2">
                             <span><b><?php echo $user['full_name']; ?></b> (<?php echo $user['contact_number']; ?>)</span>
                             <span><?php echo $user['address']; ?></span>

@@ -23,7 +23,7 @@
                 
                 // Prepare SQL to insert data into order_booked
                 $insert_sql = "INSERT INTO order_booked (name, email, address, contact_number, date, item, quantity, price, mop, status)
-                VALUES ('$name', '$email', '$address', '$contact_number', '$date', '$item', '$quantity', '$price', '$mop', 'Processing')";
+                VALUES ('$name', '$email', '$address', '$contact_number', '$date', '$item', '$quantity', '$price', '$mop', 'Order Placed')";
 
                 if (mysqli_query($conn, $insert_sql)) {
                     // After successful insertion, delete the order from order_booking

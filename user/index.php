@@ -7,7 +7,60 @@
 
     // Get search query from URL parameters if present
     $searchQuery = isset($_GET['search']) ? mysqli_real_escape_string($conn, $_GET['search']) : '';
+
+    $email = $_SESSION['email'];
+    $is_new = 1; // Default to 1 to avoid modal if session[email] is not set
+
+    if (isset($email)) {
+        $stmt = $conn->prepare("SELECT is_new FROM user_account WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $stmt->bind_result($is_new);
+        $stmt->fetch();
+        $stmt->close();
+    }
 ?>
+
+<!-- Modal -->
+<div class="modal fade" id="is_new_account" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Fill up form to proceed</h1>
+            </div>
+            <div class="modal-body">
+                <form action="../assets/php_script/first_update_profile_script.php" method="post" id="newAccountForm">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($email); ?>" readonly required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirmPassword" class="form-label">Confirm Password</label>
+                        <input type="password" class="form-control" id="confirmPassword" name="confirm_password" required>
+                        <div class="invalid-feedback">
+                            Passwords do not match.
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Address</label>
+                        <input type="text" class="form-control" id="address" name="address" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="contactNumber" class="form-label">Contact Number</label>
+                        <input type="text" class="form-control" id="contactNumber" name="contact_number" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -156,6 +209,39 @@
             
             // Set the min attribute of the date input to today's date
             document.getElementById('dateInput').setAttribute('min', today);
+            
+            document.addEventListener('DOMContentLoaded', function() {
+            const isNew = <?php echo json_encode($is_new); ?>;
+            if (isNew != 1) {
+                const modal = new bootstrap.Modal(document.getElementById('is_new_account'), {
+                    backdrop: 'static',
+                    keyboard: false
+                });
+                modal.show();
+            }
+
+            // Form validation for password match
+            const form = document.getElementById('newAccountForm');
+            const password = document.getElementById('password');
+            const confirmPassword = document.getElementById('confirmPassword');
+
+            form.addEventListener('submit', function(event) {
+                const passwordValue = password.value.trim();
+                const confirmPasswordValue = confirmPassword.value.trim();
+
+                if (passwordValue != confirmPasswordValue) {
+                    event.preventDefault();
+                    confirmPassword.classList.add('is-invalid');
+                } else {
+                    confirmPassword.classList.remove('is-invalid');
+                }
+            });
+
+            // Remove invalid state on input
+            confirmPassword.addEventListener('input', function() {
+                confirmPassword.classList.remove('is-invalid');
+            });
+        });
         </script>
     </body>
 </html>

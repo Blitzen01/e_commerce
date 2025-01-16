@@ -60,6 +60,8 @@
                                     <td>Scheduled Date</td>
                                     <td>Scheduled Time</td>
                                     <td>Type of Booking</td>
+                                    <td>Kind of Booking</td>
+                                    <td>Mode of Booking</td>
                                     <td>Total Amount</td>
                                     <td>Remarks</td>
                                 </tr>
@@ -94,6 +96,8 @@
                                                 <td><?php echo $formattedDate; ?></td>
                                                 <td><?php echo $formattedTime; ?></td>
                                                 <td><?php echo $row['type_of_booking']; ?></td>
+                                                <td><?php echo $row['kind_of_booking']; ?></td>
+                                                <td><?php echo $row['mob']; ?></td>
                                                 <td><?php echo $row['price']; ?></td>
                                                 <td><?php echo $row['remarks']; ?></td>
                                             </tr>
@@ -111,6 +115,7 @@
                             <thead class="table-danger">
                                 <tr>
                                     <td>Action</td>
+                                    <td>Status</td>
                                     <td>Name</td>
                                     <td>Email</td>
                                     <td>Address</td>
@@ -118,6 +123,8 @@
                                     <td>Scheduled Date</td>
                                     <td>Scheduled Time</td>
                                     <td>Type of Booking</td>
+                                    <td>Kind of Booking</td>
+                                    <td>Mode of Booking</td>
                                     <td>Total Amount</td>
                                     <td>Remarks</td>
                                 </tr>
@@ -140,6 +147,7 @@
                                                         Finish
                                                     </button>
                                                 </td>
+                                                <td><?php echo $row['status']; ?></td>
                                                 <td><?php echo $row['name']; ?></td>
                                                 <td><?php echo $row['email']; ?></td>
                                                 <td><?php echo $row['address']; ?></td>
@@ -147,6 +155,8 @@
                                                 <td><?php echo $formattedDate; ?></td>
                                                 <td><?php echo $formattedTime; ?></td>
                                                 <td><?php echo $row['type_of_booking']; ?></td>
+                                                <td><?php echo $row['kind_of_booking']; ?></td>
+                                                <td><?php echo $row['mob']; ?></td>
                                                 <td><?php echo $row['price']; ?></td>
                                                 <td><?php echo $row['remarks']; ?></td>
                                             </tr>
@@ -317,6 +327,8 @@
                                 <p><b>Date:</b> <?php echo $row['date']; ?></p>
                                 <p><b>Time:</b> <?php echo $row['time']; ?></p>
                                 <p><b>Type of Booking:</b> <?php echo $row['type_of_booking']; ?></p>
+                                <p><b>Kind of Booking:</b> <?php echo $row['kind_of_booking']; ?></p>
+                                <p><b>Mode of Booking:</b> <?php echo $row['mob']; ?></p>
                                 <p><b>Price:</b> <?php echo $row['price']; ?></p>
                                 <p><b>Remarks:</b> <?php echo $row['remarks']; ?></p>
                                 <div class="modal-footer">
@@ -362,6 +374,8 @@
                                 <p><b>Date:</b> <?php echo $row['date']; ?></p>
                                 <p><b>Time:</b> <?php echo $row['time']; ?></p>
                                 <p><b>Type of Booking:</b> <?php echo $row['type_of_booking']; ?></p>
+                                <p><b>Kind of Booking:</b> <?php echo $row['kind_of_booking']; ?></p>
+                                <p><b>Mode of Booking:</b> <?php echo $row['mob']; ?></p>
                                 <p><b>Price:</b> <?php echo $row['price']; ?></p>
                                 <p><b>Remarks:</b> <?php echo $row['remarks']; ?></p>
                                 <div class="mb-3">
@@ -411,6 +425,8 @@
                                 <p><b>Date:</b> <?php echo $row['date']; ?></p>
                                 <p><b>Time:</b> <?php echo $row['time']; ?></p>
                                 <p><b>Type of Booking:</b> <?php echo $row['type_of_booking']; ?></p>
+                                <p><b>Kind of Booking:</b> <?php echo $row['kind_of_booking']; ?></p>
+                                <p><b>Mode of Booking:</b> <?php echo $row['mob']; ?></p>
                                 <p><b>Price:</b> <?php echo $row['price']; ?></p>
                                 <p><b>Remarks:</b> <?php echo $row['remarks']; ?></p>
                                 <div class="modal-footer">

@@ -27,6 +27,10 @@
 
         <div class="m-3">
             <div class="container">
+                <div class="ms-3">
+                    <button class="btn text-primary" data-bs-toggle="modal" data-bs-target="#add_billing_address"><small>ADD NEW BILLING ADDRESS</small></button>
+                    <button class="btn text-secondary" data-bs-toggle="modal" data-bs-target="#change_billing_address"><small>CHANGE BILLING ADDRESS</small></button>
+                </div>
                 <div class="card p-2">
                     <?php
                         $sql = "SELECT * FROM user_account WHERE email = '$email'";
@@ -174,7 +178,6 @@
                     .querySelector("button[data-bs-target='#viewProductsModal']")
                     .addEventListener("click", updateViewModal);
             });
-
         </script>
     </body>
 </html>

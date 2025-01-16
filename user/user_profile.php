@@ -19,6 +19,15 @@ $email = $_SESSION['email'];
     <link rel="stylesheet" href="../assets/style/user_style.css">
 
     <style>
+        .modal-dialog {
+            max-height: calc(100% - 1rem); /* Ensures the modal does not overflow the viewport */
+            overflow-y: auto; /* Enables vertical scrolling within the modal */
+        }
+
+        .modal-body {
+            max-height: 70vh; /* Adjust as needed */
+            overflow-y: auto; /* Ensures the scroll is inside the modal body */
+        }
     </style>
 </head>
 
@@ -185,7 +194,7 @@ $email = $_SESSION['email'];
                                     <td><?php echo $formattedTime; ?></td>
                                     <td><?php echo $formattedDate; ?></td>
                                     <td><?php echo $row['remarks']; ?></td>
-                                    <td><span class="text-success">Processing</span></td>
+                                    <td><span class="text-success"><?php echo $row['status']; ?></span></td>
                                 </tr>
                                 <?php
                             }
@@ -286,7 +295,7 @@ $email = $_SESSION['email'];
                                     <td><?php echo $row['quantity']; ?></td>
                                     <td><?php echo $row['price']; ?></td>
                                     <td><?php echo strtoupper($row['mop']); ?></td>
-                                    <td><span class="text-success">Processing</span></td>
+                                    <td><span class="text-success"><?php echo $row['status']; ?></span></td>
                                 </tr>
                                 <?php
                             }
@@ -344,6 +353,11 @@ $email = $_SESSION['email'];
             // Hide the other table
             document.getElementById(hideId).style.display = 'none';
         }
+        // Get today's date in the format YYYY-MM-DD
+        const today = new Date().toISOString().split('T')[0];
+            
+        // Set the min attribute of the date input to today's date
+        document.getElementById('dateInput').setAttribute('min', today);
     </script>
 </body>
 

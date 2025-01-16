@@ -132,22 +132,43 @@
                     <div class="mb-3">
                         <label for="type_of_booking">Type of Booking</label>
                         <select name="type_of_booking" id="type_of_booking" class="form-select">
-                            <option value="Laptop Repair">Laptop Repair</option>
-                            <option value="CPU Repair">CPU Repair</option>
-                            <option value="CCTV Installation">CCTV Installation</option>
+                            <option value="Repair">Repair</option>
+                            <option value="Parts Installation">Parts Installation</option>
+                            <option value="CCTV Repair">CCTV</option>
                         </select>
                     </div>
-                    <div class="form-group">
+                    <div class="mb-3">
+                        <label for="kind_of_booking">What kind of repair, installation, CCTV concern ?</label>
+                        <select name="kind_of_booking" id="kind_of_booking" class="form-select">
+                            <option value="Laptop Repair">Laptop Repair: &#8369;800</option>
+                            <option value="Desktop Repair">CPU Repair: &#8369;700</option>
+                            <option value="CCTV Repair">CCTV Repair: &#8369;550</option>
+                            <option value="Board Level">Board Level: &#8369;2500(Min. Charge)</option>
+                            <option value="Laptop Installation">Laptop Installation: &#8369;250</option>
+                            <option value="Desktop Installation">Desktop Installation: &#8369;200</option>
+                            <option value="Printer">Printer: &#8369;150</option>
+                            <option value="CCTV Walk In">CCTV Walk In: &#8369;400</option>
+                            <option value="CCTV On Site">CCTV On Site: &#8369;800</option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-3">
                         <label for="dateInput">Select Date</label>
                         <input type="date" class="form-control" id="dateInput" name="dateInput" required>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <label for="timeInput">Select Time</label>
                         <input type="time" class="form-control" id="timeInput" name="timeInput" required>
                     </div>
-                    <div class="">
+                    <div class="form-group mb-3">
+                        <label for="mob">Mode of Booking</label>
+                        <select class="form-select" name="mob" id="mob" required>
+                            <option value="Walk In">Walk In</option>
+                            <option value="On Site">On Site</option>
+                        </select>
+                    </div>
+                    <div class=" mb-3">
                         <label for="remarks">Remarks</label>
-                        <textarea type="text" class="form-control" row="15" id="remarks" name="remarks" placeholder="Leave a your remarks here"></textarea>
+                        <textarea type="text" class="form-control" row="15" id="remarks" name="remarks" placeholder="Leave a your remarks here" required></textarea>
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-text">
@@ -459,3 +480,105 @@
   </div>
 </div>
 <!-- remove staff Modal -->
+
+<!-- Add Billing Address Modal -->
+<div class="modal fade" id="add_billing_address" tabindex="-1" aria-labelledby="add_billing_address_label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="add_billing_address_label">Add Billing Address</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="billingAddressForm" action="../assets/php_script/add_billing_address.php" method="POST">
+          <div class="mb-3">
+            <label for="fullName" class="form-label">Full Name</label>
+            <input type="text" class="form-control" id="fullName" name="full_name" required>
+          </div>
+          <div class="mb-3">
+            <label for="address" class="form-label">Address</label>
+            <input type="text" class="form-control" id="address" name="address" required>
+          </div>
+          <div class="mb-3">
+            <label for="contactNumber" class="form-label">Contact Number</label>
+            <input type="text" class="form-control" id="contactNumber" name="contact_number" required>
+          </div>
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="defaultAddress" name="default_address" value="1">
+            <label class="form-check-label" for="defaultAddress">Set as Default Address</label>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save Address</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Add Billing Address Modal -->
+
+<!-- change address -->
+<div class="modal fade" id="change_billing_address" tabindex="-1" aria-labelledby="change_billing_address_label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="change_billing_address_label">Change Billing Address</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="../assets/php_script/set_default_address.php" method="post">
+                    <?php
+
+                    // Assuming the email is stored in the session
+                    $email = $_SESSION['email'];
+                    $user_id = "";
+
+                    // Fetch user ID based on email
+                    $sqlUser = "SELECT id FROM user_account WHERE email = ?";
+                    $stmtUser = $conn->prepare($sqlUser);
+                    $stmtUser->bind_param("s", $email);
+                    $stmtUser->execute();
+                    $resultUser = $stmtUser->get_result();
+                    if ($resultUser->num_rows > 0) {
+                        $row = $resultUser->fetch_assoc();
+                        $user_id = $row['id'];
+                    } else {
+                        echo "User not found.";
+                        exit;
+                    }
+                    $stmtUser->close();
+
+                    // Fetch billing addresses for the user
+                    $sqlBilling = "SELECT * FROM billing_address WHERE user_id = ?";
+                    $stmtBilling = $conn->prepare($sqlBilling);
+                    $stmtBilling->bind_param("i", $user_id);
+                    $stmtBilling->execute();
+                    $resultBilling = $stmtBilling->get_result();
+
+                    // Display billing addresses
+                    if ($resultBilling->num_rows > 0) {
+                        while ($row = $resultBilling->fetch_assoc()) {
+                            $checked = $row['default_address'] ? "checked" : "";
+                            echo "<li>
+                                    <input type='radio' name='billing_address' value='{$row['id']}' $checked>
+                                    <b>" . htmlspecialchars($row['full_name']) . "</b> (" . htmlspecialchars($row['contact_number']) . ")<br>
+                                    " . htmlspecialchars($row['address']) . "
+                                  </li>";
+                        }
+                    } else {
+                        echo "<li>No billing addresses found.</li>";
+                    }
+
+                    $stmtBilling->close();
+                    ?>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" id="saveDefaultAddress">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- change address -->
