@@ -47,7 +47,7 @@
                 </div>
                 <div class="col-lg-10">
                     <?php include "../../navigation/admin_header.php"; ?>
-                    <h3 class="p-3 text-center"><i class="fa-solid fa-book"></i> Booked</h3>
+                    <h3 class="p-3 text-center"><i class="fa-solid fa-book"></i> Booking Place</h3>
                     <section class="my-2 px-4">
                         <table id="table_booking" class="table table-sm nowrap table-striped compact table-hover" >
                             <thead class="table-danger">
@@ -109,7 +109,7 @@
                         </table>
                     </section>
 
-                    <h3 class="p-3 text-center"><i class="fa-solid fa-book"></i> Bookings</h3>
+                    <h3 class="p-3 text-center"><i class="fa-solid fa-book"></i> Booking Accepted</h3>
                     <section class="my-2 px-4">
                     <table id="table_booked" class="table table-sm nowrap table-striped compact table-hover" >
                             <thead class="table-danger">

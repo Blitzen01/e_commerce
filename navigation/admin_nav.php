@@ -13,18 +13,42 @@
         <ul class="nav nav-pills flex-column mb-auto">
             <li><a class="nav_bar nav-link" href="calendar.php"><i class="fa-regular fa-calendar"></i> Calendar</a></li>
             <li><a class="nav_bar nav-link" href="dashboard.php"><i class="fa-solid fa-gauge"></i> Dashboard</a></li>
-            <li><a class="nav_bar nav-link" href="order.php"><i class="fa-solid fa-cart-shopping"></i> Orders</a></li>
-            <li><a class="nav_bar nav-link" href="bookings.php"><i class="fa-solid fa-book"></i> Bookings</a></li>
             <li>
-                <a class="nav_bar nav-link text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+              <a class="nav_bar nav-link text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#order_nav" aria-expanded="false" aria-controls="collapseExample">
+                <i class="fa-solid fa-cart-shopping"></i> Orders
+              </a>
+              <div class="collapse ms-3" id="order_nav">
+                <a class="nav_bar nav-link bg-light" href="order.php#table_order_booking" style="cursor: pointer;"><i class="fa-solid fa-cart-shopping"></i> Order Place</a>
+                <a class="nav_bar nav-link bg-light" href="order.php#table_order_booked" style="cursor: pointer;"><i class="fa-solid fa-cart-shopping"></i> Order Accepted</a>
+              </div>
+            </li>
+            <li>
+              <a class="nav_bar nav-link text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#bookings_nav" aria-expanded="false" aria-controls="collapseExample">
+                <i class="fa-solid fa-book"></i> Bookings
+              </a>
+              <div class="collapse ms-3" id="bookings_nav">
+                <a class="nav_bar nav-link bg-light" href="bookings.php#table_booking" style="cursor: pointer;"><i class="fa-solid fa-cart-shopping"></i> Booking Place</a>
+                <a class="nav_bar nav-link bg-light" href="bookings.php#table_booked" style="cursor: pointer;"><i class="fa-solid fa-book"></i> Booking Accepted</a>
+              </div>
+            </li>
+            <li>
+                <a class="nav_bar nav-link text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#transaction_history_nav" aria-expanded="false" aria-controls="collapseExample">
                   <i class="fa-solid fa-clipboard"></i> Transaction History
                 </a>
-              <div class="collapse ms-3" id="collapseExample">
+              <div class="collapse ms-3" id="transaction_history_nav">
                 <a class="nav_bar nav-link bg-light" href="transaction_history.php#order" style="cursor: pointer;"><i class="fa-solid fa-cart-shopping"></i> Orders</a>
                 <a class="nav_bar nav-link bg-light" href="transaction_history.php#booking" style="cursor: pointer;"><i class="fa-solid fa-book"></i> Bookings</a>
               </div>
             </li>
-            <li><a class="nav_bar nav-link" href="inventory.php"><i class="fa-solid fa-warehouse"></i> Inventory</a></li>
+            <li>
+                <a class="nav_bar nav-link text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#inventory_nav" aria-expanded="false" aria-controls="collapseExample">
+                  <i class="fa-solid fa-warehouse"></i> Inventory</a>
+                </a>
+              <div class="collapse ms-3" id="inventory_nav">
+                <a class="nav_bar nav-link bg-light" href="inventory.php#package_section" style="cursor: pointer;">Package List</a>
+                <a class="nav_bar nav-link bg-light" href="inventory.php#product_section" style="cursor: pointer;">Product List</a>
+              </div>
+            </li>
             <li><a class="nav_bar nav-link" href="cms.php"><i class="fa-solid fa-arrows-to-circle"></i> CMS</a></li>
             <?php
               if($row['role'] == "Admin" || $row['role'] == "Owner") {
