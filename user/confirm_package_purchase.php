@@ -1,10 +1,9 @@
 <?php
-
     session_start();
-
 
     include "../assets/cdn/cdn_links.php";
     include "../render/connection.php";
+    include "../render/modals.php";
     
     $email = $_SESSION['email'];
     $email = mysqli_real_escape_string($conn, $email);
@@ -160,3 +159,67 @@
         </script>
     </body>
 </html>
+
+<!-- change address -->
+<div class="modal fade" id="change_billing_address" tabindex="-1" aria-labelledby="change_billing_address_label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="change_billing_address_label">Change Billing Address</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="../assets/php_script/set_default_address_package.php?id=<?php echo $id;?>&quantity=<?php echo $stock;?>" method="post">
+                <?php
+                    // Assuming the email is stored in the session
+                    $email = $_SESSION['email'];
+                    $user_id = "";
+
+                    // Fetch user ID based on email
+                    $sqlUser = "SELECT id FROM user_account WHERE email = ?";
+                    $stmtUser = $conn->prepare($sqlUser);
+                    $stmtUser->bind_param("s", $email);
+                    $stmtUser->execute();
+                    $resultUser = $stmtUser->get_result();
+                    if ($resultUser->num_rows > 0) {
+                        $row = $resultUser->fetch_assoc();
+                        $user_id = $row['id'];
+                    } else {
+                        echo "User not found.";
+                        exit;
+                    }
+                    $stmtUser->close();
+
+                    // Fetch billing addresses for the user
+                    $sqlBilling = "SELECT * FROM billing_address WHERE user_id = ?";
+                    $stmtBilling = $conn->prepare($sqlBilling);
+                    $stmtBilling->bind_param("i", $user_id);
+                    $stmtBilling->execute();
+                    $resultBilling = $stmtBilling->get_result();
+
+                    // Display billing addresses
+                    if ($resultBilling->num_rows > 0) {
+                        while ($row = $resultBilling->fetch_assoc()) {
+                            $checked = $row['default_address'] ? "checked" : "";
+                            echo "<div class='mb-3'>
+                                    <input type='radio' name='billing_address' value='{$row['id']}' $checked>
+                                    <b>" . htmlspecialchars($row['full_name']) . "</b> (" . htmlspecialchars($row['contact_number']) . ")<br>
+                                    " . htmlspecialchars($row['address']) . "
+                                </div>";
+                        }
+                    } else {
+                        echo "<li>No billing addresses found.</li>";
+                    }
+
+                    $stmtBilling->close();
+                ?>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" id="saveDefaultAddress">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- change address -->
