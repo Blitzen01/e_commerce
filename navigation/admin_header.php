@@ -96,7 +96,7 @@
                         }
                     } else {
                         ?>
-                        <li><a class="dropdown-item" href="#">No bookings available</a></li>
+                        <li><a class="dropdown-item" href="#">No Orders available</a></li>
                         <?php
                     }
                 ?>

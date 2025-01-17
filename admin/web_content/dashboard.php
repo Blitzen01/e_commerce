@@ -12,6 +12,38 @@
     date_default_timezone_set("Asia/Manila");
 
     $initialTime = date("F j, Y h:i:s A");
+
+    // Initialize data arrays
+    $bookings = [];
+    $sales = [];
+
+    // Fetch bookings data
+    $bookingsQuery = "
+        SELECT type_of_booking, COUNT(*) AS booking_count
+        FROM transaction_history
+        WHERE WEEKOFYEAR(transaction_date) = WEEKOFYEAR(NOW())
+        GROUP BY type_of_booking
+        ORDER BY booking_count 
+        LIMIT 5
+    ";
+    $bookingsResult = $conn->query($bookingsQuery);
+    while ($row = $bookingsResult->fetch_assoc()) {
+        $bookings[] = $row;
+    }
+
+    // Fetch sales data
+    $salesQuery = "
+        SELECT item, SUM(quantity) AS total_sold
+        FROM order_transaction_history
+        WHERE WEEKOFYEAR(transaction_date) = WEEKOFYEAR(NOW())
+        GROUP BY item
+        ORDER BY total_sold
+        LIMIT 5
+    ";
+    $salesResult = $conn->query($salesQuery);
+    while ($row = $salesResult->fetch_assoc()) {
+        $sales[] = $row;
+    }
 ?>
 
 <!DOCTYPE html>
@@ -55,6 +87,7 @@
                         <i class="fa-solid fa-gauge"></i> Dashboard <br> <span id="currentTime"><?php echo $initialTime; ?></span>
                     </h3>
 
+                    <!-- generate reports -->
                     <div class="mx-3">
                         <table id="generate_reports" class="table table-sm nowrap table-striped compact table-hover text-center" style="display: none;">
                             <thead>
@@ -319,56 +352,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
         <script>
-            // Line chart configuration
-            const lineCtx = document.getElementById('line_graph').getContext('2d');
-            const lineData = {
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                datasets: [{
-                    label: 'Sales',
-                    data: [65, 59, 80, 81, 56, 55, 40],
-                    fill: false,
-                    borderColor: 'rgb(75, 192, 192)',
-                    tension: 0.1
-                }]
-            };
-
-            const lineConfig = {
-                type: 'line',
-                data: lineData,
-            };
-
-            const lineChart = new Chart(lineCtx, lineConfig);
-
-            // Bar chart configuration
-            const barCtx = document.getElementById('bar_chart').getContext('2d');
-            const barData = {
-                labels: ['Category 1', 'Category 2', 'Category 3', 'Category 4'],
-                datasets: [{
-                    label: 'Revenue',
-                    data: [200, 150, 300, 100],
-                    backgroundColor: [
-                        'rgb(255, 99, 132)',
-                        'rgb(54, 162, 235)',
-                        'rgb(255, 206, 86)',
-                        'rgb(75, 192, 192)'
-                    ]
-                }]
-            };
-
-            const barConfig = {
-                type: 'bar',
-                data: barData,
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            };
-
-            const barChart = new Chart(barCtx, barConfig);
-
+            // Keep updating time
             function updateTime() {
                 const options = { 
                     timeZone: 'Asia/Manila', 
@@ -384,7 +368,6 @@
                 document.getElementById('currentTime').innerText = now;
             }
 
-            // Update the time every second
             setInterval(updateTime, 1000);
 
             $(document).ready(function () {
@@ -495,6 +478,79 @@
                     info: false  // Disable "Showing 1 to 3 of 3 entries" text
                 });
             });
+
+            // Data from PHP
+            const bookings = <?php echo json_encode($bookings); ?>;
+            const sales = <?php echo json_encode($sales); ?>;
+
+            // Line Chart Configuration for Bookings
+            const lineCtx = document.getElementById('line_graph').getContext('2d');
+            const lineChart = new Chart(lineCtx, {
+                type: 'line',
+                data: {
+                    labels: bookings.map(b => b.type_of_booking), // Booking types
+                    datasets: [{
+                        label: 'Top Bookings',
+                        data: bookings.map(b => b.booking_count), // Booking counts
+                        fill: false,
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1
+                    }]
+                }
+            });
+
+            const barCtx = document.getElementById('bar_chart').getContext('2d');
+            const barChart = new Chart(barCtx, {
+                type: 'bar',
+                data: {
+                    labels: sales.map(s => s.item), // Item names (used for tooltip only)
+                    datasets: [{
+                        label: 'Top Sales',
+                        data: sales.map(s => s.total_sold), // Total sold
+                        backgroundColor: [
+                            'rgb(255, 99, 132)',
+                            'rgb(54, 162, 235)',
+                            'rgb(255, 206, 86)',
+                            'rgb(75, 192, 192)',
+                            'rgb(153, 102, 255)'
+                        ]
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            ticks: {
+                                display: false // Hides labels on the x-axis
+                            },
+                            grid: {
+                                display: false // Optionally hide grid lines on the x-axis
+                            }
+                        },
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true // Optional: Display or hide the legend
+                        },
+                        tooltip: {
+                            callbacks: {
+                                title: function(tooltipItems) {
+                                    // Display the full item name in the tooltip
+                                    const index = tooltipItems[0].dataIndex;
+                                    return sales[index].item;
+                                },
+                                label: function(context) {
+                                    // Display the sales data in the tooltip
+                                    return `Sold: ${context.raw}`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
         </script>
     </body>
 </html>

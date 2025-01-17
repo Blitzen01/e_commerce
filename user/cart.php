@@ -115,6 +115,12 @@
         <?php include "../navigation/user_footer.php"; ?>
 
         <script>
+            // Get today's date in the format YYYY-MM-DD
+            const today = new Date().toISOString().split('T')[0];
+            
+            // Set the min attribute of the date input to today's date
+            document.getElementById('dateInput').setAttribute('min', today);
+            
             document.addEventListener("DOMContentLoaded", () => {
                 const checkboxes = document.querySelectorAll(".product-checkbox");
                 const totalDisplay = document.getElementById("cart-total");

@@ -8,8 +8,10 @@
     // Get search query from URL parameters if present
     $searchQuery = isset($_GET['search']) ? mysqli_real_escape_string($conn, $_GET['search']) : '';
 
-    $email = $_SESSION['email'];
-    $is_new = 1; // Default to 1 to avoid modal if session[email] is not set
+    if(isset($_SESSION['email'])) {
+        $email = $_SESSION['email'];
+    }
+    $is_new = 1;
 
     if (isset($email)) {
         $stmt = $conn->prepare("SELECT is_new FROM user_account WHERE email = ?");

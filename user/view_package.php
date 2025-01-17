@@ -26,6 +26,7 @@
         echo "No package selected.";
         exit;
     }
+    $reviewPackageName = "";
 ?>
 
 <!DOCTYPE html>
@@ -74,6 +75,30 @@
                             onclick="checkLoginStatusAndShowModal(<?php echo isset($_SESSION['email']) ? 'true' : 'false'; ?>)">
                             Buy Now
                         </button>
+                        <?php
+                            // Fetch and calculate star ratings
+                            $reviewPackageName = $package['package_name'];
+                            $ratingSql = "SELECT COUNT(*) AS total_reviews, AVG(rating) AS avg_rating FROM order_review WHERE item_name = ?";
+                            $stmt = $conn->prepare($ratingSql);
+                            $stmt->bind_param("s", $reviewPackageName);
+                            $stmt->execute();
+                            $ratingResult = $stmt->get_result();
+
+                            $averageRating = 0;
+                            $totalReviews = 0;
+
+                            if ($ratingRow = $ratingResult->fetch_assoc()) {
+                                $averageRating = round($ratingRow['avg_rating'], 1); // Round to 1 decimal place
+                                $totalReviews = $ratingRow['total_reviews'];
+                            }
+                        ?>
+                        <h4 id="star_review_ratings" class=" mt-3">
+                            <?php if ($totalReviews > 0): ?>
+                                Star Rating: <span class="text-warning"><i class="fa-solid fa-star"></i> </span><?php echo $averageRating; ?>
+                            <?php else: ?>
+                                Star Rating: <span class="text-warning"><i class="fa-solid fa-star"></i> </span>N/A
+                            <?php endif; ?>
+                        </h4>
                     </div>
                 </div>
             </div>
@@ -151,6 +176,56 @@
                 </tbody>
             </table>
 
+            <!-- package reviews -->
+            <div class="container mt-4">
+                <h4 class="mb-3">Customer Reviews</h4>
+                <div class="row">
+                    <?php
+                    $reviewPackageName = $package['package_name'];
+                    $reviewSql = "SELECT * FROM order_review WHERE item_name = '$reviewPackageName' ORDER BY review_date DESC";
+                    $reviewResult = mysqli_query($conn, $reviewSql);
+
+                    if ($reviewResult && mysqli_num_rows($reviewResult) > 0) {
+                        while ($reviewRow = mysqli_fetch_assoc($reviewResult)) {
+                            ?>
+                            <div class="col-md-4 mb-3">
+                                <div class="card h-100">
+                                    <!-- Review Picture -->
+                                    <img src="../assets/image/order_review_image/<?php echo $reviewRow['picture']; ?>" class="card-img-top" alt="Review Image" style="max-height: 200px; object-fit: cover;">
+                                    
+                                    <div class="card-body">
+                                        <!-- Rating Stars -->
+                                        <div class="d-flex mb-2">
+                                            <?php
+                                            for ($i = 1; $i <= 5; $i++) {
+                                                if ($i <= $reviewRow['rating']) {
+                                                    echo '<i class="bi bi-star-fill text-warning"></i>'; // Filled star
+                                                } else {
+                                                    echo '<i class="bi bi-star text-warning"></i>'; // Empty star
+                                                }
+                                            }
+                                            ?>
+                                        </div>
+
+                                        <!-- Review Text -->
+                                        <p class="card-text">
+                                            <?php echo htmlspecialchars($reviewRow['remarks']); ?>
+                                        </p>
+
+                                        <!-- Review Date -->
+                                        <small class="text-muted">Reviewed on: <?php echo date("F j, Y, g:i a", strtotime($reviewRow['review_date'])); ?></small>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php
+                        }
+                    } else {
+                        echo "<p class='text-muted'>No reviews yet for this item.</p>";
+                    }
+                    ?>
+                </div>
+            </div>
+
             <div class="row mt-5">
                 <span class="text-secondary">Other Package</span>
                 <?php
@@ -208,7 +283,11 @@
         <script defer src="../assets/script/user_script.js"></script>
 
         <script>
+            // Get today's date in the format YYYY-MM-DD
+            const today = new Date().toISOString().split('T')[0];
             
+            // Set the min attribute of the date input to today's date
+            document.getElementById('dateInput').setAttribute('min', today);
 
             // Check login status and show the modal
             function checkLoginStatusAndShowModal(isLoggedIn) {

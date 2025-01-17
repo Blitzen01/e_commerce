@@ -28,6 +28,10 @@ $email = $_SESSION['email'];
             max-height: 70vh; /* Adjust as needed */
             overflow-y: auto; /* Ensures the scroll is inside the modal body */
         }
+        .card:hover {
+            transform: scale(1.02);
+            transition: 0.3s;
+        }
     </style>
 </head>
 
@@ -38,7 +42,8 @@ $email = $_SESSION['email'];
     <div class="m-3">
         <div class="container">
             <h3 class="p-3 text-center"><i class="fa-solid fa-user"></i> Account Settings</h3>
-            <section class="my-2 px-4">
+            <!-- account settings display -->
+            <section class="my-2">
                 <div class="row">
                     <?php
                     $sql = "SELECT * FROM user_account WHERE email = '$email'";
@@ -136,207 +141,480 @@ $email = $_SESSION['email'];
             <br>
 
             <h3 class="p-3 text-center" id="profile_booking_view"><i class="fa-solid fa-book"></i> Bookings</h3>
+            <!-- bookings display -->
             <section class="my-2 px-4">
                 <div class="row text-center">
                     <div class="col">
                         <button class="btn btn-danger w-100 border-0 rounded-0"
-                            onclick="showTable('booking', 'booking_transaction')">Booking</button>
+                            onclick="showTable('booking', 'booking_transaction', 'declined_booking')">Booking</button>
                     </div>
                     <div class="col">
                         <button class="btn btn-dark w-100 border-0 rounded-0"
-                            onclick="showTable('booking_transaction', 'booking')">Transactions</button>
+                            onclick="showTable('declined_booking', 'booking', 'booking_transaction')">Declined</button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-dark w-100 border-0 rounded-0"
+                            onclick="showTable('booking_transaction', 'booking', 'declined_booking')">Transactions</button>
                     </div>
                 </div>
-                <table id="booking" class="table table-sm nowrap table-striped compact table-hover border">
-                    <thead class="table-secondary">
-                        <tr>
-                            <td>Type of Booking</td>
-                            <td>Price</td>
-                            <td>Time</td>
-                            <td>Date</td>
-                            <td>Remarks</td>
-                            <td>Status</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $booked = "SELECT * FROM booked WHERE email ='$email'";
-                        $result = mysqli_query($conn, $booked);
 
-                        if ($result) {
-                            while ($row = mysqli_fetch_assoc($result)) {
-                                $formattedDate = date('m/d/Y', strtotime($row['date'])); // Format date as MM/DD/YYYY
-                                $formattedTime = date('h:i A', strtotime($row['time'])); // Format time as 12-hour with AM/PM
-                                ?>
-                                <tr>
-                                    <td><?php echo $row['type_of_booking']; ?></td>
-                                    <td><?php echo $row['price']; ?></td>
-                                    <td><?php echo $formattedTime; ?></td>
-                                    <td><?php echo $formattedDate; ?></td>
-                                    <td><?php echo $row['remarks']; ?></td>
-                                    <td><span class="text-secondary">On Hold</span></td>
-                                </tr>
-                                <?php
-                            }
+                <!-- booking layout -->
+                <div id="booking" class="container my-4">
+                    <?php
+                    // Query for booked data
+                    $booked = "SELECT * FROM booked WHERE email ='$email'";
+                    $result = mysqli_query($conn, $booked);
+
+                    if ($result) {
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            $formattedDate = date('m/d/Y', strtotime($row['date'])); // Format date as MM/DD/YYYY
+                            $formattedTime = date('h:i A', strtotime($row['time'])); // Format time as 12-hour with AM/PM
+                            ?>
+                            <!-- Booking Card -->
+                            <div class="card shadow-sm mb-3">
+                                <div class="row g-0 align-items-center">
+                                    <div class="col-12">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-truncate"><?php echo $row['type_of_booking']; ?></h5>
+                                            <p class="card-text mb-1">Kind of Booking: <?php echo $row['kind_of_booking']; ?></p>
+                                            <p class="card-text mb-1">Mode of Booking: <?php echo $row['mob']; ?></p>
+                                            <p class="card-text mb-1">Price: PHP <?php echo number_format($row['price'], 2); ?></p>
+                                            <p class="card-text mb-1">Time: <?php echo $formattedTime; ?></p>
+                                            <p class="card-text mb-1">Date: <?php echo $formattedDate; ?></p>
+                                            <p class="card-text mb-1">Remarks: <?php echo $row['remarks']; ?></p>
+                                            <p class="card-text mb-0">
+                                                Status: 
+                                                <span class="badge bg-warning">
+                                                    On Hold
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php
                         }
+                    }
 
-                        $booking = "SELECT * FROM booking WHERE email ='$email'";
-                        $result1 = mysqli_query($conn, $booking);
+                    // Query for booking data
+                    $booking = "SELECT * FROM booking WHERE email ='$email'";
+                    $result1 = mysqli_query($conn, $booking);
 
-                        if ($result1) {
-                            while ($row = mysqli_fetch_assoc($result1)) {
-                                $formattedDate = date('m/d/Y', strtotime($row['date'])); // Format date as MM/DD/YYYY
-                                $formattedTime = date('h:i A', strtotime($row['time'])); // Format time as 12-hour with AM/PM
-                                ?>
-                                <tr>
-                                    <td><?php echo $row['type_of_booking']; ?></td>
-                                    <td><?php echo $row['price']; ?></td>
-                                    <td><?php echo $formattedTime; ?></td>
-                                    <td><?php echo $formattedDate; ?></td>
-                                    <td><?php echo $row['remarks']; ?></td>
-                                    <td><span class="text-success"><?php echo $row['status']; ?></span></td>
-                                </tr>
-                                <?php
-                            }
+                    if ($result1) {
+                        while ($row = mysqli_fetch_assoc($result1)) {
+                            $formattedDate = date('m/d/Y', strtotime($row['date'])); // Format date as MM/DD/YYYY
+                            $formattedTime = date('h:i A', strtotime($row['time'])); // Format time as 12-hour with AM/PM
+                            ?>
+                            <!-- Booking Card -->
+                            <div class="card shadow-sm mb-3">
+                                <div class="row g-0 align-items-center">
+                                    <div class="col-12">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-truncate"><?php echo $row['type_of_booking']; ?></h5>
+                                            <p class="card-text mb-1">Kind of Booking: <?php echo $row['kind_of_booking']; ?></p>
+                                            <p class="card-text mb-1">Mode of Booking: <?php echo $row['mob']; ?></p>
+                                            <p class="card-text mb-1">Price: PHP <?php echo number_format($row['price'], 2); ?></p>
+                                            <p class="card-text mb-1">Time: <?php echo $formattedTime; ?></p>
+                                            <p class="card-text mb-1">Date: <?php echo $formattedDate; ?></p>
+                                            <p class="card-text mb-1">Remarks: <?php echo $row['remarks']; ?></p>
+                                            <p class="card-text mb-0">
+                                                Status: 
+                                                <span class="badge bg-success">
+                                                    <?php echo ucfirst($row['status']); ?>
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php
                         }
-                        ?>
-                    </tbody>
-                </table>
+                    }
+                    ?>
+                </div>
 
-                <table id="booking_transaction" class="table table-sm nowrap table-striped compact table-hover border"
-                    style="display: none;">
-                    <thead class="table-secondary">
-                        <tr>
-                            <td>Type of Booking</td>
-                            <td>Price</td>
-                            <td>Time</td>
-                            <td>Date</td>
-                            <td>Status</td>
-                            <td>remarks</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $transaction = "SELECT * FROM transaction_history WHERE email ='$email'";
-                        $result = mysqli_query($conn, $transaction);
+                <!-- Declined Transactions -->
+                <div id="declined_booking" style="display: none;" class="container my-4">
+                    <?php
+                    // Query for declined transactions
+                    $declined_query = "SELECT * FROM transaction_history WHERE email ='$email' AND status LIKE '%Declined%'";
+                    $result = mysqli_query($conn, $declined_query);
 
-                        if ($result) {
-                            while ($row = mysqli_fetch_assoc($result)) {
-                                $formattedDate = date('m/d/Y', strtotime($row['transaction_date'])); // Format date as MM/DD/YYYY
-                                $formattedTime = date('h:i A', strtotime($row['time'])); // Format time as 12-hour with AM/PM
-                                ?>
-                                <tr>
-                                    <td><?php echo $row['type_of_booking']; ?></td>
-                                    <td><?php echo $row['price']; ?></td>
-                                    <td><?php echo $formattedTime; ?></td>
-                                    <td><?php echo $formattedDate; ?></td>
-                                    <td><?php echo $row['status']; ?></td>
-                                    <td><?php echo $row['remarks']; ?></td>
-                                </tr>
-                                <?php
-                            }
+                    if ($result) {
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            $formattedDate = date('m/d/Y', strtotime($row['transaction_date'])); // Format date as MM/DD/YYYY
+                            $formattedTime = date('h:i A', strtotime($row['time'])); // Format time as 12-hour with AM/PM
+                            ?>
+
+                            <!-- Responsive Declined Booking Card -->
+                            <div class="card shadow-sm mb-3">
+                                <div class="row g-0 align-items-center">
+                                    <!-- Booking Details Section -->
+                                    <div class="col-12">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-truncate">Booking Type: <?php echo $row['type_of_booking']; ?></h5>
+                                            <p class="card-text mb-1">Kind of Booking: <?php echo $row['kind_of_booking']; ?></p>
+                                            <p class="card-text mb-1">Mode of Booking: <?php echo $row['mob']; ?></p>
+                                            <p class="card-text mb-1">Price: PHP <?php echo number_format($row['total_amount'], 2); ?></p>
+                                            <p class="card-text mb-1">Time: <?php echo $formattedTime; ?></p>
+                                            <p class="card-text mb-1">Date: <?php echo $formattedDate; ?></p>
+                                            <p class="card-text mb-1">
+                                                Status: 
+                                                <span class="badge bg-danger">
+                                                    <?php echo ucfirst($row['status']); ?>
+                                                </span>
+                                            </p>
+                                            <p class="card-text">Remarks: <?php echo $row['remarks']; ?></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php
                         }
-                        ?>
-                    </tbody>
-                </table>
+                    }
+                    ?>
+                </div>
+
+
+                <!-- transaction booking layout -->
+                <div id="booking_transaction" style="display: none;" class="container my-4">
+                    <?php
+                    $transaction = "SELECT * FROM transaction_history WHERE email ='$email' AND status = 'Order Finish'";
+                    $result = mysqli_query($conn, $transaction);
+
+                    if ($result) {
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            $formattedDate = date('m/d/Y', strtotime($row['transaction_date'])); // Format date as MM/DD/YYYY
+                            $formattedTime = date('h:i A', strtotime($row['time'])); // Format time as 12-hour with AM/PM
+                            ?>
+
+                            <!-- Responsive Booking Card -->
+                            <div class="card shadow-sm mb-3">
+                                <div class="row g-0 align-items-center">
+                                    <!-- Booking Details Section -->
+                                    <div class="col-12">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-truncate">Booking Type: <?php echo $row['type_of_booking']; ?></h5>
+                                            <p class="card-text mb-1">Kind of Booking: <?php echo $row['kind_of_booking']; ?></p>
+                                            <p class="card-text mb-1">Mode of Booking: <?php echo $row['mob']; ?></p>
+                                            <p class="card-text mb-1">Price: PHP <?php echo number_format($row['total_amount'], 2); ?></p>
+                                            <p class="card-text mb-1">Time: <?php echo $formattedTime; ?></p>
+                                            <p class="card-text mb-1">Date: <?php echo $formattedDate; ?></p>
+                                            <p class="card-text mb-1">
+                                                Status: 
+                                                <span class="badge bg-success">
+                                                    <?php echo ucfirst($row['status']); ?>
+                                                </span>
+                                            </p>
+                                            <p class="card-text">Remarks: <?php echo $row['remarks']; ?></p>
+
+                                            <!-- Review Button -->
+                                            <!-- <div class="text-end">
+                                                <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#review_booking_<?php echo $row['id']; ?>">Review</button>
+                                            </div> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php
+                        }
+                    }
+                    ?>
+                </div>
             </section>
 
             <br>
 
             <h3 class="p-3 text-center" id="profile_order_view"><i class="fa-solid fa-shop"></i> Orders</h3>
+            <!-- orders display -->
             <section class="my-2 px-4">
                 <div class="row text-center">
                     <div class="col">
                         <button class="btn btn-danger w-100 border-0 rounded-0"
-                            onclick="showTable('order', 'order_transaction')">Orders</button>
+                            onclick="showTable('order', 'declined', 'order_transaction')">Orders</button>
                     </div>
                     <div class="col">
                         <button class="btn btn-dark w-100 border-0 rounded-0"
-                            onclick="showTable('order_transaction', 'order')">Transactions</button>
+                            onclick="showTable('declined', 'order', 'order_transaction')">Declined</button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-dark w-100 border-0 rounded-0"
+                            onclick="showTable('order_transaction', 'order', 'declined')">Transactions</button>
                     </div>
                 </div>
-                <table id="order" class="table table-sm nowrap table-striped compact table-hover border">
-                    <thead class="table-secondary">
-                        <tr>
-                            <td>Item Name</td>
-                            <td>Item Qty.</td>
-                            <td>Total Price</td>
-                            <td>Mode of Payment</td>
-                            <td>Status</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $order_booking = "SELECT * FROM order_booking WHERE email ='$email'";
-                        $result = mysqli_query($conn, $order_booking);
 
-                        if ($result) {
-                            while ($row = mysqli_fetch_assoc($result)) {
-                                ?>
-                                <tr>
-                                    <td><?php echo $row['item']; ?></td>
-                                    <td><?php echo $row['quantity']; ?></td>
-                                    <td><?php echo $row['price']; ?></td>
-                                    <td><?php echo strtoupper($row['mop']); ?></td>
-                                    <td><span class="text-secondary">On Hold</span></td>
-                                </tr>
-                                <?php
-                            }
+                <!-- Orders Table -->
+                <div id="order" class="container my-4">
+                    <?php
+                    // Query for order_booking
+                    $order_booking = "SELECT * FROM order_booking WHERE email ='$email'";
+                    $result = mysqli_query($conn, $order_booking);
+
+                    if ($result) {
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            // Start the card layout for each order
+                            ?>
+                            <!-- Order Card -->
+                            <div class="card shadow-sm mb-3">
+                                <div class="row g-0 align-items-center">
+                                    <div class="col-12">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-truncate"><?php echo $row['item']; ?></h5>
+                                            <p class="card-text mb-1">Quantity: <?php echo $row['quantity']; ?></p>
+                                            <p class="card-text mb-1">Price: PHP <?php echo number_format($row['price'], 2); ?></p>
+                                            <p class="card-text mb-1">Payment: <?php echo strtoupper($row['mop']); ?></p>
+                                            <p class="card-text mb-0">
+                                                Status: 
+                                                <span class="badge bg-<?php echo strtolower('On Hold') == 'on hold' ? 'warning' : 'success'; ?>">
+                                                    <?php echo 'On Hold'; ?>
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php
                         }
+                    }
 
-                        $order_booked = "SELECT * FROM order_booked WHERE email ='$email'";
-                        $result = mysqli_query($conn, $order_booked);
+                    // Query for order_booked
+                    $order_booked = "SELECT * FROM order_booked WHERE email ='$email'";
+                    $result = mysqli_query($conn, $order_booked);
 
-                        if ($result) {
-                            while ($row = mysqli_fetch_assoc($result)) {
-                                ?>
-                                <tr>
-                                    <td><?php echo $row['item']; ?></td>
-                                    <td><?php echo $row['quantity']; ?></td>
-                                    <td><?php echo $row['price']; ?></td>
-                                    <td><?php echo strtoupper($row['mop']); ?></td>
-                                    <td><span class="text-success"><?php echo $row['status']; ?></span></td>
-                                </tr>
-                                <?php
-                            }
+                    if ($result) {
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            ?>
+                            <!-- Order Card -->
+                            <div class="card shadow-sm mb-3">
+                                <div class="row g-0 align-items-center">
+                                    <div class="col-12">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-truncate"><?php echo $row['item']; ?></h5>
+                                            <p class="card-text mb-1">Quantity: <?php echo $row['quantity']; ?></p>
+                                            <p class="card-text mb-1">Price: PHP <?php echo number_format($row['price'], 2); ?></p>
+                                            <p class="card-text mb-1">Payment: <?php echo strtoupper($row['mop']); ?></p>
+                                            <p class="card-text mb-0">
+                                                Status: 
+                                                <span class="badge bg-success">
+                                                    <?php echo ucfirst($row['status']); ?>
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php
                         }
-                        ?>
-                    </tbody>
-                </table>
+                    }
+                    ?>
+                </div>
 
-                <table id="order_transaction" class="table table-sm nowrap table-striped compact table-hover border"
-                    style="display: none;">
-                    <thead class="table-secondary">
-                        <tr>
-                            <td>Item Name</td>
-                            <td>Item Qty.</td>
-                            <td>Total Price</td>
-                            <td>Mode of Payment</td>
-                            <td>Status</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $order_transaction = "SELECT * FROM order_transaction_history WHERE email ='$email'";
-                        $result = mysqli_query($conn, $order_transaction);
+                <!-- Declined Transactions -->
+                <div id="declined" style="display: none;" class="container my-4">
+                    <?php
+                    $declined_query = "SELECT * FROM order_transaction_history WHERE email ='$email' AND status LIKE '%Declined%'";
+                    $result = mysqli_query($conn, $declined_query);
 
-                        if ($result) {
-                            while ($row = mysqli_fetch_assoc($result)) {
-                                ?>
-                                <tr>
-                                    <td><?php echo $row['item']; ?></td>
-                                    <td><?php echo $row['quantity']; ?></td>
-                                    <td><?php echo $row['total_amount']; ?></td>
-                                    <td><?php echo strtoupper($row['mop']); ?></td>
-                                    <td><?php echo $row['status']; ?></td>
-                                </tr>
-                                <?php
+                    if ($result) {
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            $imgPath = "";
+                            $productSql = "SELECT * FROM products";
+                            $productResult = mysqli_query($conn, $productSql);
+
+                            // Fetch product image
+                            if ($productResult) {
+                                while ($productRow = mysqli_fetch_assoc($productResult)) {
+                                    if ($productRow['product_name'] == $row['item']) {
+                                        $imgPath = "../assets/image/product_image/" . $productRow['product_image'];
+                                    }
+                                }
                             }
+
+                            // Fetch package image
+                            $packageSql = "SELECT * FROM package";
+                            $packageResult = mysqli_query($conn, $packageSql);
+
+                            if ($packageResult) {
+                                while ($packageRow = mysqli_fetch_assoc($packageResult)) {
+                                    if ($packageRow['package_name'] == $row['item']) {
+                                        $imgPath = "../assets/image/package_image/" . $packageRow['package_image'];
+                                    }
+                                }
+                            }
+                            ?>
+
+                            <!-- Responsive Product Card -->
+                            <div class="card shadow-sm mb-3">
+                                <div class="row g-0 align-items-center">
+                                    <!-- Image Section -->
+                                    <div class="col-4 col-sm-3">
+                                        <img src="<?php echo $imgPath; ?>" alt="Product Image" class="img-fluid rounded-start">
+                                    </div>
+
+                                    <!-- Details Section -->
+                                    <div class="col-8 col-sm-6">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-truncate"><?php echo $row['item']; ?></h5>
+                                            <p class="card-text mb-1">Quantity: <?php echo $row['quantity']; ?></p>
+                                            <p class="card-text mb-1">Total: PHP <?php echo number_format($row['total_amount'], 2); ?></p>
+                                            <p class="card-text mb-1">Payment: <?php echo strtoupper($row['mop']); ?></p>
+                                            <p class="card-text mb-0">
+                                                Status: 
+                                                <span class="badge bg-danger"><?php echo ucfirst($row['status']); ?></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php
                         }
-                        ?>
-                    </tbody>
-                </table>
+                    }
+                    ?>
+                </div>
+
+                <!-- Transactions Table -->
+                <div id="order_transaction" style="display: none;" class="container my-4">
+                    <?php
+                    $transaction_query = "SELECT * FROM order_transaction_history WHERE email ='$email' AND status = 'Order Finished'";
+                    $result = mysqli_query($conn, $transaction_query);
+
+                    if ($result) {
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            $imgPath = "";
+                            $productSql = "SELECT * FROM products";
+                            $productResult = mysqli_query($conn, $productSql);
+
+                            // Fetch product image
+                            if ($productResult) {
+                                while ($productRow = mysqli_fetch_assoc($productResult)) {
+                                    if ($productRow['product_name'] == $row['item']) {
+                                        $imgPath = "../assets/image/product_image/" . $productRow['product_image'];
+                                    }
+                                }
+                            }
+
+                            // Fetch package image
+                            $packageSql = "SELECT * FROM package";
+                            $packageResult = mysqli_query($conn, $packageSql);
+
+                            if ($packageResult) {
+                                while ($packageRow = mysqli_fetch_assoc($packageResult)) {
+                                    if ($packageRow['package_name'] == $row['item']) {
+                                        $imgPath = "../assets/image/package_image/" . $packageRow['package_image'];
+                                    }
+                                }
+                            }
+                            ?>
+
+                            <!-- Responsive Product Card -->
+                            <div class="card shadow-sm mb-3">
+                                <div class="row g-0 align-items-center">
+                                    <!-- Image Section -->
+                                    <div class="col-4 col-sm-3">
+                                        <img src="<?php echo $imgPath; ?>" alt="Product Image" class="img-fluid rounded-start">
+                                    </div>
+
+                                    <!-- Details Section -->
+                                    <div class="col-8 col-sm-6">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-truncate"><?php echo $row['item']; ?></h5>
+                                            <p class="card-text mb-1">Quantity: <?php echo $row['quantity']; ?></p>
+                                            <p class="card-text mb-1">Total: PHP <?php echo number_format($row['total_amount'], 2); ?></p>
+                                            <p class="card-text mb-1">Payment: <?php echo strtoupper($row['mop']); ?></p>
+                                            <p class="card-text mb-0">
+                                                Status: 
+                                                <span class="badge bg-<?php echo strtolower($row['status']) == 'order finished' ? 'success' : 'warning'; ?>">
+                                                    <?php echo ucfirst($row['status']); ?>
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Review Button Section (Similar to Booking Layout) -->
+                                    <div class="text-end">
+                                        <button class="btn btn-success btn-sm m-2" data-bs-toggle="modal" data-bs-target="#review_order_<?php echo $row['id']; ?>">Review</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- order review Modal -->
+                            <div class="modal fade" id="review_order_<?php echo $row['id']; ?>" tabindex="-1" aria-labelledby="reviewOrderLabel_<?php echo $row['id']; ?>" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <form action="../assets/php_script/submit_order_review.php" method="POST" enctype="multipart/form-data">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="reviewOrderLabel_<?php echo $row['id']; ?>">Submit Your Review</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <input type="hidden" id="item_name" name="item_name" value="<?php echo $row['item']; ?>">
+                                                <!-- Picture Upload -->
+                                                <div class="mb-3">
+                                                    <label for="picture_<?php echo $row['id']; ?>" class="form-label">Upload Picture</label>
+                                                    <input type="file" class="form-control" id="picture_<?php echo $row['id']; ?>" name="picture" accept="image/*" required>
+                                                </div>
+
+                                                <!-- Review Remarks -->
+                                                <div class="mb-3">
+                                                    <label for="remarks_<?php echo $row['id']; ?>" class="form-label">Your Review</label>
+                                                    <textarea class="form-control" id="remarks_<?php echo $row['id']; ?>" name="remarks" rows="4" placeholder="Write your review here..." required></textarea>
+                                                </div>
+
+                                                <!-- Star Rating -->
+                                                <div class="mb-3">
+                                                    <label class="form-label">Your Rating</label>
+                                                    <div id="starRating_<?php echo $row['id']; ?>" class="d-flex">
+                                                        <?php for ($i = 1; $i <= 5; $i++): ?>
+                                                            <input type="radio" class="btn-check" name="rating" id="star_<?php echo $row['id']; ?>_<?php echo $i; ?>" value="<?php echo $i; ?>" required>
+                                                            <label class="btn btn-outline-warning star-label" for="star_<?php echo $row['id']; ?>_<?php echo $i; ?>" data-value="<?php echo $i; ?>">
+                                                                &#9733;
+                                                            </label>
+                                                        <?php endfor; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary">Submit Review</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- script for order review -->
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    const starRatingDiv = document.getElementById('starRating_<?php echo $row['id']; ?>');
+                                    if (!starRatingDiv) {
+                                        console.error('Star rating container not found for ID:', '<?php echo $row['id']; ?>');
+                                        return;
+                                    }
+                                    const stars = starRatingDiv.querySelectorAll('.star-label');
+
+                                    stars.forEach((star, index) => {
+                                        star.addEventListener('click', function () {
+                                            const value = parseInt(this.getAttribute('data-value'));
+                                            stars.forEach((s, i) => {
+                                                if (i < value) {
+                                                    s.classList.add('btn-warning'); // Add filled color
+                                                    s.classList.remove('btn-outline-warning'); // Remove outline
+                                                } else {
+                                                    s.classList.add('btn-outline-warning'); // Add outline
+                                                    s.classList.remove('btn-warning'); // Remove filled color
+                                                }
+                                            });
+                                        });
+                                    });
+                                });
+                            </script>
+                            <?php
+                        }
+                    }
+                    ?>
+                </div>
             </section>
+
         </div>
     </div>
 
@@ -347,16 +625,18 @@ $email = $_SESSION['email'];
     <script defer src="../assets/script/user_script.js"></script>
 
     <script>
-        function showTable(showId, hideId) {
+        function showTable(showId, ...hideIds) {
             // Show the specified table
             document.getElementById(showId).style.display = '';
-            // Hide the other table
-            document.getElementById(hideId).style.display = 'none';
+
+            // Hide all other tables
+            hideIds.forEach(hideId => {
+                document.getElementById(hideId).style.display = 'none';
+            });
         }
-        // Get today's date in the format YYYY-MM-DD
+
+        // Set today's date as the min attribute for a date input
         const today = new Date().toISOString().split('T')[0];
-            
-        // Set the min attribute of the date input to today's date
         document.getElementById('dateInput').setAttribute('min', today);
     </script>
 </body>
@@ -370,7 +650,7 @@ $result = mysqli_query($conn, $sql);
 if ($result) {
     while ($row = mysqli_fetch_assoc($result)) {
         ?>
-        <!-- Modal -->
+        <!-- update user profile Modal -->
         <div class="modal fade" id="update_user_profile_modal" tabindex="-1" aria-labelledby="update_profile_label"
             aria-hidden="true">
             <div class="modal-dialog">
@@ -453,7 +733,7 @@ if ($result) {
 }
 ?>
 
-<!-- Modal -->
+<!-- update user profile picture Modal -->
 <div class="modal fade" id="update_profile_picture_modal" tabindex="-1" aria-labelledby="update_profile_picture_modal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -485,7 +765,7 @@ if ($result) {
     if ($result) {
         while ($row = mysqli_fetch_assoc($result)) {
 ?>
-            <!-- Modal -->
+            <!-- change user password Modal -->
             <div class="modal fade" id="change_user_password_modal" tabindex="-1" aria-labelledby="change_user_password_modal_label" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
