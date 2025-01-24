@@ -32,29 +32,21 @@
                 style="max-width: 800px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); border-radius: 8px; overflow: hidden;">
 
                 <div id="login_form_layout" class="p-3">
-                    <form action="sign_up.php" method="post">
+                    <form action="../assets/php_script/register.php" method="post">
                         <div class="mb-3">
-                            <input type="text" class="form-control" name="full_name" id="full_name" placeholder="Full Name"
-                                autocomplete="off">
+                            <input type="text" class="form-control" name="full_name" id="full_name" placeholder="Full Name" autocomplete="off" required>
                         </div>
                         <div class="mb-3">
-                            <input type="text" class="form-control" name="user_email" id="user_email" placeholder="Email"
-                                autocomplete="off">
+                            <input type="email" class="form-control" name="user_email" id="user_email" placeholder="Email" autocomplete="off" required>
                         </div>
                         <div class="mb-3">
-                            <input type="number" class="form-control" name="contact_number" id="contact_number" placeholder="Contact Number"
-                                autocomplete="off">
+                            <input type="password" class="form-control" name="user_password" id="user_password" placeholder="Password" autocomplete="off" required>
                         </div>
                         <div class="mb-3">
-                            <input type="password" class="form-control" name="user_password" id="user_password"
-                                placeholder="Password" autocomplete="off">
-                        </div>
-                        <div class="mb-3">
-                            <input type="password" class="form-control" name="user_confirm_password" id="user_confirm_password"
-                                placeholder="Confirm Password" autocomplete="off">
+                            <input type="password" class="form-control" name="user_confirm_password" id="user_confirm_password" placeholder="Confirm Password" autocomplete="off" required>
                         </div>
                         <div class="mb-1">
-                            <button class="btn btn-danger w-100" type="submit">Log In</button>
+                            <button class="btn btn-danger w-100" type="submit">Register</button>
                         </div>
                     </form>
                 </div>

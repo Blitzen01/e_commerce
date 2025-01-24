@@ -18,13 +18,15 @@
                 $date = $row['date'];
                 $time = $row['time'];
                 $type_of_booking = $row['type_of_booking'];
+                $kind_of_booking = $row['kind_of_booking'];
+                $mob = $row['mob'];
                 $price = $row['price'];
-                $status = "Order Finish";  // Set status as 'Declined'
+                $status = "Booking Finished";
                 $remarks = $row['remarks'];
+                $booking_timestamp = $row['booking_timestamp'];
 
-                // Insert the data into the 'declined_bookings' table with status 'Declined'
-                $insert_sql = "INSERT INTO transaction_history (name, email, address, contact_number, transaction_date, time, total_amount, status, remarks, type_of_booking)
-                VALUES ('$name', '$email', '$address', '$contact_number', '$date', '$time', '$price', '$status', '$remarks', '$type_of_booking')";
+                $insert_sql = "INSERT INTO transaction_history (name, email, address, contact_number, transaction_date, time, total_amount, status, remarks, type_of_booking, mob, kind_of_booking, booking_timestamp)
+                VALUES ('$name', '$email', '$address', '$contact_number', '$date', '$time', '$price', '$status', '$remarks', '$type_of_booking', '$kind_of_booking', '$mob', '$booking_timestamp')";
 
                 if (mysqli_query($conn, $insert_sql)) {
                     // After successful insertion, delete the booking from 'booked' table

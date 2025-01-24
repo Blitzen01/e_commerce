@@ -115,9 +115,13 @@
         <?php include "../navigation/user_footer.php"; ?>
 
         <script>
-            // Get today's date in the format YYYY-MM-DD
-            const today = new Date().toISOString().split('T')[0];
-            
+            const now = new Date();
+            const offset = 8; // PHT is UTC+8
+            const philippineTime = new Date(now.getTime() + offset * 60 * 60 * 1000);
+
+            // Format the date to YYYY-MM-DD
+            const today = philippineTime.toISOString().split('T')[0];
+
             // Set the min attribute of the date input to today's date
             document.getElementById('dateInput').setAttribute('min', today);
             
@@ -199,7 +203,7 @@
                 <ul id="viewProductsList"></ul>
             </div>
             <div class="modal-footer">
-                <button type="submit" form="checkoutForm" class="btn btn-success">Proceed to Checkout</button>
+                <button type="submit" form="checkoutForm" class="btn btn-success">Checkout</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>

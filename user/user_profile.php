@@ -279,7 +279,7 @@ $email = $_SESSION['email'];
                 <!-- transaction booking layout -->
                 <div id="booking_transaction" style="display: none;" class="container my-4">
                     <?php
-                    $transaction = "SELECT * FROM transaction_history WHERE email ='$email' AND status = 'Order Finish'";
+                    $transaction = "SELECT * FROM transaction_history WHERE email ='$email' AND status = 'Booking Finished'";
                     $result = mysqli_query($conn, $transaction);
 
                     if ($result) {
@@ -309,10 +309,56 @@ $email = $_SESSION['email'];
                                             <p class="card-text">Remarks: <?php echo $row['remarks']; ?></p>
 
                                             <!-- Review Button -->
-                                            <!-- <div class="text-end">
+                                            <div class="text-end">
                                                 <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#review_booking_<?php echo $row['id']; ?>">Review</button>
-                                            </div> -->
+                                            </div>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Booking Review Modal -->
+                            <div class="modal fade" id="review_booking_<?php echo $row['id']; ?>" tabindex="-1" aria-labelledby="reviewBookingLabel_<?php echo $row['id']; ?>" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <form action="../assets/php_script/submit_booking_review.php" method="POST" enctype="multipart/form-data">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="reviewBookingLabel_<?php echo $row['id']; ?>">Submit Your Booking Review</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <input type="hidden" name="booking_id" value="<?php echo $row['id']; ?>">
+                                                <input type="hidden" name="booking_reference" value="<?php echo $row['type_of_booking']; ?>">
+                                                <!-- Picture Upload -->
+                                                <div class="mb-3">
+                                                    <label for="picture_<?php echo $row['id']; ?>" class="form-label">Upload Picture</label>
+                                                    <input type="file" class="form-control" id="picture_<?php echo $row['id']; ?>" name="picture" accept="image/*" required>
+                                                </div>
+
+                                                <!-- Review Remarks -->
+                                                <div class="mb-3">
+                                                    <label for="remarks_<?php echo $row['id']; ?>" class="form-label">Your Review</label>
+                                                    <textarea class="form-control" id="remarks_<?php echo $row['id']; ?>" name="remarks" rows="4" placeholder="Write your review here..." required></textarea>
+                                                </div>
+
+                                                <!-- Star Rating -->
+                                                <div class="mb-3">
+                                                    <label class="form-label">Your Rating</label>
+                                                    <div id="starRating_<?php echo $row['id']; ?>" class="d-flex">
+                                                        <?php for ($i = 1; $i <= 5; $i++): ?>
+                                                            <input type="radio" class="btn-check" name="rating" id="star_<?php echo $row['id']; ?>_<?php echo $i; ?>" value="<?php echo $i; ?>" required>
+                                                            <label class="btn btn-outline-warning star-label" for="star_<?php echo $row['id']; ?>_<?php echo $i; ?>" data-value="<?php echo $i; ?>">
+                                                                &#9733;
+                                                            </label>
+                                                        <?php endfor; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary">Submit Review</button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -543,7 +589,7 @@ $email = $_SESSION['email'];
                                     <div class="modal-content">
                                         <form action="../assets/php_script/submit_order_review.php" method="POST" enctype="multipart/form-data">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="reviewOrderLabel_<?php echo $row['id']; ?>">Submit Your Review</h5>
+                                                <h5 class="modal-title" id="reviewOrderLabel_<?php echo $row['id']; ?>">Submit Order Your Review</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
@@ -635,8 +681,14 @@ $email = $_SESSION['email'];
             });
         }
 
-        // Set today's date as the min attribute for a date input
-        const today = new Date().toISOString().split('T')[0];
+        const now = new Date();
+        const offset = 8; // PHT is UTC+8
+        const philippineTime = new Date(now.getTime() + offset * 60 * 60 * 1000);
+
+        // Format the date to YYYY-MM-DD
+        const today = philippineTime.toISOString().split('T')[0];
+
+        // Set the min attribute of the date input to today's date
         document.getElementById('dateInput').setAttribute('min', today);
     </script>
 </body>

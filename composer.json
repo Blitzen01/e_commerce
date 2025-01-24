@@ -1,6 +1,7 @@
 {
     "require": {
         "google/apiclient": "2.0",
-        "cboden/ratchet": "*"
+        "cboden/ratchet": "*",
+        "phpmailer/phpmailer": "*"
     }
 }

@@ -28,14 +28,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $price = $row['price'];
             $remarks = $row['remarks'];
             $status = "Booking Placed";
+            $booking_timestamp = $row['booking_timestamp'];
 
             // Insert the data into the 'accepted_bookings' table
-            $insert_sql = "INSERT INTO booking (name, email, address, contact_number, date, time, type_of_booking, kind_of_booking, mob, price, remarks, status) 
-                           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $insert_sql = "INSERT INTO booking (name, email, address, contact_number, date, time, type_of_booking, kind_of_booking, mob, price, remarks, status, booking_timestamp) 
+                           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $insert_stmt = mysqli_prepare($conn, $insert_sql);
 
             if ($insert_stmt) {
-                mysqli_stmt_bind_param($insert_stmt, "sssssssssdss", $name, $email, $address, $contact_number, $date, $time, $type_of_booking, $kind_of_booking, $mob, $price, $remarks, $status);
+                mysqli_stmt_bind_param($insert_stmt, "sssssssssdsss", $name, $email, $address, $contact_number, $date, $time, $type_of_booking, $kind_of_booking, $mob, $price, $remarks, $status, $booking_timestamp);
 
                 if (mysqli_stmt_execute($insert_stmt)) {
                     // After successful insertion, delete the booking from 'booked' table

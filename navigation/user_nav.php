@@ -82,6 +82,8 @@
                         </li>
                         <?php
                         if (isset($_SESSION['email'])) {
+                            $email = $_SESSION['email'];
+                            
                             ?>
                                 <li class="nav-item mx-auto">
                                     <button class="nav-link text-light" data-bs-toggle="modal" data-bs-target="#create_scheduled_booking">Booking</button>

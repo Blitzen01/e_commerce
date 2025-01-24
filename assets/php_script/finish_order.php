@@ -64,8 +64,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
 
                     // Insert data into order_transaction_history
-                    $insert_sql = "INSERT INTO order_transaction_history (name, email, address, contact_number, transaction_date, item, quantity, total_amount, mop)
-                    VALUES ('$name', '$email', '$address', '$contact_number', '$date', '$item', '$quantity', '$price', '$mop')";
+                    $insert_sql = "INSERT INTO order_transaction_history (name, email, address, contact_number, transaction_date, item, quantity, total_amount, mop, status)
+                    VALUES ('$name', '$email', '$address', '$contact_number', '$date', '$item', '$quantity', '$price', '$mop', 'Order Finished')";
 
                     if (mysqli_query($conn, $insert_sql)) {
                         // After successful insertion, delete the order from order_booking

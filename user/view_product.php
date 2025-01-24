@@ -103,7 +103,7 @@
                 </div>
             </div>
 
-            <!-- package reviews -->
+            <!-- product reviews -->
             <div class="container mt-4">
                 <h4 class="mb-3">Customer Reviews</h4>
                 <div class="row">
@@ -153,6 +153,7 @@
                 </div>
             </div>
 
+            <!-- other products -->
             <div class="row">
                 <span class="text-secondary">Other Products</span>
                 <?php
@@ -210,9 +211,13 @@
         <script defer src="../assets/script/user_script.js"></script>
 
         <script>
-            // Get today's date in the format YYYY-MM-DD
-            const today = new Date().toISOString().split('T')[0];
-            
+            const now = new Date();
+            const offset = 8; // PHT is UTC+8
+            const philippineTime = new Date(now.getTime() + offset * 60 * 60 * 1000);
+
+            // Format the date to YYYY-MM-DD
+            const today = philippineTime.toISOString().split('T')[0];
+
             // Set the min attribute of the date input to today's date
             document.getElementById('dateInput').setAttribute('min', today);
 

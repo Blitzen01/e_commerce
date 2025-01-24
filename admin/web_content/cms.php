@@ -88,6 +88,7 @@
                                         <input type="file" name="image" accept="image/*" required>
                                         <button type="submit" class="btn btn-primary mt-2">Add Image</button>
                                     </form>
+                                    <small><b>Note: </b>Make sure the image you upload has a size of <b>6cm width by 3cm height</b> or <b>1200 pixels width by 600 pixels height</b> to prevent the image being stretched.</small>
                                 </div>
 
                                 <!-- Remove Image Section -->

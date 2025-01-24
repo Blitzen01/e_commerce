@@ -63,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         // Redirect back to the cart page
-        $redirectUrl = "../../user/cart.php";
+        $redirectUrl = "../../user/user_profile.php#order";
         echo '<script type="text/javascript">';
         echo 'window.location.href = "' . $redirectUrl . '";';
         echo '</script>';

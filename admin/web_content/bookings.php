@@ -57,6 +57,7 @@
                                     <td>Email</td>
                                     <td>Address</td>
                                     <td>Contact Number</td>
+                                    <td>Booking Time Stamp</td>
                                     <td>Scheduled Date</td>
                                     <td>Scheduled Time</td>
                                     <td>Type of Booking</td>
@@ -92,7 +93,8 @@
                                                 <td><?php echo $row['name']; ?></td>
                                                 <td><?php echo $row['email']; ?></td>
                                                 <td><?php echo $row['address']; ?></td>
-                                                <td><?php echo $row['contact_number']; ?></td>
+                                                <td><?php echo $row['contact_number']; ?>
+                                                <td><?php echo date('F j, Y g:ia', strtotime($row['booking_timestamp'])); ?></td>
                                                 <td><?php echo $formattedDate; ?></td>
                                                 <td><?php echo $formattedTime; ?></td>
                                                 <td><?php echo $row['type_of_booking']; ?></td>
@@ -120,6 +122,7 @@
                                     <td>Email</td>
                                     <td>Address</td>
                                     <td>Contact Number</td>
+                                    <td>Booking Time Stamp</td>
                                     <td>Scheduled Date</td>
                                     <td>Scheduled Time</td>
                                     <td>Type of Booking</td>
@@ -152,6 +155,7 @@
                                                 <td><?php echo $row['email']; ?></td>
                                                 <td><?php echo $row['address']; ?></td>
                                                 <td><?php echo $row['contact_number']; ?></td>
+                                                <td><?php echo date('F j, Y g:ia', strtotime($row['booking_timestamp'])); ?></td>
                                                 <td><?php echo $formattedDate; ?></td>
                                                 <td><?php echo $formattedTime; ?></td>
                                                 <td><?php echo $row['type_of_booking']; ?></td>
