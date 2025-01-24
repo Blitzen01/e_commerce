@@ -9,7 +9,7 @@
         header("Location: ../index.php"); // Redirect to the index if not logged in
         exit;
     }
-
+    $email = $_SESSION['admin_email'];
 ?>
 
 <!DOCTYPE html>
@@ -35,10 +35,10 @@
                     <h3 class="p-3 text-center"><i class="fa-solid fa-clipboard-user"></i> Active Staff</h3>
                     <section class="my-2 px-4">
                         <button class="btn btn-success p-1 mb-1 ms-3 text-light border-0" data-bs-toggle="modal" data-bs-target="#add_staff">ADD STAFF</button>
-                        <button class="btn btn-danger p-1 mb-1 text-light border-0" data-bs-toggle="modal" data-bs-target="#remove_staff">Archive STAFF</button>
                         <table id="staff_table" class="table table-sm nowrap table-striped compact table-hover" >
                             <thead class="table-danger">
                                 <tr>
+                                    <td>Action</td>
                                     <td>Name</td>
                                     <td>Username</td>
                                     <td>Contact Number</td>
@@ -48,13 +48,38 @@
                             </thead>
                             <tbody>
                                 <?php
+                                    $email = $_SESSION['admin_email'];
+
+                                    // Fetch the role of the logged-in admin
+                                    $checkRoleSql = "SELECT * FROM admin_account WHERE email = '$email'";
+                                    $checkRoleResult = mysqli_query($conn, $checkRoleSql);
+
+                                    if ($checkRoleResult) {
+                                        while ($checkRoleRow = mysqli_fetch_assoc($checkRoleResult)) {
+                                            $checkRole = $checkRoleRow['role'];
+                                        }
+                                    }
+
+                                    // Fetch all admin accounts
                                     $sql = "SELECT * FROM admin_account";
                                     $result = mysqli_query($conn, $sql);
 
-                                    if($result) {
-                                        while($row = mysqli_fetch_assoc($result)) {
+                                    if ($result) {
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            // Determine if the button should be disabled and styled differently
+                                            $isDisabled = ($row['role'] === 'Admin' && $checkRole === 'Admin') ? 'disabled' : '';
+                                            $buttonClass = ($isDisabled) ? 'bg-secondary' : 'bg-danger';
                                             ?>
                                             <tr>
+                                                <td>
+                                                    <button 
+                                                        class="<?php echo $buttonClass; ?> p-1 mb-1 text-light border-0" 
+                                                        data-bs-toggle="modal" 
+                                                        data-bs-target="#remove_staff_<?php echo $row['id']; ?>" 
+                                                        <?php echo $isDisabled; ?>>
+                                                        Archive STAFF
+                                                    </button>
+                                                </td>
                                                 <td><?php echo $row['first_name']; ?> <?php echo $row['last_name']; ?></td>
                                                 <td><?php echo $row['username']; ?></td>
                                                 <td><?php echo $row['contact_number']; ?></td>
@@ -64,7 +89,7 @@
                                             <?php
                                         }
                                     }
-                                ?>
+                                    ?>
                             </tbody>
                         </table>
                     </section>

@@ -154,6 +154,7 @@
                     <div class="form-group mb-3">
                         <label for="dateInput">Select Date</label>
                         <input type="date" class="form-control" id="dateInput" name="dateInput" required>
+                        <small id="dateStatus" class="form-text" aria-live="polite"></small>
                     </div>
                     <div class="form-group mb-3">
                         <label for="timeInput">Select Time</label>
@@ -218,7 +219,7 @@
                             </span>
                     </small>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button id="submitButton" type="submit" class="btn btn-primary">Submit</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                 </form>
@@ -226,17 +227,111 @@
         </div>
     </div>
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const dateInput = document.getElementById('dateInput');
+            const submitButton = document.getElementById('submitButton');
+            const dateStatus = document.getElementById('dateStatus');
+
+            dateInput.addEventListener('change', function () {
+                const selectedDate = this.value;
+
+                if (selectedDate) {
+                    fetch(`../assets/php_script/fetch_booking_count.php?date=${selectedDate}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.total >= 10) {
+                                submitButton.disabled = true;
+                                dateStatus.textContent = `Booking limit reached for ${selectedDate}. Please select another date.`;
+                                dateStatus.style.color = 'red';
+                            } else {
+                                submitButton.disabled = false;
+                                dateStatus.textContent = `Available slots for ${selectedDate}: ${10 - data.total}`;
+                                dateStatus.style.color = 'green';
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error fetching booking count:', error);
+                            dateStatus.textContent = 'Error occurred. Please try again.';
+                            dateStatus.style.color = 'red';
+                            submitButton.disabled = true;
+                        });
+                } else {
+                    submitButton.disabled = false;
+                    dateStatus.textContent = '';
+                }
+            });
+        });
+
         function showWarranty() {
-            // Get the element with id "show_warranty"
-            var warrantyElement = document.getElementById("show_warranty");
-            
-            // Toggle the display property
-            if (warrantyElement.style.display === "none") {
-                warrantyElement.style.display = "inline";  // Show the warranty message
-            } else {
-                warrantyElement.style.display = "none";  // Hide the warranty message
-            }
+            const warrantyElement = document.getElementById('show_warranty');
+            warrantyElement.style.display = warrantyElement.style.display === 'none' ? 'inline' : 'none';
         }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const typeOfBooking = document.getElementById('type_of_booking');
+            const kindOfBooking = document.getElementById('kind_of_booking');
+            const modeOfBooking = document.getElementById('mob');
+
+            // Function to update dropdown options based on "Type of Booking"
+            function updateOptions() {
+                const selectedType = typeOfBooking.value;
+
+                // Reset all options (disable everything)
+                Array.from(kindOfBooking.options).forEach(option => option.disabled = false);
+                Array.from(modeOfBooking.options).forEach(option => option.disabled = false);
+
+                // Disable "On Site" in "Mode of Booking" unless it's CCTV
+                Array.from(modeOfBooking.options).forEach(option => {
+                    if (option.value === 'On Site' && selectedType !== 'CCTV Repair') {
+                        option.disabled = true;
+                    }
+                });
+
+                if (selectedType === 'Repair') {
+                    // Enable only repair-related options in "Kind of Booking"
+                    Array.from(kindOfBooking.options).forEach(option => {
+                        if (!option.value.includes('Repair') && option.value !== 'Board Level') {
+                            option.disabled = true;
+                        }
+                    });
+                } else if (selectedType === 'CCTV Repair') {
+                    // Enable only CCTV-related options in "Kind of Booking"
+                    Array.from(kindOfBooking.options).forEach(option => {
+                        if (!option.value.includes('CCTV')) {
+                            option.disabled = true;
+                        }
+                    });
+
+                    // Enable "On Site" in "Mode of Booking"
+                    Array.from(modeOfBooking.options).forEach(option => {
+                        if (option.value !== 'On Site') {
+                            option.disabled = true;
+                        }
+                    });
+                } else if (selectedType === 'Parts Installation') {
+                    // Enable only installation-related options in "Kind of Booking"
+                    Array.from(kindOfBooking.options).forEach(option => {
+                        if (!option.value.includes('Installation')) {
+                            option.disabled = true;
+                        }
+                    });
+
+                    // Disable "On Site" in "Mode of Booking"
+                    Array.from(modeOfBooking.options).forEach(option => {
+                        if (option.value === 'On Site') {
+                            option.disabled = true;
+                        }
+                    });
+                }
+            }
+
+            // Trigger update when "Type of Booking" changes
+            typeOfBooking.addEventListener('change', updateOptions);
+
+            // Initialize on page load
+            updateOptions();
+        });
+
     </script>
 </div>
 <!-- Create Scheduled Booking Modal -->
@@ -428,57 +523,40 @@
 <!-- add staff Modal -->
 
 <!-- remove staff Modal -->
-<div class="modal fade" id="remove_staff" tabindex="-1" aria-labelledby="remove_staff_label" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="remove_staff_label">Archive Staff</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form action="../../assets/php_script/remove_staff_script.php" method="post">
-          <div class="mb-3">
-            <label for="remove_staff">Select Staff</label>
-            <select name="remove_staff" id="remove_staff" class="form-select">
-              <?php
-                session_start();
-                $email = $_SESSION['admin_email'];
-                $role = "";
-                $sql = "SELECT * FROM admin_account WHERE email = '$email'";
-                $result = mysqli_query($conn, $sql);
-                if($result) {
-                    while($row = mysqli_fetch_assoc($result)) {
-                        $role = $row['role'];
-                    }
-                }
-                $sql = "SELECT * FROM admin_account";
-                $result = mysqli_query($conn, $sql);
+<?php
+    $removeStaffSql = "SELECT * FROM admin_account";
+    $removeStaffResult = mysqli_query($conn, $removeStaffSql);
 
-                if ($result) {
-                  while ($row = mysqli_fetch_assoc($result)) {
-                    // If the role is 'admin', exclude other admins
-                    if ($role === 'Admin' && $row['role'] === 'Admin') {
-                      continue; // Skip this iteration
-                    }
-                    ?>
-                    <option value="<?php echo $row['id']; ?>">
-                      <?php echo $row['first_name'] . ' ' . $row['last_name'] . ' (' . $row['role'] . ')'; ?>
-                    </option>
-                    <?php
-                  }
-                }
-              ?>
-            </select>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-danger">Archive</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
+    if($removeStaffResult) {
+        while($removeStaffRow = mysqli_fetch_assoc($removeStaffResult)) {
+            ?>
+            <div class="modal fade" id="remove_staff_<?php echo $removeStaffRow['id']; ?>" tabindex="-1" aria-labelledby="remove_staff_label" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="remove_staff_label">Are you sure you want to Archive This Staff?</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <h5><b>Name: </b> <?php echo $removeStaffRow['first_name']; ?> <?php echo $removeStaffRow['last_name']; ?></h5>
+                            <h5><b>Username: </b> <?php echo $removeStaffRow['username']; ?></h5>
+                            <h5><b>Contact Number: </b> <?php echo $removeStaffRow['contact_number']; ?></h5>
+                            <h5><b>Position: </b> <?php echo $removeStaffRow['role']; ?></h5>
+                            <h5><b>Address: </b> <?php echo $removeStaffRow['address']; ?></h5>
+                            <form action="" method="post">
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Archive</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php
+        }
+    }
+?>
 <!-- remove staff Modal -->
 
 <!-- Add Billing Address Modal -->

@@ -188,10 +188,101 @@
                     .querySelector("button[data-bs-target='#viewProductsModal']")
                     .addEventListener("click", updateViewModal);
             });
+            
+            document.addEventListener("DOMContentLoaded", () => {
+                const deleteModal = document.getElementById("deleteItemsModal");
+                const deleteMessage = document.getElementById("deleteMessage");
+                const deleteItemsList = document.getElementById("deleteItemsList");
+                const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+
+                const checkboxes = document.querySelectorAll(".product-checkbox"); // Checkboxes for items
+                let selectedItems = []; // Array to store selected item IDs
+
+                // Function to update the modal with selected items
+                function updateDeleteModal() {
+                    deleteItemsList.innerHTML = ""; // Clear previous content
+                    selectedItems = []; // Clear the selected items array
+
+                    checkboxes.forEach((checkbox) => {
+                        if (checkbox.checked) {
+                            const itemId = checkbox.value; // Get the item ID
+                            const itemName = checkbox.dataset.name; // Get the item name
+                            const productRow = checkbox.closest(".row"); // Find the parent row
+                            const imageElement = productRow.querySelector("img"); // Get the image element
+                            const imageSrc = imageElement ? imageElement.src : "../assets/image/placeholder.png";
+
+                            selectedItems.push(itemId);
+
+                            // Create a container for each selected item
+                            const itemContainer = document.createElement("div");
+                            itemContainer.classList.add("d-flex", "align-items-center", "mb-3");
+
+                            // Create the image element
+                            const itemImage = document.createElement("img");
+                            itemImage.src = imageSrc;
+                            itemImage.alt = itemName;
+                            itemImage.style.width = "50px";
+                            itemImage.style.height = "50px";
+                            itemImage.style.objectFit = "cover";
+                            itemImage.classList.add("me-3");
+
+                            // Create the text element for the name
+                            const itemText = document.createElement("span");
+                            itemText.textContent = itemName;
+
+                            // Append the image and text to the container
+                            itemContainer.appendChild(itemImage);
+                            itemContainer.appendChild(itemText);
+
+                            // Append the container to the modal body
+                            deleteItemsList.appendChild(itemContainer);
+                        }
+                    });
+
+                    if (selectedItems.length > 0) {
+                        deleteMessage.textContent = `Are you sure you want to delete the selected item(s)?`;
+                    } else {
+                        deleteMessage.textContent = `No items selected for deletion.`;
+                    }
+                }
+
+                // Attach event listener to open the modal and update its content
+                document
+                    .querySelector("button[data-bs-target='#deleteItemsModal']")
+                    .addEventListener("click", updateDeleteModal);
+
+                // Handle the delete confirmation
+                confirmDeleteBtn.addEventListener("click", () => {
+                    if (selectedItems.length === 0) {
+                        alert("No items selected for deletion.");
+                        return;
+                    }
+
+                    fetch("../assets/php_script/delete_cart_items.php", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({ item_ids: selectedItems }),
+                    })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        if (data.success) {
+                            alert("Items deleted successfully!");
+                            location.reload(); // Refresh the page to reflect changes
+                        } else {
+                            alert("Failed to delete items.");
+                        }
+                    })
+                    .catch((error) => console.error("Error:", error));
+                });
+            });
+
         </script>
     </body>
 </html>
 
+<!-- check out modal -->
 <div class="modal fade" id="viewProductsModal" tabindex="-1" aria-labelledby="viewProductsModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -209,6 +300,7 @@
         </div>
     </div>
 </div>
+<!-- check out modal -->
 
 <!-- change address -->
 <div class="modal fade" id="change_billing_address" tabindex="-1" aria-labelledby="change_billing_address_label" aria-hidden="true">
@@ -274,3 +366,22 @@
     </div>
 </div>
 <!-- change address -->
+
+<div class="modal fade" id="deleteItemsModal" tabindex="-1" aria-labelledby="deleteItemsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteItemsModalLabel">Delete Items</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="deleteMessage">Are you sure you want to delete the selected item(s)?</p>
+                <div id="deleteItemsList" class="d-flex flex-column"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

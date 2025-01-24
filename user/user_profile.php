@@ -146,15 +146,19 @@ $email = $_SESSION['email'];
                 <div class="row text-center">
                     <div class="col">
                         <button class="btn btn-danger w-100 border-0 rounded-0"
-                            onclick="showTable('booking', 'booking_transaction', 'declined_booking')">Booking</button>
+                            onclick="showTable('booking', 'booking_transaction', 'declined_booking', 'cancelled_booking')">Booking</button>
                     </div>
                     <div class="col">
                         <button class="btn btn-dark w-100 border-0 rounded-0"
-                            onclick="showTable('declined_booking', 'booking', 'booking_transaction')">Declined</button>
+                            onclick="showTable('cancelled_booking', 'booking', 'booking_transaction', 'declined_booking')">Cancelled</button>
                     </div>
                     <div class="col">
                         <button class="btn btn-dark w-100 border-0 rounded-0"
-                            onclick="showTable('booking_transaction', 'booking', 'declined_booking')">Transactions</button>
+                            onclick="showTable('declined_booking', 'booking', 'booking_transaction', 'cancelled_booking')">Declined</button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-dark w-100 border-0 rounded-0"
+                            onclick="showTable('booking_transaction', 'booking', 'declined_booking', 'cancelled_booking')">Transactions</button>
                     </div>
                 </div>
 
@@ -188,6 +192,73 @@ $email = $_SESSION['email'];
                                                     On Hold
                                                 </span>
                                             </p>
+
+                                            <div class="text-end">
+                                                <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#cancel_booking_<?php echo $row['id']; ?>">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="modal fade" id="cancel_booking_<?php echo $row['id']; ?>" tabindex="-1" aria-labelledby="cancel_booking_<?php echo $row['id']; ?>_label" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="cancel_booking_<?php echo $row['id']; ?>_label">Are you sure you want to cancel your Schedule?</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="../assets/php_script/cancel_booking_script.php" method="POST">
+                                                <!-- Hidden field to pass booking_id -->
+                                                <input type="hidden" name="booking_id" value="<?php echo $row['id']; ?>">
+
+                                                <label for="cancellation-reason">Reason for Cancellation:</label>
+                                                <select class="form-select" id="cancellation-reason" name="cancellation_reason">
+                                                    <option value="change of plans">Change of Plans</option>
+                                                    <option value="issue resolved">Issue Resolved</option>
+                                                    <option value="found another provider">Found Another Provider</option>
+                                                    <option value="service not needed">Service Not Needed Anymore</option>
+                                                    <option value="emergency situation">Emergency Situation</option>
+                                                    <option value="scheduling conflict">Scheduling Conflict</option>
+                                                    <option value="delays from service provider">Delays from Service Provider</option>
+                                                    <option value="high service cost">High Service Cost</option>
+                                                    <option value="location issue">Location Issue</option>
+                                                    <option value="weather conditions">Weather Conditions</option>
+                                                    <option value="technical issues">Technical Issues with Booking</option>
+                                                    <option value="unsatisfactory service">Unsatisfactory Initial Service</option>
+                                                </select>
+
+                                                <br><br>
+
+                                                <!-- Terms and conditions checkbox for cancellation -->
+                                                <div class="mb-3 ms-3">
+                                                    <input name="check_booking_terms" id="check_booking_terms" class="form-check-input mt-0" type="checkbox" value="" aria-label="" required>
+                                                    <small class="ms-2">
+                                                        I acknowledge that by cancelling my booking, I agree to the following Terms and Conditions:
+                                                    </small>
+                                                    <button type="button" class="btn btn-link p-0" onclick="showTerms()"><small>View Cancellation Terms</small></button>
+                                                </div>
+
+                                                <small id="show_terms" style="display: none;">
+                                                    <strong>Terms and Conditions for Cancellation:</strong>
+                                                    <ol>
+                                                        <li>The cancellation request must be submitted at least 24 hours before the scheduled booking time. If submitted after this period, a cancellation fee may apply.</li>
+                                                        <li>If the booking is canceled within 24 hours of the scheduled time, the total amount paid may not be refunded, depending on the service provider’s policies.</li>
+                                                        <li>By canceling the booking, you acknowledge that any non-refundable deposits or pre-paid amounts will not be returned unless explicitly stated in the service agreement.</li>
+                                                        <li>The cancellation does not apply to special or emergency situations unless otherwise specified by the service provider.</li>
+                                                        <li>Repeated cancellations may result in being blacklisted or restricted from future bookings at the discretion of the service provider.</li>
+                                                        <li>Any dispute regarding the cancellation must be resolved directly with the service provider as per their terms and policies.</li>
+                                                    </ol>
+                                                </small>
+
+                                                <br><br>
+
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-danger">Cancel Booking</button>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -223,6 +294,48 @@ $email = $_SESSION['email'];
                                                     <?php echo ucfirst($row['status']); ?>
                                                 </span>
                                             </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php
+                        }
+                    }
+                    ?>
+                </div>
+
+                <!-- Cancelled Transactions -->
+                <div id="cancelled_booking" style="display: none;" class="container my-4">
+                    <?php
+                    // Query for declined transactions
+                    $declined_query = "SELECT * FROM transaction_history WHERE email ='$email' AND status LIKE '%Cancelled%'";
+                    $result = mysqli_query($conn, $declined_query);
+
+                    if ($result) {
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            $formattedDate = date('m/d/Y', strtotime($row['transaction_date'])); // Format date as MM/DD/YYYY
+                            $formattedTime = date('h:i A', strtotime($row['time'])); // Format time as 12-hour with AM/PM
+                            ?>
+
+                            <!-- Responsive Declined Booking Card -->
+                            <div class="card shadow-sm mb-3">
+                                <div class="row g-0 align-items-center">
+                                    <!-- Booking Details Section -->
+                                    <div class="col-12">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-truncate">Booking Type: <?php echo $row['type_of_booking']; ?></h5>
+                                            <p class="card-text mb-1">Kind of Booking: <?php echo $row['kind_of_booking']; ?></p>
+                                            <p class="card-text mb-1">Mode of Booking: <?php echo $row['mob']; ?></p>
+                                            <p class="card-text mb-1">Price: PHP <?php echo number_format($row['total_amount'], 2); ?></p>
+                                            <p class="card-text mb-1">Time: <?php echo $formattedTime; ?></p>
+                                            <p class="card-text mb-1">Date: <?php echo $formattedDate; ?></p>
+                                            <p class="card-text mb-1">
+                                                Status: 
+                                                <span class="badge bg-danger">
+                                                    <?php echo ucfirst($row['status']); ?>
+                                                </span>
+                                            </p>
+                                            <p class="card-text">Remarks: <?php echo $row['remarks']; ?></p>
                                         </div>
                                     </div>
                                 </div>
@@ -377,15 +490,19 @@ $email = $_SESSION['email'];
                 <div class="row text-center">
                     <div class="col">
                         <button class="btn btn-danger w-100 border-0 rounded-0"
-                            onclick="showTable('order', 'declined', 'order_transaction')">Orders</button>
+                            onclick="showTable('order', 'declined', 'order_transaction', 'cancelled')">Orders</button>
                     </div>
                     <div class="col">
                         <button class="btn btn-dark w-100 border-0 rounded-0"
-                            onclick="showTable('declined', 'order', 'order_transaction')">Declined</button>
+                            onclick="showTable('cancelled', 'order', 'order_transaction', 'declined')">Cancelled</button>
                     </div>
                     <div class="col">
                         <button class="btn btn-dark w-100 border-0 rounded-0"
-                            onclick="showTable('order_transaction', 'order', 'declined')">Transactions</button>
+                            onclick="showTable('declined', 'order', 'order_transaction', 'cancelled')">Declined</button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-dark w-100 border-0 rounded-0"
+                            onclick="showTable('order_transaction', 'order', 'declined', 'cancelled')">Transactions</button>
                     </div>
                 </div>
 
@@ -403,7 +520,36 @@ $email = $_SESSION['email'];
                             <!-- Order Card -->
                             <div class="card shadow-sm mb-3">
                                 <div class="row g-0 align-items-center">
-                                    <div class="col-12">
+                                    <?php
+                                        $imgPath = "";
+                                        $productSql = "SELECT * FROM products";
+                                        $productResult = mysqli_query($conn, $productSql);
+            
+                                        // Fetch product image
+                                        if ($productResult) {
+                                            while ($productRow = mysqli_fetch_assoc($productResult)) {
+                                                if ($productRow['product_name'] == $row['item']) {
+                                                    $imgPath = "../assets/image/product_image/" . $productRow['product_image'];
+                                                }
+                                            }
+                                        }
+            
+                                        // Fetch package image
+                                        $packageSql = "SELECT * FROM package";
+                                        $packageResult = mysqli_query($conn, $packageSql);
+            
+                                        if ($packageResult) {
+                                            while ($packageRow = mysqli_fetch_assoc($packageResult)) {
+                                                if ($packageRow['package_name'] == $row['item']) {
+                                                    $imgPath = "../assets/image/package_image/" . $packageRow['package_image'];
+                                                }
+                                            }
+                                        }
+                                    ?>
+                                    <div class="col-4 col-sm-3">
+                                        <img src="<?php echo $imgPath; ?>" alt="Product Image" class="img-fluid rounded-start">
+                                    </div>
+                                    <div class="col-8">
                                         <div class="card-body">
                                             <h5 class="card-title text-truncate"><?php echo $row['item']; ?></h5>
                                             <p class="card-text mb-1">Quantity: <?php echo $row['quantity']; ?></p>
@@ -415,6 +561,104 @@ $email = $_SESSION['email'];
                                                     <?php echo 'On Hold'; ?>
                                                 </span>
                                             </p>
+
+                                            <?php
+                                                // Get the current date in Asia/Manila timezone
+                                                $date = new DateTime("now", new DateTimeZone('Asia/Manila'));
+                                                $current_date = $date->format('Y-m-d'); // Format as YYYY-MM-DD
+
+                                                // Query to count cancellations for the current user on the current date
+                                                $query = "SELECT COUNT(*) AS cancel_count FROM order_transaction_history 
+                                                        WHERE email = '$email' AND status LIKE 'Cancelled%' AND DATE(transaction_date) = '$current_date'";
+                                                $result1 = mysqli_query($conn, $query);
+                                                $cancel_count = 0;
+
+                                                // Check if the query was successful and fetch the cancellation count
+                                                if ($result1) {
+                                                    $cancel_data = mysqli_fetch_assoc($result1);
+                                                    $cancel_count = $cancel_data['cancel_count']; // Get the count of cancellations
+                                                }
+
+                                                // Determine if the button should be disabled (3 or more cancellations)
+                                                $disable_button = $cancel_count == 3;
+                                            ?>
+                                        </div>
+                                    </div>
+
+                                    <div class="text-end p-3">
+                                        <?php if ($disable_button): ?>
+                                            <!-- If the limit is exceeded, disable the button and display a message -->
+                                            <button class="btn btn-danger btn-sm" disabled>
+                                                Exceeded cancellation attempts. Please try again tomorrow.
+                                            </button>
+                                        <?php else: ?>
+                                            <!-- If the limit is not exceeded, enable the cancel button -->
+                                            <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#cancel_order_<?php echo $row['id']; ?>">
+                                                Cancel
+                                            </button>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- cancel order modal -->
+                            <div class="modal fade" id="cancel_order_<?php echo $row['id']; ?>" tabindex="-1" aria-labelledby="cancel_order_<?php echo $row['id']; ?>_label" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="cancel_order_<?php echo $row['id']; ?>_label">Are you sure you want to cancel your Order?</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h4><b>Package Name: </b><?php echo $row['item']; ?></h4>
+                                            <p><b>Price: </b><?php echo $row['price']; ?></p>
+                                            <form action="../assets/php_script/cancel_order_script.php" method="POST">
+                                                <!-- Include the order ID as a hidden input -->
+                                                <input type="hidden" name="order_id" value="<?php echo $row['id']; ?>">
+
+                                                <label for="cancellation-reason">Reason for Cancellation:</label>
+                                                <select class="form-select" id="cancellation-reason" name="reason">
+                                                    <option value="change of plans">Change of Plans</option>
+                                                    <option value="address issue">Change Billing Address</option>
+                                                    <option value="found better option">Found a Better Option</option>
+                                                    <option value="not needed">Order Not Needed Anymore</option>
+                                                    <option value="delays in delivery">Delays in Delivery</option>
+                                                    <option value="wrong item ordered">Wrong Item Ordered</option>
+                                                    <option value="cost issue">Cost Issue</option>
+                                                    <option value="technical issue">Technical Issues with Order</option>
+                                                </select>
+
+                                                <br><br>
+
+                                                <!-- Terms and conditions checkbox for cancellation -->
+                                                <div class="mb-3 ms-3">
+                                                    <input name="check_order_terms" id="check_order_terms" class="form-check-input mt-0" type="checkbox" value="" aria-label="" required>
+                                                    <small class="ms-2">
+                                                        I acknowledge that by cancelling my order, I agree to the following Terms and Conditions:
+                                                    </small>
+                                                    <button type="button" class="btn btn-link p-0" onclick="document.getElementById('show_terms').style.display='block'"><small>View Cancellation Terms</small></button>
+                                                </div>
+
+                                                <small id="show_terms" style="display: none;">
+                                                    <strong>Terms and Conditions for Cancellation:</strong>
+                                                    <ol>
+                                                        <li><strong>Cancellation Eligibility:</strong> Orders can only be canceled before they are processed. Once the order is shipped, cancellation will no longer be possible.</li>
+                                                        <li><strong>Refund Policy:</strong> Refunds for canceled orders will be processed within 7-10 business days. Refunds will be issued to the original payment method used during the purchase.</li>
+                                                        <li><strong>Reason for Cancellation:</strong> Customers must provide a valid reason for cancellation to help us improve our services.</li>
+                                                        <li><strong>Delayed Refunds:</strong> In case of any delay in receiving the refund, customers should contact their bank or payment service provider directly as processing times may vary.</li>
+                                                        <li><strong>Modification Requests:</strong> If you wish to modify your order (e.g., change billing address, update contact details), please contact us immediately. Modifications are only possible if the order has not yet been processed or shipped.</li>
+                                                        <li><strong>Liability Limitation:</strong> The company is not liable for any financial loss resulting from the customer's inability to cancel the order on time.</li>
+                                                        <li><strong>Acceptance of Terms:</strong> By proceeding with the cancellation request, the customer agrees to these terms and conditions.</li>
+                                                    </ol>
+                                                </small>
+
+                                                <br><br>
+
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-danger">Cancel Order</button>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -433,7 +677,36 @@ $email = $_SESSION['email'];
                             <!-- Order Card -->
                             <div class="card shadow-sm mb-3">
                                 <div class="row g-0 align-items-center">
-                                    <div class="col-12">
+                                    <?php
+                                        $imgPath = "";
+                                        $productSql = "SELECT * FROM products";
+                                        $productResult = mysqli_query($conn, $productSql);
+            
+                                        // Fetch product image
+                                        if ($productResult) {
+                                            while ($productRow = mysqli_fetch_assoc($productResult)) {
+                                                if ($productRow['product_name'] == $row['item']) {
+                                                    $imgPath = "../assets/image/product_image/" . $productRow['product_image'];
+                                                }
+                                            }
+                                        }
+            
+                                        // Fetch package image
+                                        $packageSql = "SELECT * FROM package";
+                                        $packageResult = mysqli_query($conn, $packageSql);
+            
+                                        if ($packageResult) {
+                                            while ($packageRow = mysqli_fetch_assoc($packageResult)) {
+                                                if ($packageRow['package_name'] == $row['item']) {
+                                                    $imgPath = "../assets/image/package_image/" . $packageRow['package_image'];
+                                                }
+                                            }
+                                        }
+                                    ?>
+                                    <div class="col-4 col-sm-3">
+                                        <img src="<?php echo $imgPath; ?>" alt="Product Image" class="img-fluid rounded-start">
+                                    </div>
+                                    <div class="col-8">
                                         <div class="card-body">
                                             <h5 class="card-title text-truncate"><?php echo $row['item']; ?></h5>
                                             <p class="card-text mb-1">Quantity: <?php echo $row['quantity']; ?></p>
@@ -444,6 +717,69 @@ $email = $_SESSION['email'];
                                                 <span class="badge bg-success">
                                                     <?php echo ucfirst($row['status']); ?>
                                                 </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php
+                        }
+                    }
+                    ?>
+                </div>
+
+                <!-- Cancelled Transactions -->
+                <div id="cancelled" style="display: none;" class="container my-4">
+                    <?php
+                    $declined_query = "SELECT * FROM order_transaction_history WHERE email ='$email' AND status LIKE '%Cancelled%'";
+                    $result = mysqli_query($conn, $declined_query);
+
+                    if ($result) {
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            $imgPath = "";
+                            $productSql = "SELECT * FROM products";
+                            $productResult = mysqli_query($conn, $productSql);
+
+                            // Fetch product image
+                            if ($productResult) {
+                                while ($productRow = mysqli_fetch_assoc($productResult)) {
+                                    if ($productRow['product_name'] == $row['item']) {
+                                        $imgPath = "../assets/image/product_image/" . $productRow['product_image'];
+                                    }
+                                }
+                            }
+
+                            // Fetch package image
+                            $packageSql = "SELECT * FROM package";
+                            $packageResult = mysqli_query($conn, $packageSql);
+
+                            if ($packageResult) {
+                                while ($packageRow = mysqli_fetch_assoc($packageResult)) {
+                                    if ($packageRow['package_name'] == $row['item']) {
+                                        $imgPath = "../assets/image/package_image/" . $packageRow['package_image'];
+                                    }
+                                }
+                            }
+                            ?>
+
+                            <!-- Responsive Product Card -->
+                            <div class="card shadow-sm mb-3">
+                                <div class="row g-0 align-items-center">
+                                    <!-- Image Section -->
+                                    <div class="col-4 col-sm-3">
+                                        <img src="<?php echo $imgPath; ?>" alt="Product Image" class="img-fluid rounded-start">
+                                    </div>
+
+                                    <!-- Details Section -->
+                                    <div class="col-8 col-sm-6">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-truncate"><?php echo $row['item']; ?></h5>
+                                            <p class="card-text mb-1">Quantity: <?php echo $row['quantity']; ?></p>
+                                            <p class="card-text mb-1">Total: PHP <?php echo number_format($row['total_amount'], 2); ?></p>
+                                            <p class="card-text mb-1">Payment: <?php echo strtoupper($row['mop']); ?></p>
+                                            <p class="card-text mb-0">
+                                                Status: 
+                                                <span class="badge bg-danger"><?php echo ucfirst($row['status']); ?></span>
                                             </p>
                                         </div>
                                     </div>
@@ -690,6 +1026,16 @@ $email = $_SESSION['email'];
 
         // Set the min attribute of the date input to today's date
         document.getElementById('dateInput').setAttribute('min', today);
+
+
+        function showTerms() {
+            var termsText = document.getElementById('show_terms');
+            if (termsText.style.display === "none") {
+                termsText.style.display = "block";
+            } else {
+                termsText.style.display = "none";
+            }
+        }
     </script>
 </body>
 

@@ -33,8 +33,10 @@
                     </span>
                 <?php endif; ?>
             </a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="stockDropdown">
+            <!-- Add custom class or style to enable scroll -->
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="stockDropdown" style="max-height: 300px; overflow-y: auto; overflow-x: hidden;">
                 <?php
+                    // Fetch low-stock notifications
                     $sql = "SELECT 'package' AS type, id AS id, package_name AS name, stocks 
                     FROM package 
                     WHERE stocks <= 10
@@ -59,7 +61,8 @@
                     } else {
                         echo '<li><a class="dropdown-item" href="#">No low-stock items</a></li>';
                     }    
-                    
+
+                    // Booking notifications
                     $booking_notif = "SELECT * FROM booked";
                     $booking_notif_result = mysqli_query($conn, $booking_notif);
 
@@ -80,6 +83,7 @@
                         <?php
                     }
 
+                    // Order booking notifications
                     $order_booking_notif = "SELECT * FROM order_booking";
                     $order_booking_notif_result = mysqli_query($conn, $order_booking_notif);
 
