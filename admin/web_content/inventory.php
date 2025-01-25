@@ -157,6 +157,13 @@
                     </section>
                     <section id="product_section" class="my-2 px-4">
                         <h4 class="pt-3">Product List</h4>
+                        <button class="btn btn-success p-1 mb-2 border border-1" data-bs-toggle="modal" data-bs-target="#add_product_category_modal">
+                            <i class="fa-solid fa-plus"></i> Add Product Category
+                        </button>
+                        <button class="btn btn-danger p-1 mb-2 border border-1" data-bs-toggle="modal" data-bs-target="#remove_product_category_modal">
+                            <i class="fa-solid fa-minus"></i> Remove Product Category
+                        </button>
+                        <br>
                         <button class="btn p-1 mb-3 border border-1" data-bs-toggle="modal" data-bs-target="#add_product_modal">
                             <i class="fa-solid fa-plus"></i> Add Product
                         </button>

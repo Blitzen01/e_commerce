@@ -652,3 +652,65 @@
   </div>
 </div>
 <!-- Add Billing Address Modal -->
+
+<!-- add product category Modal -->
+<div class="modal fade" id="add_product_category_modal" tabindex="-1" aria-labelledby="add_product_category_modal_label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="add_product_category_modal_label">Add Product Category</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="../../assets/php_script/add_product_category_script.php" method="post">
+            <div class="mb-3">
+                <label for="add_product_category_input">Enter Product Category:</label>
+                <input type="text" class="form-control" id="add_product_category_input" name="add_product_category_input" required>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-success">Save changes</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- add product category Modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="remove_product_category_modal" tabindex="-1" aria-labelledby="remove_product_category_modal_label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="remove_product_category_modal_label">Remove Product Category</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="../../assets/php_script/remove_product_category_script.php" method="post">
+                    <div class="mb-3">
+                        <label for="remove_product_category_selected">Select Category you want to remove: </label>
+                        <select class="form-select" name="remove_product_category_selected" id="remove_product_category_selected" required>
+                            <?php
+                                $sql = "SELECT * FROM product_category";
+                                $result = mysqli_query($conn, $sql);
+
+                                if($result) {
+                                    while($row = mysqli_fetch_assoc($result)) {
+                                        ?>
+                                        <option value="<?php echo $row['category']; ?>"><?php echo strtoupper($row['category']); ?></option>
+                                        <?php
+                                    }
+                                }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger">Remove</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
