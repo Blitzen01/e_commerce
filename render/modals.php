@@ -230,7 +230,7 @@
                         $currentDate = date('Y-m-d'); // Get the current date in Asia/Manila timezone
 
                         $totalCount = 0;
-                        $maxAttempts = 2; // max of 3 attemps | (0,1,2) counts as 3 attems
+                        $maxAttempts = 2; // max of 3 attempts | (0,1,2) counts as 3 attempts
 
                         // Use SQL DATE() function to extract the date part of the booking_timestamp column
                         $limitBookingSql = "
@@ -253,7 +253,34 @@
                             $totalCount = $row['totalCount'];
                         }
 
-                        $exceededAttempts = $totalCount >= $maxAttempts;
+                        // Check if address is in allowed regions (Cavite, Batangas, Laguna, etc.)
+                        $allowedRegions = ['Cavite', 'Batangas', 'Laguna'];
+
+                        // Get user's address from the user_account table
+                        $addressSql = "SELECT address FROM user_account WHERE email = '$email'";
+                        $addressResult = mysqli_query($conn, $addressSql);
+                        $userAddress = '';
+
+                        if ($addressResult) {
+                            $addressRow = mysqli_fetch_assoc($addressResult);
+                            $userAddress = $addressRow['address'];
+                        }
+
+                        // Function to check if the address is in the allowed regions
+                        function isInServiceArea($address, $allowedRegions) {
+                            foreach ($allowedRegions as $region) {
+                                if (stripos($address, $region) !== false) {
+                                    return true; // Address is within service area
+                                }
+                            }
+                            return false; // Address is outside the service area
+                        }
+
+                        $isAddressValid = isInServiceArea($userAddress, $allowedRegions);
+
+                        // Determine if the submit button should be disabled
+                        $exceededAttempts = $totalCount >= $maxAttempts || !$isAddressValid;
+
                         ?>
 
                         <div class="modal-footer">
@@ -268,7 +295,13 @@
                         </div>
 
                         <?php if ($exceededAttempts): ?>
-                            <div id="errorMessage" class="text-danger mt-2">Exceeded attempts. Please try again tomorrow.</div>
+                            <div id="errorMessage" class="text-danger mt-2">
+                                <?php if (!$isAddressValid): ?>
+                                    <strong>Warning:</strong> This service is only available for Cavite, Batangas, and Laguna addresses.
+                                <?php else: ?>
+                                    Exceeded attempts. Please try again tomorrow.
+                                <?php endif; ?>
+                            </div>
                         <?php endif; ?>
                 </form>
             </div>
