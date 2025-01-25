@@ -218,10 +218,58 @@
                                 9. HFA will charge client 30 per day storage fee for all units not claim within 90 days. Unclaimed units will dispose after the noticed.
                             </span>
                     </small>
-                    <div class="modal-footer">
-                        <button id="submitButton" type="submit" class="btn btn-primary">Submit</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    </div>
+                    <?php
+                        // Set timezone to Asia/Manila
+                        date_default_timezone_set('Asia/Manila');
+
+                        // Database connection placeholder
+                        // Make sure $conn is a valid connection
+
+                        // Get email from POST request
+                        $email = $_SESSION['email']; 
+                        $currentDate = date('Y-m-d'); // Get the current date in Asia/Manila timezone
+
+                        $totalCount = 0;
+                        $maxAttempts = 2; // max of 3 attemps | (0,1,2) counts as 3 attems
+
+                        // Use SQL DATE() function to extract the date part of the booking_timestamp column
+                        $limitBookingSql = "
+                            SELECT COUNT(*) AS totalCount 
+                            FROM (
+                                SELECT DATE(booking_timestamp) AS booking_date 
+                                FROM booking 
+                                WHERE email = '$email' 
+                                UNION ALL 
+                                SELECT DATE(booking_timestamp) AS booking_date 
+                                FROM booked 
+                                WHERE email = '$email'
+                            ) AS combined
+                            WHERE booking_date = '$currentDate'";
+
+                        $limitBookingResult = mysqli_query($conn, $limitBookingSql);
+
+                        if ($limitBookingResult) {
+                            $row = mysqli_fetch_assoc($limitBookingResult);
+                            $totalCount = $row['totalCount'];
+                        }
+
+                        $exceededAttempts = $totalCount >= $maxAttempts;
+                        ?>
+
+                        <div class="modal-footer">
+                            <button 
+                                id="submitButton" 
+                                type="submit" 
+                                class="btn btn-primary" 
+                                <?php echo $exceededAttempts ? 'disabled' : ''; ?>>
+                                Submit
+                            </button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+
+                        <?php if ($exceededAttempts): ?>
+                            <div id="errorMessage" class="text-danger mt-2">Exceeded attempts. Please try again tomorrow.</div>
+                        <?php endif; ?>
                 </form>
             </div>
         </div>
@@ -332,6 +380,15 @@
             updateOptions();
         });
 
+        document.addEventListener('DOMContentLoaded', function() {
+            const submitButton = document.getElementById('submitButton');
+            const errorMessage = document.getElementById('errorMessage');
+
+            // Ensure message visibility if the button is disabled
+            if (submitButton.disabled && errorMessage) {
+                errorMessage.style.display = 'block';
+            }
+        });
     </script>
 </div>
 <!-- Create Scheduled Booking Modal -->
