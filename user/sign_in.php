@@ -129,7 +129,7 @@
             
             window.onload = function () {
                 google.accounts.id.initialize({
-                    client_id: '341495212949-oqiqf3dfcte9ba1hhqu079mbohlcsgr8.apps.googleusercontent.com', // Replace with your Google client ID
+                    client_id: '871355226961-19ip522e0enk01oofpqdbscedb6r2ini.apps.googleusercontent.com', // Replace with your Google client ID
                     callback: handleCredentialResponse
                 });
 
