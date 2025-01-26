@@ -1,7 +1,5 @@
 {
     "require": {
-        "google/apiclient": "2.0",
-        "cboden/ratchet": "*",
-        "phpmailer/phpmailer": "*"
+        "google/apiclient": "^2.13"
     }
 }
