@@ -14,7 +14,7 @@
         $stock = intval($_GET['quantity']);
         
         // Fetch product details from the database
-        $query = "SELECT * FROM products WHERE id = ?";
+        $query = "SELECT * FROM package WHERE id = ?";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("i", $id);
         $stmt->execute();
