@@ -12,7 +12,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($result && mysqli_num_rows($result) > 0) {
         while($row = mysqli_fetch_assoc($result)) {
             $mop = $row['mop'];
-            $status = "Preparing";
+            if ($mop == "otc") { // Corrected comparison operator
+                $status = "Ready for Pick Up";
+            } else if ($mop == "cod") { // Corrected comparison operator
+                $status = "Ready for Delivery";
+            }
 
             // Update the order status in the database
             $update_sql = "UPDATE order_booked SET status = '$status' WHERE id = '$order_id'";
