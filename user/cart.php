@@ -47,7 +47,7 @@
                     ?>
                 </div>
 
-                <form id="checkoutForm" action="../assets/php_script/check_out_order.php" method="post">
+                <form id="checkoutForm" action="check_out_order.php" method="post">
                     <?php
                     $sql = "
                         SELECT pc.*, p.product_image, p.product_name AS prod_name, pk.package_image 
@@ -125,6 +125,7 @@
             // Set the min attribute of the date input to today's date
             document.getElementById('dateInput').setAttribute('min', today);
             
+            // view cart items
             document.addEventListener("DOMContentLoaded", () => {
                 const checkboxes = document.querySelectorAll(".product-checkbox");
                 const totalDisplay = document.getElementById("cart-total");
@@ -189,6 +190,7 @@
                     .addEventListener("click", updateViewModal);
             });
             
+            // delete cart items
             document.addEventListener("DOMContentLoaded", () => {
                 const deleteModal = document.getElementById("deleteItemsModal");
                 const deleteMessage = document.getElementById("deleteMessage");
