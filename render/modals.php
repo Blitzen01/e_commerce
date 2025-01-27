@@ -132,6 +132,7 @@
                     <div class="mb-3">
                         <label for="type_of_booking">Type of Booking</label>
                         <select name="type_of_booking" id="type_of_booking" class="form-select">
+                            <option value="default">Default</option>
                             <option value="Repair">Repair</option>
                             <option value="Parts Installation">Parts Installation</option>
                             <option value="CCTV Repair">CCTV</option>
@@ -140,13 +141,13 @@
                     <div class="mb-3">
                         <label for="kind_of_booking">What kind of repair, installation, CCTV concern ?</label>
                         <select name="kind_of_booking" id="kind_of_booking" class="form-select">
+                            <option value="default">Default</option>
                             <option value="Laptop Repair">Laptop Repair: &#8369;800</option>
                             <option value="Desktop Repair">CPU Repair: &#8369;700</option>
-                            <option value="CCTV Repair">CCTV Repair: &#8369;550</option>
                             <option value="Board Level">Board Level: &#8369;2500(Min. Charge)</option>
                             <option value="Laptop Installation">Laptop Installation: &#8369;250</option>
                             <option value="Desktop Installation">Desktop Installation: &#8369;200</option>
-                            <option value="Printer">Printer: &#8369;150</option>
+                            <option value="Printer Installation">Printer Installation: &#8369;150</option>
                             <option value="CCTV Walk In">CCTV Walk In: &#8369;400</option>
                             <option value="CCTV On Site">CCTV On Site: &#8369;800</option>
                         </select>
@@ -163,6 +164,7 @@
                     <div class="form-group mb-3">
                         <label for="mob">Mode of Booking</label>
                         <select class="form-select" name="mob" id="mob" required>
+                            <option value="default">Default</option>
                             <option value="Walk In">Walk In</option>
                             <option value="On Site">On Site</option>
                         </select>
@@ -283,6 +285,7 @@
 
                         ?>
 
+                        <div id="errorMessage" style="display: none; color: red;">Please complete all fields.</div>
                         <div class="modal-footer">
                             <button 
                                 id="submitButton" 
@@ -308,121 +311,162 @@
         </div>
     </div>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const dateInput = document.getElementById('dateInput');
-            const submitButton = document.getElementById('submitButton');
-            const dateStatus = document.getElementById('dateStatus');
+    document.addEventListener("DOMContentLoaded", function () {
+    const typeOfBooking = document.getElementById("type_of_booking");
+    const kindOfBooking = document.getElementById("kind_of_booking");
+    const modeOfBooking = document.getElementById("mob");
+    const submitButton = document.getElementById("submitButton");
+    const dateInput = document.getElementById("dateInput");
+    const dateStatus = document.getElementById("dateStatus");
 
-            dateInput.addEventListener('change', function () {
-                const selectedDate = this.value;
+    // Function to update the "Mode of Booking" dropdown based on selected kind of booking
+    function updateModeOfBooking() {
+        const selectedKind = kindOfBooking.value;
 
-                if (selectedDate) {
-                    fetch(`../assets/php_script/fetch_booking_count.php?date=${selectedDate}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.total >= 10) {
-                                submitButton.disabled = true;
-                                dateStatus.textContent = `Booking limit reached for ${selectedDate}. Please select another date.`;
-                                dateStatus.style.color = 'red';
-                            } else {
-                                submitButton.disabled = false;
-                                dateStatus.textContent = `Available slots for ${selectedDate}: ${10 - data.total}`;
-                                dateStatus.style.color = 'green';
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error fetching booking count:', error);
-                            dateStatus.textContent = 'Error occurred. Please try again.';
-                            dateStatus.style.color = 'red';
-                            submitButton.disabled = true;
-                        });
-                } else {
-                    submitButton.disabled = false;
-                    dateStatus.textContent = '';
+        // Reset and disable all options initially
+        Array.from(modeOfBooking.options).forEach((option) => {
+            option.disabled = true;
+        });
+
+        // Enable relevant options based on the selected "Kind of Booking"
+        if (selectedKind === "CCTV Walk In") {
+            // Enable only Walk In for CCTV Walk In
+            Array.from(modeOfBooking.options).forEach((option) => {
+                if (option.value === "Walk In") {
+                    option.disabled = false;
                 }
             });
-        });
-
-        function showWarranty() {
-            const warrantyElement = document.getElementById('show_warranty');
-            warrantyElement.style.display = warrantyElement.style.display === 'none' ? 'inline' : 'none';
-        }
-
-        document.addEventListener('DOMContentLoaded', function () {
-            const typeOfBooking = document.getElementById('type_of_booking');
-            const kindOfBooking = document.getElementById('kind_of_booking');
-            const modeOfBooking = document.getElementById('mob');
-
-            // Function to update dropdown options based on "Type of Booking"
-            function updateOptions() {
-                const selectedType = typeOfBooking.value;
-
-                // Reset all options (disable everything)
-                Array.from(kindOfBooking.options).forEach(option => option.disabled = false);
-                Array.from(modeOfBooking.options).forEach(option => option.disabled = false);
-
-                // Disable "On Site" in "Mode of Booking" unless it's CCTV
-                Array.from(modeOfBooking.options).forEach(option => {
-                    if (option.value === 'On Site' && selectedType !== 'CCTV Repair') {
-                        option.disabled = true;
-                    }
-                });
-
-                if (selectedType === 'Repair') {
-                    // Enable only repair-related options in "Kind of Booking"
-                    Array.from(kindOfBooking.options).forEach(option => {
-                        if (!option.value.includes('Repair') && option.value !== 'Board Level') {
-                            option.disabled = true;
-                        }
-                    });
-                } else if (selectedType === 'CCTV Repair') {
-                    // Enable only CCTV-related options in "Kind of Booking"
-                    Array.from(kindOfBooking.options).forEach(option => {
-                        if (!option.value.includes('CCTV')) {
-                            option.disabled = true;
-                        }
-                    });
-
-                    // Enable "On Site" in "Mode of Booking"
-                    Array.from(modeOfBooking.options).forEach(option => {
-                        if (option.value !== 'On Site') {
-                            option.disabled = true;
-                        }
-                    });
-                } else if (selectedType === 'Parts Installation') {
-                    // Enable only installation-related options in "Kind of Booking"
-                    Array.from(kindOfBooking.options).forEach(option => {
-                        if (!option.value.includes('Installation')) {
-                            option.disabled = true;
-                        }
-                    });
-
-                    // Disable "On Site" in "Mode of Booking"
-                    Array.from(modeOfBooking.options).forEach(option => {
-                        if (option.value === 'On Site') {
-                            option.disabled = true;
-                        }
-                    });
+        } else if (selectedKind === "CCTV On Site") {
+            // Enable only On Site for CCTV On Site
+            Array.from(modeOfBooking.options).forEach((option) => {
+                if (option.value === "On Site") {
+                    option.disabled = false;
                 }
-            }
+            });
+        } else if (selectedKind === "Laptop Repair" || selectedKind === "Desktop Repair" || selectedKind === "Board Level") {
+            // Enable only Walk In for Repair types
+            Array.from(modeOfBooking.options).forEach((option) => {
+                if (option.value === "Walk In") {
+                    option.disabled = false;
+                }
+            });
+        } else if (selectedKind === "Laptop Installation" || selectedKind === "Desktop Installation" || selectedKind === "Printer") {
+            // Enable only Walk In for Installation types
+            Array.from(modeOfBooking.options).forEach((option) => {
+                if (option.value === "Walk In") {
+                    option.disabled = false;
+                }
+            });
+        }
+    }
 
-            // Trigger update when "Type of Booking" changes
-            typeOfBooking.addEventListener('change', updateOptions);
+    // Function to update the "Kind of Booking" dropdown options based on "Type of Booking"
+    function updateKindOfBooking() {
+        const selectedType = typeOfBooking.value;
 
-            // Initialize on page load
-            updateOptions();
+        // Reset all options (disable everything)
+        Array.from(kindOfBooking.options).forEach((option) => {
+            option.disabled = false; // Enable all options initially
         });
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const submitButton = document.getElementById('submitButton');
-            const errorMessage = document.getElementById('errorMessage');
+        if (selectedType === "Repair") {
+            // Enable only repair-related options in "Kind of Booking"
+            Array.from(kindOfBooking.options).forEach((option) => {
+                if (
+                    !option.value.includes("Repair") &&
+                    option.value !== "Board Level" &&
+                    option.value !== "CCTV Repair"
+                ) {
+                    option.disabled = true;
+                }
+            });
+        } else if (selectedType === "Parts Installation") {
+            // Enable only installation-related options in "Kind of Booking"
+            Array.from(kindOfBooking.options).forEach((option) => {
+                if (!option.value.includes("Installation")) {
+                    option.disabled = true;
+                }
+            });
+        } else if (selectedType === "CCTV Repair") {
+            // Enable only CCTV-related options in "Kind of Booking"
+            Array.from(kindOfBooking.options).forEach((option) => {
+                if (!option.value.includes("CCTV")) {
+                    option.disabled = true;
+                }
+            });
+        }
+    }
 
-            // Ensure message visibility if the button is disabled
-            if (submitButton.disabled && errorMessage) {
-                errorMessage.style.display = 'block';
-            }
-        });
-    </script>
+    // Function to check booking count for a selected date
+    function checkBookingCount() {
+        const selectedDate = dateInput.value;
+
+        if (selectedDate) {
+            fetch(`../assets/php_script/fetch_booking_count.php?date=${selectedDate}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.total >= 10) {
+                        submitButton.disabled = true;
+                        dateStatus.textContent = `Booking limit reached for ${selectedDate}. Please select another date.`;
+                        dateStatus.style.color = 'red';
+                    } else {
+                        submitButton.disabled = false;
+                        dateStatus.textContent = `Available slots for ${selectedDate}: ${10 - data.total}`;
+                        dateStatus.style.color = 'green';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching booking count:', error);
+                    dateStatus.textContent = 'Error occurred. Please try again.';
+                    dateStatus.style.color = 'red';
+                    submitButton.disabled = true;
+                });
+        } else {
+            submitButton.disabled = false;
+            dateStatus.textContent = '';
+        }
+    }
+
+    // Function to validate the form and enable/disable the submit button
+    function validateForm() {
+        const selectedType = typeOfBooking.value;
+        const selectedKind = kindOfBooking.value;
+
+        if (
+            selectedType === "default" ||
+            selectedKind === "default" ||
+            !selectedType ||
+            !selectedKind
+        ) {
+            submitButton.disabled = true;
+        } else {
+            submitButton.disabled = false;
+        }
+    }
+
+    // Event listeners for dropdown changes
+    typeOfBooking.addEventListener("change", function () {
+        updateKindOfBooking();
+        updateModeOfBooking();
+        validateForm();
+        checkBookingCount(); // Check booking count when type of booking changes
+    });
+
+    kindOfBooking.addEventListener("change", function () {
+        updateModeOfBooking();
+        validateForm();
+        checkBookingCount(); // Check booking count when kind of booking changes
+    });
+
+    dateInput.addEventListener("change", checkBookingCount); // Check booking count when date is changed
+
+    // Initialize on page load
+    updateKindOfBooking();
+    updateModeOfBooking();
+    validateForm();
+    checkBookingCount(); // Check booking count on initial load
+});
+</script>
 </div>
 <!-- Create Scheduled Booking Modal -->
 
