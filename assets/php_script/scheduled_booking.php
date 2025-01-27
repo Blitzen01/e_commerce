@@ -64,9 +64,9 @@ if ($result && mysqli_num_rows($result) > 0) {
     if (mysqli_query($conn, $sql)) {
         $redirectUrl = "../../user/user_profile.php#profile_booking_view";
         // Redirect back to the user profile page
-        echo '<script type="text/javascript">';
-        echo 'window.location.href = "' . $redirectUrl . '";';
-        echo '</script>';
+        // echo '<script type="text/javascript">';
+        // echo 'window.location.href = "' . $redirectUrl . '";';
+        // echo '</script>';
     } else {
         echo "Error: " . $sql . "<br>" . mysqli_error($conn);
     }

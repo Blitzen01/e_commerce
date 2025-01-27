@@ -8,8 +8,11 @@
         $rating = $_POST['rating'];
         $category = $_POST['category'];
         $subject = $_POST['subject'];
+
+        date_default_timezone_set('Asia/Manila');
+
         $date = date('Y-m-d');
-        $time = date('h:i');
+        $time = date('h:i A');
 
         // Insert data into services table
         $sql = "INSERT INTO rating (comment, rating, category, subject, date, time) VALUES ('$comment', '$rating', '$category', '$subject', '$date', '$time')";
