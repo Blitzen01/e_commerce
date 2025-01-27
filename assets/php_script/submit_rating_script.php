@@ -1,8 +1,6 @@
 <?php
     include '../../render/connection.php';
 
-    date_default_timezone_set('Asia/Manila');
-
     if($_SERVER["REQUEST_METHOD"] == "POST") {
         $comment = $_POST['comments'];
         $rating = $_POST['rating'];
@@ -12,7 +10,7 @@
         date_default_timezone_set('Asia/Manila');
 
         $date = date('Y-m-d');
-        $time = date('h:i A');
+        $time = date('H:i A');
 
         // Insert data into services table
         $sql = "INSERT INTO rating (comment, rating, category, subject, date, time) VALUES ('$comment', '$rating', '$category', '$subject', '$date', '$time')";
