@@ -633,7 +633,8 @@
                             <h5><b>Contact Number: </b> <?php echo $removeStaffRow['contact_number']; ?></h5>
                             <h5><b>Position: </b> <?php echo $removeStaffRow['role']; ?></h5>
                             <h5><b>Address: </b> <?php echo $removeStaffRow['address']; ?></h5>
-                            <form action="" method="post">
+                            <form action="../../assets/php_script/remove_staff_script.php" method="post">
+                                <input type="hidden" name="remove_staff" id="remove_staff" value="<?php echo $removeStaffRow['id']; ?>">
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                     <button type="submit" class="btn btn-primary">Archive</button>
