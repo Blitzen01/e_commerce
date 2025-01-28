@@ -4,7 +4,7 @@
 // $pass = "";
 // $db = "hfa";
 
-$server = "127.0.0.1:3306";
+$server = "localhost";
 $user = "u428758214_hfa";
 $pass = "Hfaservices1";
 $db = "u428758214_hfa";

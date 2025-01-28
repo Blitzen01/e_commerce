@@ -466,6 +466,18 @@
     validateForm();
     checkBookingCount(); // Check booking count on initial load
 });
+
+function showWarranty() {
+    const show_warranty = document.getElementById('show_warranty');
+    
+    // Check if the element is currently visible or not
+    if (show_warranty.style.display === 'none' || show_warranty.style.display === '') {
+        show_warranty.style.display = 'block';  // Show the element
+    } else {
+        show_warranty.style.display = 'none';   // Hide the element
+    }
+}
+
 </script>
 </div>
 <!-- Create Scheduled Booking Modal -->
