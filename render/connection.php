@@ -1,7 +1,12 @@
 <?php
-$server = "localhost";
-$user = "root";
-$pass = "";
+// $server = "localhost";
+// $user = "root";
+// $pass = "";
+// $db = "hfa";
+
+$server = "127.0.0.1:3306";
+$user = "hfadb";
+$pass = "Hfaservices1";
 $db = "hfa";
 
 $conn = mysqli_connect($server, $user, $pass, $db);
