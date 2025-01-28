@@ -5,9 +5,9 @@
 // $db = "hfa";
 
 $server = "127.0.0.1:3306";
-$user = "hfadb";
+$user = "u428758214_hfa";
 $pass = "Hfaservices1";
-$db = "hfa";
+$db = "u428758214_hfa";
 
 $conn = mysqli_connect($server, $user, $pass, $db);
 
