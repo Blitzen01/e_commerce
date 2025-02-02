@@ -1,13 +1,13 @@
-<nav class="navbar navbar-expand-lg shadow mb-2 fixed-top bg-light">
+<nav class="navbar navbar-expand-lg shadow mb-2 fixed-top bg-pink">
     <div class="container-fluid">
         <div class="col">
             <div class="row">
                 <div class="col-1 m-1 p-1">
-                    <a class="navbar-brand" href="index.php"><img src="../assets/image/hfa_logo.png" alt="" srcset="" id="hfa_logo"></a>
+                    <a class="navbar-brand" href="index.php"><img id="user-logo" src="../assets/image/hfaLogo.jpg" alt="" srcset="" id="hfa_logo"></a>
                 </div>
                 <div class="col-5 my-auto me-auto search-container">
                     <form method="GET" action="index.php" class="d-flex">
-                        <input class="form-control search_bar me-2" type="search" name="search" placeholder="Search for Products, Brands, Parts" aria-label="Search">
+                        <input class="form-control search_bar me-2" type="search" name="search" placeholder="Search for Products, Brands, Parts" aria-label="Search" autocomplete="off">
                         <button class="nav-link" type="submit"><i class="fa-solid fa-magnifying-glass search-icon"></i></button>
                     </form>
                 </div>

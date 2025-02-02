@@ -217,37 +217,37 @@
             document.getElementById('dateInput').setAttribute('min', today);
             
             document.addEventListener('DOMContentLoaded', function() {
-            const isNew = <?php echo json_encode($is_new); ?>;
-            if (isNew != 1) {
-                const modal = new bootstrap.Modal(document.getElementById('is_new_account'), {
-                    backdrop: 'static',
-                    keyboard: false
-                });
-                modal.show();
-            }
-
-            // Form validation for password match
-            const form = document.getElementById('newAccountForm');
-            const password = document.getElementById('password');
-            const confirmPassword = document.getElementById('confirmPassword');
-
-            form.addEventListener('submit', function(event) {
-                const passwordValue = password.value.trim();
-                const confirmPasswordValue = confirmPassword.value.trim();
-
-                if (passwordValue != confirmPasswordValue) {
-                    event.preventDefault();
-                    confirmPassword.classList.add('is-invalid');
-                } else {
-                    confirmPassword.classList.remove('is-invalid');
+                const isNew = <?php echo json_encode($is_new); ?>;
+                if (isNew != 1) {
+                    const modal = new bootstrap.Modal(document.getElementById('is_new_account'), {
+                        backdrop: 'static',
+                        keyboard: false
+                    });
+                    modal.show();
                 }
-            });
 
-            // Remove invalid state on input
-            confirmPassword.addEventListener('input', function() {
-                confirmPassword.classList.remove('is-invalid');
+                // Form validation for password match
+                const form = document.getElementById('newAccountForm');
+                const password = document.getElementById('password');
+                const confirmPassword = document.getElementById('confirmPassword');
+
+                form.addEventListener('submit', function(event) {
+                    const passwordValue = password.value.trim();
+                    const confirmPasswordValue = confirmPassword.value.trim();
+
+                    if (passwordValue != confirmPasswordValue) {
+                        event.preventDefault();
+                        confirmPassword.classList.add('is-invalid');
+                    } else {
+                        confirmPassword.classList.remove('is-invalid');
+                    }
+                });
+
+                // Remove invalid state on input
+                confirmPassword.addEventListener('input', function() {
+                    confirmPassword.classList.remove('is-invalid');
+                });
             });
-        });
         </script>
     </body>
 </html>

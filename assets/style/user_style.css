@@ -41,6 +41,9 @@ img, input {
     background: var(--color-red-dark) !important;
 }
 
+.bg-pink {
+    background: var(--color-pink) !important;
+}
 /* ====================================================================== */
 /* ====================================================================== */
 /* ====================================================================== */
@@ -60,7 +63,10 @@ nav.navbar {
 .search_bar {
     width: 100%;
 }
-
+#user-logo {
+    border-radius: 3rem !important;
+    width: 3rem;
+}
 #hfa_logo {
     margin: 0;
     padding: 0;
@@ -69,7 +75,7 @@ nav.navbar {
 }
 
 #user_navbar {
-    background: var(--color-red-dark) !important;
+    background: var(--color-blue) !important;
 }
 
 .search-container {

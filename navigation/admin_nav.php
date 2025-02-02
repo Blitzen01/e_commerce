@@ -8,8 +8,8 @@
     while($row = mysqli_fetch_assoc($result)) {
       ?>
       <div id="sidebar" class="d-flex flex-column mt-3 mb-3">
-        <img id="admin_logo" src="../../assets/image/hfa_logo.jpg" alt="">
-        <span class="text-center border-bottom border-top border-danger">Admin: <b><?php echo $row['first_name']; ?></b></span>
+        <img id="admin_logo" src="../../assets/image/hfa_logo.png" alt="">
+        <span class="text-center border-bottom border-top border-pink">Admin: <b><?php echo $row['first_name']; ?></b></span>
         <ul class="nav nav-pills flex-column mb-auto">
             <li><a class="nav_bar nav-link" href="calendar.php"><i class="fa-regular fa-calendar"></i> Calendar</a></li>
             <li><a class="nav_bar nav-link" href="dashboard.php"><i class="fa-solid fa-gauge"></i> Dashboard</a></li>
