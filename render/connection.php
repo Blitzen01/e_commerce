@@ -1,13 +1,13 @@
 <?php
-// $server = "localhost";
-// $user = "root";
-// $pass = "";
-// $db = "hfa";
-
 $server = "localhost";
-$user = "u428758214_hfa";
-$pass = "Hfaservices1";
-$db = "u428758214_hfa";
+$user = "root";
+$pass = "";
+$db = "hfa";
+
+// $server = "127.0.0.1";
+// $user = "u428758214_hfa";
+// $pass = "Hfaservices1";
+// $db = "u428758214_hfa";
 
 $conn = mysqli_connect($server, $user, $pass, $db);
 

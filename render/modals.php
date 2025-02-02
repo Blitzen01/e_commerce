@@ -169,6 +169,21 @@
                             <option value="On Site">On Site</option>
                         </select>
                     </div>
+
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h5>Technician Info</h5>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Name:</strong> John Nile Panaguiton</p>
+                            <p><strong>Birthday:</strong> 08/08/1992</p>
+                            <p><strong>Age:</strong> 32</p>
+                            <p><strong>Course:</strong> Information Technology (2yr Course)</p>
+                            <p><strong>College:</strong> FEAPITSAT Colleges of Tanza</p>
+                            <p><strong>Certificate:</strong> College Diploma, CSS NC2</p>
+                        </div>
+                    </div>
+
                     <div class=" mb-3">
                         <label for="remarks">Remarks</label>
                         <textarea type="text" class="form-control" row="15" id="remarks" name="remarks" placeholder="Leave a your remarks here" required></textarea>

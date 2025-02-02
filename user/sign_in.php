@@ -83,7 +83,7 @@
         <hr class="mx-5">
 
         <div class="log-in-container-fluid">
-            <div class="w-25"
+            <div id="sign_up_form_layout" class="w-lg-25 w-md-50 w-sm-75"
                 style="max-width: 800px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); border-radius: 8px; overflow: hidden;">
 
                 <div class="container d-flex justify-content-center mt-4 rounded">
