@@ -8,6 +8,8 @@
     --color-red: #FF0000;
     --color-red-dark: #ad0000;
     --color-red-light: #ff4444;
+    --color-blue: #2503F2;
+    --color-pink: #FE01D6;
 }
 
 body, html {
@@ -100,9 +102,9 @@ nav.navbar {
 }
 
 #continuousCarousel {
-    width: 80%; /* Adjust the width as needed */
-    max-width: 800px; /* Maximum width of the carousel */
-    aspect-ratio: 6 / 3; /* 6:3 aspect ratio */
+    width: 95%; /* Adjust the width as needed */
+    max-width: 1200px; /* Maximum width of the carousel */
+    aspect-ratio: 8 / 3; /* 7:3 aspect ratio */
     overflow: hidden;
 }
 
