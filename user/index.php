@@ -7,6 +7,7 @@
 
     // Get search query from URL parameters if present
     $searchQuery = isset($_GET['search']) ? mysqli_real_escape_string($conn, $_GET['search']) : '';
+    $carouselStyle = !empty($searchQuery) ? 'display: none;' : '';
 
     if(isset($_SESSION['email'])) {
         $email = $_SESSION['email'];
@@ -90,7 +91,7 @@
         <?php include "../navigation/user_nav.php"; ?>
         <?php include "chat.php"; ?>
 
-        <div id="carousel_display" class="carousel-container mb-3">
+        <div id="carousel_display" class="carousel-container mb-3" style="<?php echo $carouselStyle; ?>">
             <div id="continuousCarousel" class="carousel slide shadow border" data-bs-ride="carousel" data-bs-interval="3000">
                 <div class="carousel-inner">
                     <?php

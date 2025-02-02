@@ -49,7 +49,7 @@
                                 }
                             ?>
                         </div>
-                        <div class="col-1"> 
+                        <div class="col-1 me-2"> 
                             <?php
                                 if (isset($_SESSION['email'])) {
                                     ?>
