@@ -75,10 +75,13 @@
                             <a class="nav-link text-light" aria-current="page" href="index.php">Home</a>
                         </li>
                         <li class="nav-item mx-auto">
-                            <a class="nav-link text-light" href="index.php#computer">Computers</a>
+                            <a class="nav-link text-light" href="computers.php">Computers</a>
                         </li>
                         <li class="nav-item mx-auto">
-                            <a class="nav-link text-light" href="index.php#cctv">CCTV's</a>
+                            <a class="nav-link text-light" href="customize.php">Customize</a>
+                        </li>
+                        <li class="nav-item mx-auto">
+                            <a class="nav-link text-light" href="cctv.php">CCTV's</a>
                         </li>
                         <?php
                         if (isset($_SESSION['email'])) {
