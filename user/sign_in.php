@@ -107,7 +107,7 @@
                             <a href="#" class="nav-link text-primary p-0 mt-2">Forgot password?</a>
                         </div>
                         <div class="mb-1">
-                            <button class="btn btn-danger w-100" type="submit">Log In</button>
+                            <button class="btn btn-pink w-100" type="submit">Log In</button>
                         </div>
                     </form>
                 </div>

@@ -60,7 +60,7 @@
                     </div>
 
                     <!-- Submit Button -->
-                    <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                    <button type="submit" class="btn btn-pink mb-2">Submit</button>
                 </form>
             </div>
         </div>
@@ -94,6 +94,6 @@
         </div>
     </div>
     <div class="row border-top border-secondary bg-darker text-secondary text-center mt-3">
-        <p class="my-2">2024 &copy; HFA Computer Parts and Repair Services. All rights reserved.</p>
+        <p class="my-1">2024 &copy; HFA Computer Parts and Repair Services. All rights reserved.</p>
     </div>
 </div>

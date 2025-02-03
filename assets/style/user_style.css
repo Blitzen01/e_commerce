@@ -44,6 +44,16 @@ img, input {
 .bg-pink {
     background: var(--color-pink) !important;
 }
+
+.btn-pink {
+    background: var(--color-pink) !important;
+    color: var(--color-white) !important;
+}
+.btn-pink:hover {
+    background: var(--color-pink-dark) !important;
+}
+
+
 /* ====================================================================== */
 /* ====================================================================== */
 /* ====================================================================== */

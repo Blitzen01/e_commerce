@@ -176,7 +176,7 @@
                 <div class="chatbox" id="chatbox">
                     <button class="close_button" onclick="closeChatbox()">×</button> <!-- Close button -->
                     <div class="chatbox_container" id="chatboxContainer">
-                        <div class="bg-danger text-center text-light mb-3">
+                        <div class="bg-pink text-center text-light mb-3">
                             <span>Contact Support</span>
                         </div>
                         <div class="chat_support_greetings text-center">

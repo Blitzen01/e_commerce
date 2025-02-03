@@ -46,7 +46,7 @@
                             <input type="password" class="form-control" name="user_confirm_password" id="user_confirm_password" placeholder="Confirm Password" autocomplete="off" required>
                         </div>
                         <div class="mb-1">
-                            <button class="btn btn-danger w-100" type="submit">Register</button>
+                            <button class="btn btn-pink w-100" type="submit">Register</button>
                         </div>
                     </form>
                 </div>

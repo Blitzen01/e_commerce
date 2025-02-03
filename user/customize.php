@@ -91,9 +91,6 @@
         <?php include "../navigation/user_nav.php"; ?>
         <?php include "chat.php"; ?>
 
-        <?php include "web_content/carousel.php"; ?>
-        <?php include "web_content/computer_display.php"; ?>
-        <?php include "web_content/cctv_display.php"; ?>
 
         <hr class="mx-5 mt-5 mb-3">
 

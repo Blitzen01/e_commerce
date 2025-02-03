@@ -12,6 +12,7 @@
     --color-gray: #7a7a7a;
     --color-blue: #2503F2;
     --color-pink: #FE01D6;
+    --color-pink-dark: #a00088;
 }
 
 #product_section .form-select {
@@ -31,8 +32,16 @@ body {
     background: var(--color-red) !important;
     color: var(--color-white) !important;
 }
-#btn-danger:hover {
+.btn-danger:hover {
     background: var(--color-red-dark) !important;
+}
+
+.btn-pink {
+    background: var(--color-pink) !important;
+    color: var(--color-white) !important;
+}
+.btn-pink:hover {
+    background: var(--color-pink-dark) !important;
 }
 
 

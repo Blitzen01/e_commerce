@@ -72,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             /* Logo section styling */
             .logo-section {
-                background-color: #ff0000;
+                background-color:#FE01D6;
                 color: #fff;
                 display: flex;
                 align-items: center;
@@ -98,7 +98,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <body>
         <div class="container-fluid">
             <div class="row w-100" style="max-width: 800px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); border-radius: 8px; overflow: hidden;">
-
                 <!-- Login Form Section (Left side for desktop, bottom for mobile) -->
                 <div id="login_form_layout" class="col-12 col-md-6 p-4">
                     <form action="index.php" method="post">
@@ -110,7 +109,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <a href="#" class="nav-link text-primary p-0 mt-2">Forgot password?</a>
                         </div>
                         <div class="mb-3">
-                            <button class="btn btn-danger w-100" type="submit">Log In</button>
+                            <button class="btn btn-pink w-100" type="submit">Log In</button>
                         </div>
                     </form>
                 </div>

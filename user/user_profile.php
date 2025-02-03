@@ -127,7 +127,7 @@ $email = $_SESSION['email'];
                                     </div>
                                     <hr class="mx-auto" style="width:80%;">
                                     <h5><strong>Bio: </strong> <?php echo $row['bio']; ?></h5>
-                                    <button class="btn btn-danger w-100 text-light" data-bs-toggle="modal"
+                                    <button class="btn btn-pink w-100 text-light" data-bs-toggle="modal"
                                         data-bs-target="#update_user_profile_modal">Update Profile</button>
                                 </div>
                             </div>
@@ -145,7 +145,7 @@ $email = $_SESSION['email'];
             <section class="my-2 px-4">
                 <div class="row text-center">
                     <div class="col">
-                        <button class="btn btn-danger w-100 border-0 rounded-0"
+                        <button class="btn btn-pink w-100 border-0 rounded-0"
                             onclick="showTable('booking', 'booking_transaction', 'declined_booking', 'cancelled_booking')">Booking</button>
                     </div>
                     <div class="col">
@@ -489,7 +489,7 @@ $email = $_SESSION['email'];
             <section class="my-2 px-4">
                 <div class="row text-center">
                     <div class="col">
-                        <button class="btn btn-danger w-100 border-0 rounded-0"
+                        <button class="btn btn-pink w-100 border-0 rounded-0"
                             onclick="showTable('order', 'declined', 'order_transaction', 'cancelled')">Orders</button>
                     </div>
                     <div class="col">
