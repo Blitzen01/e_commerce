@@ -224,7 +224,7 @@
                                     if($result1) {
                                         while($row1 = mysqli_fetch_assoc($result1)) {
                                             ?>
-                                            <tr id="computer_parts_<?php echo $row1['id']; ?>">
+                                            <tr id="computer_part_<?php echo $row1['id']; ?>">
                                                 <td><?php echo $row1['parts_category']; ?></td>
                                                 <td><?php echo $row1['parts_name']; ?></td>
                                                 <td><?php echo $row1['price']; ?></td>
@@ -235,8 +235,8 @@
                                                         data-bs-toggle="modal" 
                                                         data-bs-target="#update_computer_parts_product_modal" 
                                                         data-id="<?php echo $row1['id']; ?>" 
-                                                        data-category="<?php echo $row1['parts_category']; ?>" 
-                                                        data-name="<?php echo $row1['parts_name']; ?>" 
+                                                        data-parts_category="<?php echo $row1['parts_category']; ?>" 
+                                                        data-parts_name="<?php echo $row1['parts_name']; ?>" 
                                                         data-price="<?php echo $row1['price']; ?>" 
                                                         data-stocks="<?php echo $row1['stocks']; ?>">
                                                         Update
@@ -443,6 +443,38 @@
 
                     // Set the product ID in the hidden input field
                     deleteModal.querySelector('#delete_product_id').value = productId;
+                });
+            });
+
+            // script for updating computer parts
+            document.addEventListener('DOMContentLoaded', function() {
+                var updateModal = document.getElementById('update_computer_parts_product_modal');
+                updateModal.addEventListener('show.bs.modal', function(event) {
+                    var button = event.relatedTarget; // Button that triggered the modal
+                    var productId = button.getAttribute('data-id');
+                    var productCategory = button.getAttribute('data-parts_category');
+                    var productName = button.getAttribute('data-parts_name');
+                    var productPrice = button.getAttribute('data-price');
+                    var productStocks = button.getAttribute('data-stocks');
+
+                    // Update the modal's input fields
+                    updateModal.querySelector('#parts_id').value = productId;
+                    updateModal.querySelector('#parts_category').value = productCategory;
+                    updateModal.querySelector('#parts_name').value = productName;
+                    updateModal.querySelector('#parts_price').value = productPrice;
+                    updateModal.querySelector('#parts_stocks').value = productStocks;
+                });
+            });
+
+            // script for deleting computer parts
+            document.addEventListener('DOMContentLoaded', function() {
+                var deleteModal = document.getElementById('delete_computer_parts_product_modal');
+                deleteModal.addEventListener('show.bs.modal', function(event) {
+                    var button = event.relatedTarget; // Button that triggered the modal
+                    var productId = button.getAttribute('data-id');
+
+                    // Set the product ID in the hidden input field
+                    deleteModal.querySelector('#delete_parts_id').value = productId;
                 });
             });
         </script>

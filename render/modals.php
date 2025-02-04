@@ -116,6 +116,65 @@
 </div>
 <!-- Delete Product Modal -->
 
+<!-- Update computer parts Modal -->
+<div class="modal fade" id="update_computer_parts_product_modal" tabindex="-1" aria-labelledby="add_product_category_modal_label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="add_product_category_modal_label">Update Computer Part</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="../../assets/php_script/update_computer_parts_script.php" method="post">
+                    <input type="hidden" name="parts_id" id="parts_id">
+                    <input type="hidden" name="parts_category" id="parts_category">
+                    <div class="mb-3">
+                        <label for="parts_name">Product Name</label>
+                        <input type="text" class="form-control" name="parts_name" id="parts_name" autocomplete="off">
+                    </div>
+                    <div class="mb-3">
+                        <label for="parts_price">Price</label>
+                        <input type="number" class="form-control" name="parts_price" id="parts_price" autocomplete="off">
+                    </div>
+                    <div class="mb-2">
+                        <label for="parts_stocks">Stocks</label>
+                        <input type="number" class="form-control" name="parts_stocks" id="parts_stocks" autocomplete="off">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Update computer parts Modal -->
+
+<!-- Delete computer parts Modal -->
+<div class="modal fade" id="delete_computer_parts_product_modal" tabindex="-1" aria-labelledby="remove_product_category_modal_label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="remove_product_category_modal_label">Delete Computer Parts</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this computer part?</p>
+                <form action="../../assets/php_script/delete_computer_parts_script.php" method="post">
+                    <!-- Hidden field to store the product ID -->
+                    <input type="hidden" name="parts_ID" id="delete_parts_id">
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Delete computer parts Modal -->
+
 <!-- Create Scheduled Booking Modal -->
 <div class="modal fade" id="create_scheduled_booking" tabindex="-1" aria-labelledby="create_scheduled_booking_label" aria-hidden="true">
     <div class="modal-dialog">

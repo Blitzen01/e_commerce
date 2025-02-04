@@ -7,6 +7,8 @@
                             SELECT stocks FROM package WHERE stocks <= 10
                             UNION ALL
                             SELECT stocks FROM products WHERE stocks <= 10
+                            UNION ALL
+                            SELECT stocks FROM computer_parts WHERE stocks <= 10
                         ) AS low_stock_items";
                 $result = mysqli_query($conn, $sql);
                 $row = mysqli_fetch_assoc($result);
@@ -22,7 +24,6 @@
                 $booking_count_result_row = mysqli_fetch_assoc($booking_count_result);
                 $total_booking_count = $booking_count_result_row['booking_count'] ?? 0;
                 $total_notif = $low_stock_count + $total_booking_order_count + $total_booking_count;
-
             ?>
             <a class="nav-link me-3 position-relative" href="#" id="stockDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <h5><i class="fa-solid fa-bell"></i></h5>
@@ -33,34 +34,39 @@
                     </span>
                 <?php endif; ?>
             </a>
-            <!-- Add custom class or style to enable scroll -->
+
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="stockDropdown" style="max-height: 300px; overflow-y: auto; overflow-x: hidden;">
                 <?php
-                    // Fetch low-stock notifications
+                    // Fetch low-stock notifications, including computer parts
                     $sql = "SELECT 'package' AS type, id AS id, package_name AS name, stocks 
-                    FROM package 
-                    WHERE stocks <= 10
-                    UNION
-                    SELECT 'product' AS type, id AS id, product_name AS name, stocks 
-                    FROM products 
-                    WHERE stocks <= 10";            
+                            FROM package 
+                            WHERE stocks <= 10
+                            UNION
+                            SELECT 'product' AS type, id AS id, product_name AS name, stocks 
+                            FROM products 
+                            WHERE stocks <= 10
+                            UNION
+                            SELECT 'computer_part' AS type, id AS id, parts_name AS name, stocks 
+                            FROM computer_parts 
+                            WHERE stocks <= 10";
+                    
                     $result = mysqli_query($conn, $sql);
 
                     if ($result && mysqli_num_rows($result) > 0) {
                         while ($row = mysqli_fetch_assoc($result)) {
                             ?>
-                                <li>
-                                    <a class="dropdown-item" href="inventory.php#<?php echo urlencode($row['type'] . '_' . $row['id']); ?>">
-                                        <?php echo strtoupper(htmlspecialchars($row['type'])); ?>: 
-                                        <b><?php echo htmlspecialchars($row['name']); ?></b> 
-                                        (Stocks: <?php echo (int)$row['stocks']; ?>)
-                                    </a>
-                                </li>
+                            <li>
+                                <a class="dropdown-item" href="inventory.php#<?php echo urlencode($row['type'] . '_' . $row['id']); ?>">
+                                <?php echo strtoupper($row['type'] === 'computer_part' ? 'PRODUCT' : htmlspecialchars($row['type'])); ?>: 
+                                    <b><?php echo htmlspecialchars($row['name']); ?></b> 
+                                    (Stocks: <?php echo (int)$row['stocks']; ?>)
+                                </a>
+                            </li>
                             <?php
                         }
                     } else {
                         echo '<li><a class="dropdown-item" href="#">No low-stock items</a></li>';
-                    }    
+                    }
 
                     // Booking notifications
                     $booking_notif = "SELECT * FROM booked";
@@ -78,9 +84,7 @@
                             <?php
                         }
                     } else {
-                        ?>
-                        <li><a class="dropdown-item" href="#">No bookings available</a></li>
-                        <?php
+                        echo '<li><a class="dropdown-item" href="#">No bookings available</a></li>';
                     }
 
                     // Order booking notifications
@@ -99,9 +103,7 @@
                             <?php
                         }
                     } else {
-                        ?>
-                        <li><a class="dropdown-item" href="#">No Orders available</a></li>
-                        <?php
+                        echo '<li><a class="dropdown-item" href="#">No Orders available</a></li>';
                     }
                 ?>
             </ul>
