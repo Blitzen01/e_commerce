@@ -70,7 +70,7 @@
                             }
                         ?>
                         <button 
-                            class="btn btn-primary ms-2" 
+                            class="btn btn-pink ms-2" 
                             onclick="checkLoginStatusAndShowModal(<?php echo isset($_SESSION['email']) ? 'true' : 'false'; ?>)"                        >
                             Buy Now
                         </button>
@@ -166,7 +166,7 @@
                     if($result1) {  //$result && $result1
                         while($row1 = mysqli_fetch_assoc($result1)) {
                             ?>
-                            <div class="col">
+                            <div class="col-lg-3">
                                 <div class="card m-2">
                                     <!-- Image Section -->
                                     <div class="position-relative overflow-hidden d-flex justify-content-center align-items-center" style="height: 200px;">

@@ -71,7 +71,7 @@
                             }
                         ?>
                         <button 
-                            class="btn btn-primary ms-2" 
+                            class="btn btn-pink ms-2" 
                             onclick="checkLoginStatusAndShowModal(<?php echo isset($_SESSION['email']) ? 'true' : 'false'; ?>)">
                             Buy Now
                         </button>

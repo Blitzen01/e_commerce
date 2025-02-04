@@ -44,7 +44,13 @@ body {
     background: var(--color-pink-dark) !important;
 }
 
-
+.btn-blue {
+    background: var(--color-blue) !important;
+    color: var(--color-white) !important;
+}
+.btn-blue:hover {
+    background: var(--color-blue-dark) !important;
+}
 
 /* admin sidebar */
 #sidebar {

@@ -1,4 +1,5 @@
 <div class="container" id="computer">
+    <span class="text-muted">Other products</span>
     <div class="row">
         <?php
             // Filter packages based on search query
