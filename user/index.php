@@ -103,6 +103,9 @@
         <!-- cctv display -->
         <?php include "web_content/cctv_display.php"; ?>
 
+        <!-- computer parts display -->
+        <?php include "web_content/computer_parts_display.php"; ?>
+
         <hr class="mx-5 mt-5 mb-3">
 
         <?php include "../navigation/user_footer.php"; ?>

@@ -217,6 +217,42 @@
                                             <?php
                                         }
                                     }
+
+                                    $sql1 = "SELECT * FROM computer_parts";
+                                    $result1 = mysqli_query($conn, $sql1);
+
+                                    if($result1) {
+                                        while($row1 = mysqli_fetch_assoc($result1)) {
+                                            ?>
+                                            <tr id="computer_parts_<?php echo $row1['id']; ?>">
+                                                <td><?php echo $row1['parts_category']; ?></td>
+                                                <td><?php echo $row1['parts_name']; ?></td>
+                                                <td><?php echo $row1['price']; ?></td>
+                                                <td><?php echo $row1['stocks']; ?></td>
+                                                <td>
+                                                    <button 
+                                                        class="bg-success border-0 text-light p-1" 
+                                                        data-bs-toggle="modal" 
+                                                        data-bs-target="#update_computer_parts_product_modal" 
+                                                        data-id="<?php echo $row1['id']; ?>" 
+                                                        data-category="<?php echo $row1['parts_category']; ?>" 
+                                                        data-name="<?php echo $row1['parts_name']; ?>" 
+                                                        data-price="<?php echo $row1['price']; ?>" 
+                                                        data-stocks="<?php echo $row1['stocks']; ?>">
+                                                        Update
+                                                    </button>
+                                                    <button 
+                                                        class="bg-danger border-0 text-light p-1" 
+                                                        data-bs-toggle="modal" 
+                                                        data-bs-target="#delete_computer_parts_product_modal" 
+                                                        data-id="<?php echo $row1['id']; ?>">
+                                                        Delete
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <?php
+                                        }
+                                    }
                                 ?>
                             </tbody>
                         </table>
@@ -731,3 +767,55 @@ if ($result) {
     }
 }
 ?>
+
+<!-- add computer parts Modal -->
+<div class="modal fade" id="add_computer_parts" tabindex="-1" aria-labelledby="add_computer_parts_label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="add_computer_parts_label">Add Computer Parts</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="../../assets/php_script/add_computer_parts_script.php" method="post" enctype="multipart/form-data">
+                    <div class="mb-4">
+                        <label for="computer_parts_image">Computer Parts Image</label>
+                        <input type="file" class="form-control" name="computer_parts_image" id="computer_parts_image" accept="image/*" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="parts_category">Parts:</label>
+                        <select name="parts_category" id="parts_category" class="form-select" required>
+                            <option value="Processor">Processor</option>
+                            <option value="RAM">RAM</option>
+                            <option value="SSD">SSD</option>
+                            <option value="HDD">HDD</option>
+                            <option value="Monitor">Monitor</option>
+                            <option value="Display">Display</option>
+                            <option value="PSU">PSU</option>
+                            <option value="Keyboard and Mouse">Keyboard and Mouse</option>
+                            <option value="AVR">AVR</option>
+                            <option value="Speaker">Speaker</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label for="parts_name">Name</label>
+                        <input type="text" class="form-control" name="parts_name" id="parts_name"required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="price">Price</label>
+                        <input type="number" class="form-control" name="price" id="price"required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="stock">Stocks</label>
+                        <input type="number" class="form-control" name="stock" id="stock"required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-pink">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- add computer parts Modal -->

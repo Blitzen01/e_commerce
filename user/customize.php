@@ -91,6 +91,67 @@
         <?php include "../navigation/user_nav.php"; ?>
         <?php include "chat.php"; ?>
 
+        <div class="container">
+    <form action="" method="post">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Parts Category</th>
+                    <th>Parts Name</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                    $sql = "SELECT DISTINCT parts_category FROM computer_parts"; // Get unique parts categories
+                    $result = mysqli_query($conn, $sql);
+
+                    if ($result) {
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            $category = $row['parts_category'];
+                ?>
+                            <tr>
+                                <td><?php echo $category; ?></td>
+                                <td>
+                                    <select name="parts_name[<?php echo $category; ?>]" class="form-control" onchange="fetchPrice('<?php echo $category; ?>')">
+                                        <option value="">Select Part</option>
+                                        <?php
+                                            // Fetch parts based on the category
+                                            $sql_parts = "SELECT parts_name, price FROM computer_parts WHERE parts_category = '$category'";
+                                            $parts_result = mysqli_query($conn, $sql_parts);
+                                            
+                                            if ($parts_result) {
+                                                while ($part = mysqli_fetch_assoc($parts_result)) {
+                                                    echo "<option value='" . $part['parts_name'] . "' data-price='" . $part['price'] . "'>" . $part['parts_name'] . "</option>";
+                                                }
+                                            }
+                                        ?>
+                                    </select>
+                                </td>
+                                <td><span id="price-<?php echo $category; ?>">Select a part to see price</span></td>
+                            </tr>
+                <?php
+                        }
+                    }
+                ?>
+            </tbody>
+        </table>
+        <button type="submit" class="btn btn-primary">Place Order</button>
+    </form>
+</div>
+
+<script>
+    function fetchPrice(category) {
+        var selectedPart = document.querySelector('select[name="parts_name[' + category + ']"]').value;
+        var selectedOption = document.querySelector('select[name="parts_name[' + category + ']"] option[value="' + selectedPart + '"]');
+        var price = selectedOption ? selectedOption.getAttribute('data-price') : '';
+
+        // Display the price
+        document.getElementById('price-' + category).textContent = price ? '₱' + price : 'Select a part to see price';
+    }
+</script>
+
+
 
         <hr class="mx-5 mt-5 mb-3">
 
