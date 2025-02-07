@@ -78,7 +78,17 @@
                             <a class="nav-link text-light" href="computers.php">Computers</a>
                         </li>
                         <li class="nav-item mx-auto">
-                            <a class="nav-link text-light" href="customize.php">Customize</a>
+                            <?php
+                                if (isset($_SESSION['email'])) {
+                                    ?>
+                                        <a class="nav-link text-light" href="customize.php">Customize</a>
+                                    <?php
+                                } else {
+                                    ?>
+                                        <a class="nav-link text-light" href="sign_in.php">Customize</a>
+                                    <?php
+                                }
+                            ?>
                         </li>
                         <li class="nav-item mx-auto">
                             <a class="nav-link text-light" href="cctv.php">CCTV's</a>
