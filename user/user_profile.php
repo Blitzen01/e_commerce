@@ -182,7 +182,6 @@ $email = $_SESSION['email'];
                                             <h5 class="card-title text-truncate"><?php echo $row['type_of_booking']; ?></h5>
                                             <p class="card-text mb-1">Kind of Booking: <?php echo $row['kind_of_booking']; ?></p>
                                             <p class="card-text mb-1">Mode of Booking: <?php echo $row['mob']; ?></p>
-                                            <p class="card-text mb-1">Price: PHP <?php echo number_format($row['price'], 2); ?></p>
                                             <p class="card-text mb-1">Time: <?php echo $formattedTime; ?></p>
                                             <p class="card-text mb-1">Date: <?php echo $formattedDate; ?></p>
                                             <p class="card-text mb-1">Remarks: <?php echo $row['remarks']; ?></p>
@@ -326,7 +325,6 @@ $email = $_SESSION['email'];
                                             <h5 class="card-title text-truncate">Booking Type: <?php echo $row['type_of_booking']; ?></h5>
                                             <p class="card-text mb-1">Kind of Booking: <?php echo $row['kind_of_booking']; ?></p>
                                             <p class="card-text mb-1">Mode of Booking: <?php echo $row['mob']; ?></p>
-                                            <p class="card-text mb-1">Price: PHP <?php echo number_format($row['total_amount'], 2); ?></p>
                                             <p class="card-text mb-1">Time: <?php echo $formattedTime; ?></p>
                                             <p class="card-text mb-1">Date: <?php echo $formattedDate; ?></p>
                                             <p class="card-text mb-1">
@@ -368,7 +366,6 @@ $email = $_SESSION['email'];
                                             <h5 class="card-title text-truncate">Booking Type: <?php echo $row['type_of_booking']; ?></h5>
                                             <p class="card-text mb-1">Kind of Booking: <?php echo $row['kind_of_booking']; ?></p>
                                             <p class="card-text mb-1">Mode of Booking: <?php echo $row['mob']; ?></p>
-                                            <p class="card-text mb-1">Price: PHP <?php echo number_format($row['total_amount'], 2); ?></p>
                                             <p class="card-text mb-1">Time: <?php echo $formattedTime; ?></p>
                                             <p class="card-text mb-1">Date: <?php echo $formattedDate; ?></p>
                                             <p class="card-text mb-1">
@@ -410,7 +407,6 @@ $email = $_SESSION['email'];
                                             <h5 class="card-title text-truncate">Booking Type: <?php echo $row['type_of_booking']; ?></h5>
                                             <p class="card-text mb-1">Kind of Booking: <?php echo $row['kind_of_booking']; ?></p>
                                             <p class="card-text mb-1">Mode of Booking: <?php echo $row['mob']; ?></p>
-                                            <p class="card-text mb-1">Price: PHP <?php echo number_format($row['total_amount'], 2); ?></p>
                                             <p class="card-text mb-1">Time: <?php echo $formattedTime; ?></p>
                                             <p class="card-text mb-1">Date: <?php echo $formattedDate; ?></p>
                                             <p class="card-text mb-1">
@@ -545,6 +541,11 @@ $email = $_SESSION['email'];
                                                 }
                                             }
                                         }
+
+                                        if(strpos($row['item'], "Custom Build") !== false) {
+                                            $imgPath = "../assets/image/custom_build.jpg";
+                                        }
+
                                     ?>
                                     <div class="col-4 col-sm-3">
                                         <img src="<?php echo $imgPath; ?>" alt="Product Image" class="img-fluid rounded-start">
@@ -760,6 +761,10 @@ $email = $_SESSION['email'];
                                     }
                                 }
                             }
+
+                            if(strpos($row['item'], "Custom Build") !== false) {
+                                $imgPath = "../assets/image/custom_build.jpg";
+                            }
                             ?>
 
                             <!-- Responsive Product Card -->
@@ -823,6 +828,10 @@ $email = $_SESSION['email'];
                                     }
                                 }
                             }
+
+                            if(strpos($row['item'], "Custom Build") !== false) {
+                                $imgPath = "../assets/image/custom_build.jpg";
+                            }
                             ?>
 
                             <!-- Responsive Product Card -->
@@ -885,6 +894,10 @@ $email = $_SESSION['email'];
                                         $imgPath = "../assets/image/package_image/" . $packageRow['package_image'];
                                     }
                                 }
+                            }
+
+                            if(strpos($row['item'], "Custom Build") !== false) {
+                                $imgPath = "../assets/image/custom_build.jpg";
                             }
                             ?>
 

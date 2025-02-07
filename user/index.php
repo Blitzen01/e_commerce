@@ -24,7 +24,7 @@
     }
 ?>
 
-<!-- Modal -->
+<!-- check if the account is first time login Modal -->
 <div class="modal fade" id="is_new_account" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

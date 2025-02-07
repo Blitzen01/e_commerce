@@ -63,7 +63,6 @@
                                     <td>Type of Booking</td>
                                     <td>Kind of Booking</td>
                                     <td>Mode of Booking</td>
-                                    <td>Total Amount</td>
                                     <td>Remarks</td>
                                 </tr>
                             </thead>
@@ -100,7 +99,6 @@
                                                 <td><?php echo $row['type_of_booking']; ?></td>
                                                 <td><?php echo $row['kind_of_booking']; ?></td>
                                                 <td><?php echo $row['mob']; ?></td>
-                                                <td><?php echo $row['price']; ?></td>
                                                 <td><?php echo $row['remarks']; ?></td>
                                             </tr>
                                             <?php
@@ -128,7 +126,6 @@
                                     <td>Type of Booking</td>
                                     <td>Kind of Booking</td>
                                     <td>Mode of Booking</td>
-                                    <td>Total Amount</td>
                                     <td>Remarks</td>
                                 </tr>
                             </thead>
@@ -161,7 +158,6 @@
                                                 <td><?php echo $row['type_of_booking']; ?></td>
                                                 <td><?php echo $row['kind_of_booking']; ?></td>
                                                 <td><?php echo $row['mob']; ?></td>
-                                                <td><?php echo $row['price']; ?></td>
                                                 <td><?php echo $row['remarks']; ?></td>
                                             </tr>
                                             <?php

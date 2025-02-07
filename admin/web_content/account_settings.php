@@ -19,7 +19,7 @@
         <title>Admin: Account Settings</title>
         
         <link rel="stylesheet" href="../../assets/style/admin_style.css">
-
+        <link rel="icon" href="/e_commerce/assets/image/hfa_logo.png" type="image/png">
     </head>
 
     <body>
@@ -126,7 +126,7 @@
     if ($result) {
         while ($row = mysqli_fetch_assoc($result)) {
 ?>
-            <!-- Modal -->
+            <!-- update infos Modal -->
             <div class="modal fade" id="admin_update_profile_information_modal" tabindex="-1" aria-labelledby="update_profile_label" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -206,7 +206,7 @@
     if ($result) {
         while ($row = mysqli_fetch_assoc($result)) {
 ?>
-            <!-- Modal -->
+            <!-- change password Modal -->
             <div class="modal fade" id="change_user_password_modal" tabindex="-1" aria-labelledby="change_user_password_modal_label" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -244,7 +244,7 @@
     }
 ?>
 
-<!-- Modal -->
+<!-- upload profile picture Modal -->
 <div class="modal fade" id="update_admin_profile_picture_modal" tabindex="-1" aria-labelledby="update_admin_profile_picture_modal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

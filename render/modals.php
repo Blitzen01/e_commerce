@@ -201,14 +201,14 @@
                         <label for="kind_of_booking">What kind of repair, installation, CCTV concern ?</label>
                         <select name="kind_of_booking" id="kind_of_booking" class="form-select">
                             <option value="default">Default</option>
-                            <option value="Laptop Repair">Laptop Repair: &#8369;800</option>
-                            <option value="Desktop Repair">CPU Repair: &#8369;700</option>
-                            <option value="Board Level">Board Level: &#8369;2500(Min. Charge)</option>
-                            <option value="Laptop Installation">Laptop Installation: &#8369;250</option>
-                            <option value="Desktop Installation">Desktop Installation: &#8369;200</option>
-                            <option value="Printer Installation">Printer Installation: &#8369;150</option>
-                            <option value="CCTV Walk In">CCTV Walk In: &#8369;400</option>
-                            <option value="CCTV On Site">CCTV On Site: &#8369;800</option>
+                            <option value="Laptop Repair">Laptop Repair</option>
+                            <option value="Desktop Repair">CPU Repair</option>
+                            <option value="Board Level">Board Level</option>
+                            <option value="Laptop Installation">Laptop Installation</option>
+                            <option value="Desktop Installation">Desktop Installation</option>
+                            <option value="Printer Installation">Printer Installation</option>
+                            <option value="CCTV Walk In">CCTV Walk In</option>
+                            <option value="CCTV On Site">CCTV On Site</option>
                         </select>
                     </div>
                     <div class="form-group mb-3">

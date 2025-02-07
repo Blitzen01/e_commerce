@@ -58,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <title>Admin: HFA Computer Parts and Repair Services</title>
 
         <link rel="stylesheet" href="../assets/style/admin_style.css">
-        <link rel="icon" href="../assets/image/hfa_logo.png" type="image/png">
+        <link rel="icon" href="/e_commerce/assets/image/hfa_logo.png" type="image/png">
 
         <style>
             /* Container for the layout */

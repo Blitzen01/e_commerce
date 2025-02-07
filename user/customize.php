@@ -76,13 +76,19 @@
 
         <style>
             .modal-dialog {
-                max-height: calc(100% - 1rem); /* Ensures the modal does not overflow the viewport */
-                overflow-y: auto; /* Enables vertical scrolling within the modal */
+                max-height: calc(100% - 1rem);
+                overflow-y: auto;
             }
 
             .modal-body {
-                max-height: 70vh; /* Adjust as needed */
-                overflow-y: auto; /* Ensures the scroll is inside the modal body */
+                max-height: 70vh;
+                overflow-y: auto;
+            }
+
+            .error-message {
+                color: red;
+                font-size: 14px;
+                display: none;
             }
         </style>
     </head>
@@ -93,7 +99,7 @@
 
         <div class="container">
             <h4 class="text-center">Build your dream custom PC with our parts picker and bring your vision to life!</h4>
-            <form action="" method="post">
+            <form action="custom_order_review.php" method="post" id="orderForm">
                 <table class="table">
                     <thead>
                         <tr>
@@ -104,7 +110,7 @@
                     </thead>
                     <tbody>
                         <?php
-                            $sql = "SELECT DISTINCT parts_category FROM computer_parts"; // Get unique parts categories
+                            $sql = "SELECT DISTINCT parts_category FROM computer_parts";
                             $result = mysqli_query($conn, $sql);
 
                             if ($result) {
@@ -117,7 +123,6 @@
                                             <select name="parts_name[<?php echo $category; ?>]" class="form-control" onchange="fetchPrice('<?php echo $category; ?>')">
                                                 <option value="">Select Part</option>
                                                 <?php
-                                                    // Fetch parts based on the category
                                                     $sql_parts = "SELECT parts_name, price FROM computer_parts WHERE parts_category = '$category'";
                                                     $parts_result = mysqli_query($conn, $sql_parts);
                                                     
@@ -137,6 +142,7 @@
                         ?>
                     </tbody>
                 </table>
+                <div id="error-message" class="error-message">Please select a part from all categories before placing the order.</div>
                 <button type="submit" class="btn btn-primary">Place Order</button>
             </form>
         </div>
@@ -152,12 +158,10 @@
             const offset = 8; // PHT is UTC+8
             const philippineTime = new Date(now.getTime() + offset * 60 * 60 * 1000);
 
-            // Format the date to YYYY-MM-DD
             const today = philippineTime.toISOString().split('T')[0];
 
-            // Set the min attribute of the date input to today's date
             document.getElementById('dateInput').setAttribute('min', today);
-            
+
             document.addEventListener('DOMContentLoaded', function() {
                 const isNew = <?php echo json_encode($is_new); ?>;
                 if (isNew != 1) {
@@ -168,7 +172,6 @@
                     modal.show();
                 }
 
-                // Form validation for password match
                 const form = document.getElementById('newAccountForm');
                 const password = document.getElementById('password');
                 const confirmPassword = document.getElementById('confirmPassword');
@@ -185,7 +188,6 @@
                     }
                 });
 
-                // Remove invalid state on input
                 confirmPassword.addEventListener('input', function() {
                     confirmPassword.classList.remove('is-invalid');
                 });
@@ -196,9 +198,25 @@
                 var selectedOption = document.querySelector('select[name="parts_name[' + category + ']"] option[value="' + selectedPart + '"]');
                 var price = selectedOption ? selectedOption.getAttribute('data-price') : '';
 
-                // Display the price
                 document.getElementById('price-' + category).textContent = price ? '₱' + price : 'Select a part to see price';
             }
+
+            document.getElementById('orderForm').addEventListener('submit', function(event) {
+                const categories = document.querySelectorAll('select');
+                let allSelected = true;
+                categories.forEach(function(select) {
+                    if (!select.value) {
+                        allSelected = false;
+                    }
+                });
+
+                if (!allSelected) {
+                    event.preventDefault();
+                    document.getElementById('error-message').style.display = 'block';
+                } else {
+                    document.getElementById('error-message').style.display = 'none';
+                }
+            });
         </script>
     </body>
 </html>
