@@ -51,6 +51,7 @@
                     <table id="table_order_transaction_history" class="table table-sm nowrap table-striped compact table-hover" >
                             <thead class="table-danger">
                                 <tr>
+                                    <td>Status</td>
                                     <td>Name</td>
                                     <td>Email</td>
                                     <td>Address</td>
@@ -60,7 +61,6 @@
                                     <td>Item Qty.</td>
                                     <td>Total Price</td>
                                     <td>Mode of Payment</td>
-                                    <td>Status</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -72,6 +72,22 @@
                                         while($row = mysqli_fetch_assoc($result)) {
                                             ?>
                                             <tr>
+                                                <td>
+                                                    <?php
+                                                    $status = strtolower($row['status']); // Convert to lowercase for case-insensitive matching
+                                                    $statusClass = "text-secondary"; // Default color (gray)
+
+                                                    if (strpos($status, "finished") !== false) {
+                                                        $statusClass = "text-success"; // Green for any "Finished" status
+                                                    } elseif (strpos($status, "declined") !== false) {
+                                                        $statusClass = "text-danger"; // Red for any "Declined" status
+                                                    } elseif (strpos($status, "cancelled") !== false) {
+                                                        $statusClass = "text-warning"; // Yellow/Orange for any "Cancelled" status
+                                                    }
+
+                                                    echo "<span class='$statusClass'>{$row['status']}</span>";
+                                                    ?>
+                                                </td>
                                                 <td><?php echo $row['name']; ?></td>
                                                 <td><?php echo $row['email']; ?></td>
                                                 <td><?php echo $row['address']; ?></td>
@@ -89,7 +105,6 @@
                                                         }
                                                     ?>
                                                 </td>
-                                                <td><?php echo $row['status']; ?></td>
                                             </tr>
                                             <?php
                                         }
@@ -104,6 +119,7 @@
                         <table id="table_transaction_history" class="table table-sm nowrap table-striped compact table-hover" >
                             <thead class="table-danger">
                                 <tr>
+                                    <td>Status</td>
                                     <td>Name</td>
                                     <td>Email</td>
                                     <td>Address</td>
@@ -113,7 +129,6 @@
                                     <td>Scheduled Time</td>
                                     <td>Type of Booking</td>
                                     <td>Remarks</td>
-                                    <td>Status</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -127,6 +142,22 @@
                                             $formattedTime = date("g:i A", strtotime($row['time']));  // 12-hour format with AM/PM
                                             ?>
                                             <tr>
+                                                <td>
+                                                    <?php
+                                                    $status = strtolower($row['status']); // Convert to lowercase for case-insensitive matching
+                                                    $statusClass = "text-secondary"; // Default color (gray)
+
+                                                    if (strpos($status, "finished") !== false) {
+                                                        $statusClass = "text-success"; // Green for any "Finished" status
+                                                    } elseif (strpos($status, "declined") !== false) {
+                                                        $statusClass = "text-danger"; // Red for any "Declined" status
+                                                    } elseif (strpos($status, "cancelled") !== false) {
+                                                        $statusClass = "text-warning"; // Yellow/Orange for any "Cancelled" status
+                                                    }
+                                                    
+                                                    echo "<span class='$statusClass'>{$row['status']}</span>";
+                                                    ?>
+                                                </td>
                                                 <td><?php echo $row['name']; ?></td>
                                                 <td><?php echo $row['email']; ?></td>
                                                 <td><?php echo $row['address']; ?></td>
@@ -136,7 +167,6 @@
                                                 <td><?php echo $formattedTime; ?></td>
                                                 <td><?php echo $row['type_of_booking']; ?></td>
                                                 <td><?php echo $row['remarks']; ?></td>
-                                                <td><?php echo $row['status']; ?></td>
                                             </tr>
                                             <?php
                                         }

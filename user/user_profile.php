@@ -113,7 +113,9 @@ $email = $_SESSION['email'];
                                         </h5>
                                     </div>
                                     <div class="col-lg-6 col-sm-11">
-                                        <h5><strong>Birthday: </strong> <?php echo $row['birthday']; ?></h5>
+                                        <h5><strong>Birthday: </strong> 
+                                            <?php echo date("F d, Y", strtotime($row['birthday'])); ?>
+                                        </h5>
                                     </div>
                                     <div class="col-lg-6 col-sm-11">
                                         <h5><strong>Gender: </strong> <?php echo strtoupper($row['gender'] ?? ''); ?></h5>
@@ -1114,13 +1116,6 @@ if ($result) {
                                     <option value="other" <?php echo $row['gender'] == 'other' ? 'selected' : ''; ?>>Other
                                     </option>
                                 </select>
-                            </div>
-
-                            <!-- Age -->
-                            <div class="mb-3">
-                                <label for="age" class="form-label"><strong>Age</strong></label>
-                                <input type="text" class="form-control" id="age" name="age"
-                                    value="<?php echo $row['age']; ?>" required>
                             </div>
 
                             <!-- Bio -->

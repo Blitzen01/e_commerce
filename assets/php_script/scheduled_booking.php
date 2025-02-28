@@ -65,7 +65,7 @@ if ($result && mysqli_num_rows($result) > 0) {
     $sql = "INSERT INTO booked 
             (name, email, address, contact_number, type_of_booking, kind_of_booking, price, date, time, mob, remarks) 
             VALUES 
-            ('$name', '$email', '$address', '$contact_number', '$type_of_booking', '$kind_of_booking', '$price', '$dateInput', '$currentTime', '$mob', '$remarks')";
+            ('$name', '$email', '$address', '$contact_number', '$type_of_booking', '$kind_of_booking', '$price', '$dateInput', '$timeInput', '$mob', '$remarks')";
 
     if (mysqli_query($conn, $sql)) {
         $redirectUrl = "../../user/user_profile.php#profile_booking_view";

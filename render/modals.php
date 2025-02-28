@@ -251,11 +251,11 @@
                         <div class="input-group-text">
                             <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Checkbox for following text input" required>
                         </div>
-                        <small class="ms-2">Accept Terms and Conditions. <button class="btn bg-light text-primary fs-small" onclick="showWarranty()";>Show warranty</button></small>
+                        <small class="ms-2">Accept Terms and Conditions. <button id="btn_show_terms" type="button" class="btn bg-light text-primary fs-small" onclick="showWarranty()";>Show</button></small>
                     </div>
                     <!-- warranty display -->
                     <small id="show_warranty" style="display: none;">
-                        WARRANTY:
+                        <b>Terms and Conditions:</b> <br>
                             1. HFA provides a 30 days warranty on labor only repairs carried out on computer equipment requested by the client. 
                             HFA makes no warranty for data or computer files either expressed or implied. HFA DISCLAIMS any data warranty of any kind. 
                             If the same problem re-occurs within 30 days of the original repair, HFA will undertake the repair again without charge. However, 
@@ -551,7 +551,24 @@ function showWarranty() {
         show_warranty.style.display = 'none';   // Hide the element
     }
 }
+document.addEventListener("DOMContentLoaded", function () {
+    const timeInput = document.getElementById("timeInput");
+    const submitButton = document.getElementById("submitButton");
 
+    timeInput.addEventListener("input", function () {
+        const selectedTime = timeInput.value;
+        const selectedHour = parseInt(selectedTime.split(":")[0], 10); // Extract hour
+
+        // Disable if time is not within 8:00 AM to 5:00 PM
+        if (selectedHour < 8 || selectedHour >= 17) {
+            alert("Please select a time between 08:00 AM and 05:00 PM.");
+            timeInput.value = ""; // Reset the input
+            submitButton.disabled = true; // Disable submit button
+        } else {
+            submitButton.disabled = false; // Enable submit if time is valid
+        }
+    });
+});
 </script>
 </div>
 <!-- Create Scheduled Booking Modal -->

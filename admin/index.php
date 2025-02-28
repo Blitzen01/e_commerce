@@ -1,6 +1,7 @@
 <?php
 include "../assets/cdn/cdn_links.php";
 include "../render/connection.php";
+include "../assets/php_script/config.php";
 
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

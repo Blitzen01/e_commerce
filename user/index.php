@@ -4,6 +4,7 @@
     include "../assets/cdn/cdn_links.php";
     include "../render/connection.php";
     include "../render/modals.php";
+    include "../assets/php_script/config.php";
 
     // Get search query from URL parameters if present
     $searchQuery = isset($_GET['search']) ? mysqli_real_escape_string($conn, $_GET['search']) : '';
