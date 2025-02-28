@@ -1,7 +1,6 @@
 <?php
     session_start();
     include "../../render/connection.php";
-    include "../../render/modals.php";
 
     // Check if the form is submitted
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
