@@ -1,3 +1,32 @@
+<style>
+/* Card hover scale */
+.card:hover {
+    transform: scale(1.02);
+    transition: transform 0.3s ease;
+}
+
+/* Smooth image zoom */
+.card img {
+    transition: transform 0.5s ease;
+}
+
+.card:hover img {
+    transform: scale(1.05);
+}
+
+/* Fade in the overlay */
+.hover-overlay {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* Show overlay on hover */
+.position-relative:hover .hover-overlay {
+    opacity: 1;
+}
+</style>
+
+
 <!-- computer parts display -->
 <div class="container" id="cctv">
     <div class="row">
