@@ -55,7 +55,6 @@
     }
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -64,15 +63,124 @@
         <title>HFA Computer Parts and Repair Services</title>
 
         <link rel="stylesheet" href="../assets/style/user_style.css">
-
         <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
 
         <style>
+            body {
+                font-family: 'Arial', sans-serif;
+                background-color: #f4f7fb;
+                color: #333;
+                margin: 0;
+                padding: 0;
+            }
+
             .log-in-container-fluid {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                min-height: 50vh;
+                padding: 20px;
+            }
+
+            hr {
+                margin-top: 20px;  /* Reduced top margin for the hr */
+                margin-bottom: 20px;  /* Reduced bottom margin for the hr */
+            }
+
+            .login-form-wrapper {
+                background: #fff;
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+                border-radius: 8px;
+                width: 100%;
+                max-width: 400px;
+                padding: 30px;
+                box-sizing: border-box;
+                text-align: center;
+                margin-top: 10px; /* Adjusted margin to reduce space */
+            }
+
+            .login-form-wrapper h2 {
+                font-size: 24px;
+                margin-bottom: 20px;
+                color: #2c3e50;
+            }
+
+            .login_design {
+                padding: 15px;
+                border-radius: 5px;
+                border: 1px solid #ccc;
+                margin-bottom: 15px;
+                width: 100%;
+                font-size: 16px;
+                box-sizing: border-box;
+                transition: border-color 0.3s ease;
+            }
+
+            .login_design:focus {
+                border-color: #3498db;
+                outline: none;
+            }
+
+            .login_btn {
+                background-color: #3498db;
+                color: white;
+                padding: 15px;
+                border-radius: 5px;
+                border: none;
+                width: 100%;
+                font-size: 16px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
+
+            .login_btn:hover {
+                background-color: #2980b9;
+            }
+
+            .forgot-password {
+                color: #3498db;
+                font-size: 14px;
+                text-decoration: none;
+                margin-top: 10px;
+                display: block;
+            }
+
+            .forgot-password:hover {
+                text-decoration: underline;
+            }
+
+            .g_id_signin {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-bottom: 20px;
+                width: 100%;
+            }
+
+            .separator {
+                margin: 20px 0;
+                text-align: center;
+                color: #ccc;
+            }
+
+            .container {
+                margin-top: 20px;
+                font-size: 14px;
+            }
+
+            .container a {
+                color: #3498db;
+                text-decoration: none;
+            }
+
+            .container a:hover {
+                text-decoration: underline;
+            }
+
+            @media (max-width: 480px) {
+                .login-form-wrapper {
+                    width: 100%;
+                    padding: 20px;
+                }
             }
         </style>
     </head>
@@ -83,35 +191,26 @@
         <hr class="mx-5">
 
         <div class="log-in-container-fluid">
-            <div id="sign_up_form_layout" class="w-lg-25 w-md-50 w-sm-75"
-                style="max-width: 800px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); border-radius: 8px; overflow: hidden;">
+            <div class="login-form-wrapper">
+                <h2>Log In to Your Account</h2>
 
-                <div class="container d-flex justify-content-center mt-4 rounded">
-                    <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline"
-                        data-text="sign_in_with" data-shape="rectangular" data-logo_alignment="left"></div>
+                <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline"
+                    data-text="Sign in with Google" data-shape="rectangular" data-logo_alignment="left">
                 </div>
 
-                <div class="text-center my-1">
+                <div class="separator">
                     <span>or</span>
                 </div>
 
-                <div id="login_form_layout" class="p-3">
-                    <form action="sign_in.php" method="post">
-                        <div class="mb-3">
-                            <input type="text" class="form-control" name="user_email" id="user_email" placeholder="Email"
-                                autocomplete="off">
-                        </div>
-                        <div class="mb-3">
-                            <input type="password" class="form-control" name="user_password" id="user_password"
-                                placeholder="Password" autocomplete="off">
-                            <a href="#" class="nav-link text-primary p-0 mt-2">Forgot password?</a>
-                        </div>
-                        <div class="mb-1">
-                            <button class="btn btn-pink w-100" type="submit">Log In</button>
-                        </div>
-                    </form>
-                </div>
-                <div class="container mb-3">
+                <form action="sign_in.php" method="post">
+                    <input type="text" class="form-control login_design" name="user_email" id="user_email" placeholder="Email" autocomplete="off" required>
+                    <input type="password" class="form-control login_design" name="user_password" id="user_password" placeholder="Password" autocomplete="off" required>
+                    <a href="#" class="forgot-password">Forgot password?</a>
+
+                    <button class="login_btn" type="submit">Log In</button>
+                </form>
+
+                <div class="container">
                     <small>Don't have an account yet? <a href="sign_up.php">Sign Up</a></small>
                 </div>
             </div>
@@ -126,7 +225,6 @@
         <script defer src="../assets/script/user_script.js"></script>
 
         <script>
-            
             window.onload = function () {
                 google.accounts.id.initialize({
                     client_id: '871355226961-19ip522e0enk01oofpqdbscedb6r2ini.apps.googleusercontent.com', // Replace with your Google client ID
@@ -174,4 +272,3 @@
         </script>
     </body>
 </html>
-

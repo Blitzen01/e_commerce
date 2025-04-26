@@ -12,8 +12,8 @@
       <!-- Search Bar -->
       <div class="col-5">
         <form method="GET" action="index.php" class="d-flex">
-          <input class="form-control form-control-sm me-2 search_bar" type="search" name="search" placeholder="Search for Products, Brands, Parts" aria-label="Search" autocomplete="off">
-          <button class="btn btn-light btn-sm" type="submit">
+          <input class="form-control form-control-sm search_bar" type="search" name="search" placeholder="Search for Products, Brands, Parts" aria-label="Search" autocomplete="off">
+          <button class="btn btn-sm" type="submit">
             <i class="fa-solid fa-magnifying-glass"></i>
           </button>
         </form>
