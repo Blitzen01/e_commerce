@@ -1,116 +1,98 @@
-<nav class="navbar navbar-expand-lg shadow mb-2 fixed-top bg-pink">
-    <div class="container-fluid">
-        <div class="col">
-            <div class="row">
-                <div class="col-1 m-1 p-1">
-                    <a class="navbar-brand" href="index.php"><img id="user-logo" src="../assets/image/hfaLogo.jpg" alt="" srcset="" id="hfa_logo"></a>
-                </div>
-                <div class="col-5 my-auto me-auto search-container">
-                    <form method="GET" action="index.php" class="d-flex">
-                        <input class="form-control search_bar me-2" type="search" name="search" placeholder="Search for Products, Brands, Parts" aria-label="Search" autocomplete="off">
-                        <button class="nav-link" type="submit"><i class="fa-solid fa-magnifying-glass search-icon"></i></button>
-                    </form>
-                </div>
-                <div class="col my-auto">
-                    <div class="row">
-                        <div class="col-1 ms-auto">
-                            <?php
-                                if (isset($_SESSION['email'])) {
-                                    $email = $_SESSION['email'];
+<nav class="navbar navbar-expand-lg shadow-sm mb-2 fixed-top bg-pink">
+  <div class="container-fluid">
+    <div class="row w-100 align-items-center">
+      
+      <!-- Logo -->
+      <div class="col-auto p-1">
+        <a class="navbar-brand d-flex align-items-center" href="index.php">
+          <img src="../assets/image/hfaLogo.jpg" alt="HFA Logo" id="hfa_logo" style="height: 45px;" class="rounded">
+        </a>
+      </div>
 
-                                    // Corrected SQL query
-                                    $cart_items = "SELECT COUNT(*) AS cart_count FROM product_cart WHERE email = '$email'";
-                                    $cart_result = mysqli_query($conn, $cart_items);
+      <!-- Search Bar -->
+      <div class="col-5">
+        <form method="GET" action="index.php" class="d-flex">
+          <input class="form-control form-control-sm me-2 search_bar" type="search" name="search" placeholder="Search for Products, Brands, Parts" aria-label="Search" autocomplete="off">
+          <button class="btn btn-light btn-sm" type="submit">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </form>
+      </div>
 
-                                    // Check if the query executed successfully
-                                    if ($cart_result) {
-                                        $cart_result_row = mysqli_fetch_assoc($cart_result);
-                                        $total_cart_result = $cart_result_row['cart_count'] ?? 0;
-                                    } else {
-                                        $total_cart_result = 0; // Fallback if query fails
-                                    }
-                                    ?>
-                                    <a class="nav-link text-light position-relative" href="cart.php">
-                                        <i class="fa-solid fa-cart-shopping text-dark"></i>
-                                        <?php if ($total_cart_result > 0): ?>
-                                            <span class="position-absolute top-50 end-0 translate-middle badge rounded-pill bg-danger" style="font-size: .5rem;">
-                                                <?php echo htmlspecialchars($total_cart_result); ?>
-                                                <span class="visually-hidden">items in cart</span>
-                                            </span>
-                                        <?php endif; ?>
-                                    </a>
-                                    <?php
-                                } else {
-                                    ?>
-                                    <a class="nav-link text-light" href="sign_in.php">
-                                        <i class="fa-solid fa-cart-shopping text-dark"></i>
-                                    </a>
-                                    <?php
-                                }
-                            ?>
-                        </div>
-                        <div class="col-1 me-2"> 
-                            <?php
-                                if (isset($_SESSION['email'])) {
-                                    ?>
-                                        <a class="nav-link text-light" href="user_profile.php"><i class="fa-solid fa-user text-dark"></i></a>
-                                    <?php
-                                } else {
-                                    ?>
-                                        <a class="nav-link text-light" href="sign_in.php"><i class="fa-solid fa-user text-dark"></i></a>
-                                    <?php
-                                }
-                            ?>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="user_navbar" class="row">
-                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav mx-auto">
-                        <li class="nav-item mx-auto">
-                            <a class="nav-link text-light" aria-current="page" href="index.php">Home</a>
-                        </li>
-                        <li class="nav-item mx-auto">
-                            <a class="nav-link text-light" href="computers.php">Computers</a>
-                        </li>
-                        <li class="nav-item mx-auto">
-                            <?php
-                                if (isset($_SESSION['email'])) {
-                                    ?>
-                                        <a class="nav-link text-light" href="customize.php">Customize</a>
-                                    <?php
-                                } else {
-                                    ?>
-                                        <a class="nav-link text-light" href="sign_in.php">Customize</a>
-                                    <?php
-                                }
-                            ?>
-                        </li>
-                        <li class="nav-item mx-auto">
-                            <a class="nav-link text-light" href="cctv.php">CCTV's</a>
-                        </li>
-                        <?php
-                        if (isset($_SESSION['email'])) {
-                            $email = $_SESSION['email'];
-                            
-                            ?>
-                                <li class="nav-item mx-auto">
-                                    <button class="nav-link text-light" data-bs-toggle="modal" data-bs-target="#create_scheduled_booking">Booking</button>
-                                </li>
-                                <li class="nav-item mx-auto">
-                                    <button class="nav-link text-light" data-bs-toggle="modal" data-bs-target="#log_out_modal">Log Out</button>
-                                </li>
-                            <?php
-                        }
-                        ?>
-                    </ul>
-                </div>
-            </div>
+      <!-- Icons (Cart & User) -->
+      <div class="col d-flex justify-content-end align-items-center">
+        <div class="d-flex align-items-center me-3">
+          <?php
+            if (isset($_SESSION['email'])) {
+              $email = $_SESSION['email'];
+              $cart_items = "SELECT COUNT(*) AS cart_count FROM product_cart WHERE email = '$email'";
+              $cart_result = mysqli_query($conn, $cart_items);
+              $total_cart_result = $cart_result ? mysqli_fetch_assoc($cart_result)['cart_count'] ?? 0 : 0;
+          ?>
+            <a class="nav-link position-relative" href="cart.php">
+              <i class="fa-solid fa-cart-shopping text-dark"></i>
+              <?php if ($total_cart_result > 0): ?>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: .6rem;">
+                  <?php echo htmlspecialchars($total_cart_result); ?>
+                  <span class="visually-hidden">items in cart</span>
+                </span>
+              <?php endif; ?>
+            </a>
+          <?php } else { ?>
+            <a class="nav-link" href="sign_in.php">
+              <i class="fa-solid fa-cart-shopping text-dark"></i>
+            </a>
+          <?php } ?>
         </div>
+
+        <div class="d-flex align-items-center">
+          <?php if (isset($_SESSION['email'])) { ?>
+            <a class="nav-link" href="user_profile.php"><i class="fa-solid fa-user text-dark"></i></a>
+          <?php } else { ?>
+            <a class="nav-link" href="sign_in.php"><i class="fa-solid fa-user text-dark"></i></a>
+          <?php } ?>
+        </div>
+      </div>
+
+      <!-- Toggler (Mobile) -->
+      <div class="col-auto">
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#user_navbar" aria-controls="user_navbar" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+
+      <!-- Navbar Links -->
+      <div class="collapse navbar-collapse mt-2" id="user_navbar">
+        <ul class="navbar-nav mx-auto text-center">
+          <li class="nav-item mx-2">
+            <a class="nav-link text-light" href="index.php">Home</a>
+          </li>
+          <li class="nav-item mx-2">
+            <a class="nav-link text-light" href="computers.php">Computers</a>
+          </li>
+          <li class="nav-item mx-2">
+            <?php if (isset($_SESSION['email'])) { ?>
+              <a class="nav-link text-light" href="customize.php">Customize</a>
+            <?php } else { ?>
+              <a class="nav-link text-light" href="sign_in.php">Customize</a>
+            <?php } ?>
+          </li>
+          <li class="nav-item mx-2">
+            <a class="nav-link text-light" href="cctv.php">CCTV's</a>
+          </li>
+          <?php if (isset($_SESSION['email'])) { ?>
+            <li class="nav-item mx-2">
+              <button class="nav-link text-light bg-transparent border-0" data-bs-toggle="modal" data-bs-target="#create_scheduled_booking">Booking</button>
+            </li>
+            <li class="nav-item mx-2">
+              <button class="nav-link text-light bg-transparent border-0" data-bs-toggle="modal" data-bs-target="#log_out_modal">Log Out</button>
+            </li>
+          <?php } ?>
+        </ul>
+      </div>
     </div>
+  </div>
 </nav>
-<br><br><br><br><br>
+
+<!-- Margin Spacer -->
+<div style="margin-top: 120px;"></div>
