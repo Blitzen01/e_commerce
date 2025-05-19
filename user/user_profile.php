@@ -523,31 +523,30 @@ $email = $_SESSION['email'];
                                         $productSql = "SELECT * FROM products";
                                         $productResult = mysqli_query($conn, $productSql);
             
-                                        // Fetch product image
-                                        if ($productResult) {
-                                            while ($productRow = mysqli_fetch_assoc($productResult)) {
-                                                if ($productRow['product_name'] == $row['item']) {
-                                                    $imgPath = "../assets/image/product_image/" . $productRow['product_image'];
-                                                }
-                                            }
-                                        }
-            
-                                        // Fetch package image
-                                        $packageSql = "SELECT * FROM package";
-                                        $packageResult = mysqli_query($conn, $packageSql);
-            
-                                        if ($packageResult) {
-                                            while ($packageRow = mysqli_fetch_assoc($packageResult)) {
-                                                if ($packageRow['package_name'] == $row['item']) {
-                                                    $imgPath = "../assets/image/package_image/" . $packageRow['package_image'];
-                                                }
-                                            }
-                                        }
-
                                         if(strpos($row['item'], "Custom Build") !== false) {
                                             $imgPath = "../assets/image/custom_build.jpg";
+                                        } else {
+                                            // Fetch product image
+                                            if ($productResult) {
+                                                while ($productRow = mysqli_fetch_assoc($productResult)) {
+                                                    if ($productRow['product_name'] == $row['item']) {
+                                                        $imgPath = "../assets/image/product_image/" . $productRow['product_image'];
+                                                    }
+                                                }
+                                            }
+                
+                                            // Fetch package image
+                                            $packageSql = "SELECT * FROM package";
+                                            $packageResult = mysqli_query($conn, $packageSql);
+                
+                                            if ($packageResult) {
+                                                while ($packageRow = mysqli_fetch_assoc($packageResult)) {
+                                                    if ($packageRow['package_name'] == $row['item']) {
+                                                        $imgPath = "../assets/image/package_image/" . $packageRow['package_image'];
+                                                    }
+                                                }
+                                            }
                                         }
-
                                     ?>
                                     <div class="col-4 col-sm-3">
                                         <img src="<?php echo $imgPath; ?>" alt="Product Image" class="img-fluid rounded-start">
@@ -685,26 +684,31 @@ $email = $_SESSION['email'];
                                         $productSql = "SELECT * FROM products";
                                         $productResult = mysqli_query($conn, $productSql);
             
-                                        // Fetch product image
-                                        if ($productResult) {
-                                            while ($productRow = mysqli_fetch_assoc($productResult)) {
-                                                if ($productRow['product_name'] == $row['item']) {
-                                                    $imgPath = "../assets/image/product_image/" . $productRow['product_image'];
+                                        if(strpos($row['item'], "Custom Build") !== false) {
+                                            $imgPath = "../assets/image/custom_build.jpg";
+                                        } else {
+                                            // Fetch product image
+                                            if ($productResult) {
+                                                while ($productRow = mysqli_fetch_assoc($productResult)) {
+                                                    if ($productRow['product_name'] == $row['item']) {
+                                                        $imgPath = "../assets/image/product_image/" . $productRow['product_image'];
+                                                    }
+                                                }
+                                            }
+
+                                            // Fetch package image
+                                            $packageSql = "SELECT * FROM package";
+                                            $packageResult = mysqli_query($conn, $packageSql);
+
+                                            if ($packageResult) {
+                                                while ($packageRow = mysqli_fetch_assoc($packageResult)) {
+                                                    if ($packageRow['package_name'] == $row['item']) {
+                                                        $imgPath = "../assets/image/package_image/" . $packageRow['package_image'];
+                                                    }
                                                 }
                                             }
                                         }
-            
-                                        // Fetch package image
-                                        $packageSql = "SELECT * FROM package";
-                                        $packageResult = mysqli_query($conn, $packageSql);
-            
-                                        if ($packageResult) {
-                                            while ($packageRow = mysqli_fetch_assoc($packageResult)) {
-                                                if ($packageRow['package_name'] == $row['item']) {
-                                                    $imgPath = "../assets/image/package_image/" . $packageRow['package_image'];
-                                                }
-                                            }
-                                        }
+                                        
                                     ?>
                                     <div class="col-4 col-sm-3">
                                         <img src="<?php echo $imgPath; ?>" alt="Product Image" class="img-fluid rounded-start">

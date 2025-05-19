@@ -35,7 +35,7 @@
                 <?php endif; ?>
             </a>
 
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="stockDropdown" style="max-height: 300px; overflow-y: auto; overflow-x: hidden;">
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="stockDropdown" style="max-height: 300px; overflow-y: scroll; overflow-x: hidden; max-width: 350px">
                 <?php
                     // Fetch low-stock notifications, including computer parts
                     $sql = "SELECT 'package' AS type, id AS id, package_name AS name, stocks 

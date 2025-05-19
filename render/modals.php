@@ -555,9 +555,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const timeInput = document.getElementById("timeInput");
     const submitButton = document.getElementById("submitButton");
 
-    timeInput.addEventListener("input", function () {
+    timeInput.addEventListener("change", function () {
         const selectedTime = timeInput.value;
-        const selectedHour = parseInt(selectedTime.split(":")[0], 10); // Extract hour
+
+        if (!selectedTime) return; // Avoid checking if nothing is selected
+
+        const [hourStr, minuteStr] = selectedTime.split(":");
+        const selectedHour = parseInt(hourStr, 10);
 
         // Disable if time is not within 8:00 AM to 5:00 PM
         if (selectedHour < 8 || selectedHour >= 17) {
@@ -569,6 +573,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
 </script>
 </div>
 <!-- Create Scheduled Booking Modal -->

@@ -46,11 +46,12 @@
         // Get the current date
         $order_date = date("Y-m-d");
 
-        // Insert the order into the order_booking table
-        $sql_order = "INSERT INTO order_booking (name, email, address, contact_number, date, item, price, mop) 
-                      VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        $quantity = 1;
+
+        $sql_order = "INSERT INTO order_booking (name, email, address, contact_number, date, item, price, mop, quantity) 
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt_order = $conn->prepare($sql_order);
-        $stmt_order->bind_param("ssssssss", 
+        $stmt_order->bind_param("ssssssdsi", 
             $user['full_name'], 
             $email, 
             $user['address'], 
@@ -58,7 +59,8 @@
             $order_date, 
             $items, 
             $total_price, 
-            $paymentMethod
+            $paymentMethod,
+            $quantity
         );
         
         if ($stmt_order->execute()) {
