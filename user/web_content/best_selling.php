@@ -99,7 +99,7 @@
                                 <div class="position-relative overflow-hidden d-flex justify-content-center align-items-center">
                                     <img src="../assets/image/product_image/<?php echo $row2['product_image']; ?>" alt="Product Image" class="img-fluid w-100 h-100">
                                     <div class="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-dark bg-opacity-50 opacity-0 hover-overlay">
-                                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_product_modal<?php echo $row2['id']; ?>">Add to Cart</button>
+                                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_to_cart<?php echo $row2['id']; ?>">Add to Cart</button>
                                     </div>
                                 </div>
 

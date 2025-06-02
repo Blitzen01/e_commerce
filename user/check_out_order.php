@@ -61,9 +61,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['mop']) && !empty($_POS
                         VALUES ('$name', '$email', '$address', '$contact_number', '$date', '$product_name', $stock, $price, '$mop')
                     ";
                 } else {
-                    // Product/package not found
-                    echo "Product or package '$product_name' not found.";
-                    continue; // Skip this item and continue with the next one
+                    // Not found in packages, check in computer_parts
+                    $partQuery = "SELECT * FROM computer_parts WHERE parts_name = '" . mysqli_real_escape_string($conn, $product_name) . "'";
+                    $partResult = mysqli_query($conn, $partQuery);
+
+                    if ($partResult && mysqli_num_rows($partResult) > 0) {
+                        // Found in computer_parts
+                        $part = mysqli_fetch_assoc($partResult);
+                        $price = $part['price']; // Assuming 'price' column exists
+                        $insertQuery = "
+                            INSERT INTO order_booking (name, email, address, contact_number, date, item, quantity, price, mop)
+                            VALUES ('$name', '$email', '$address', '$contact_number', '$date', '$product_name', $stock, $price, '$mop')
+                        ";
+                    } else {
+                        // Not found in any table
+                        echo "Item '$product_name' not found in products, packages, or computer_parts.<br>";
+                        continue; // Skip this item and continue with the next one
+                    }
                 }
             }
 
@@ -153,12 +167,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['mop']) && !empty($_POS
                         if ($packageResult && mysqli_num_rows($packageResult) > 0) {
                             $package = mysqli_fetch_assoc($packageResult);
                             $productImagePath = "../assets/image/package_image/" . $package['package_image'];
+                        } else {
+                            // If not found in package table, check in computer_parts table
+                            $partQuery = "SELECT * FROM computer_parts WHERE parts_name = '" . mysqli_real_escape_string($conn, $row['product_name']) . "'";
+                            $partResult = mysqli_query($conn, $partQuery);
+
+                            if ($partResult && mysqli_num_rows($partResult) > 0) {
+                                $part = mysqli_fetch_assoc($partResult);
+                                $productImagePath = "../assets/image/computer_parts_image/" . $part['image']; // Adjust folder name if needed
+                            }
                         }
                     }
 
-                    // If image still doesn't exist, use placeholder
+                    // If image still doesn't exist or file not found, use placeholder
                     if (!file_exists($productImagePath)) {
-                        $productImagePath = "../assets/image/placeholder.png"; // Placeholder image
+                        $productImagePath = "../assets/image/placeholder.png";
                     }
                     ?>
                     <div class="row border rounded p-2">

@@ -57,9 +57,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 echo "Not enough stock in the products table!<br>";
                                 exit;
                             }
-                        } else {
-                            echo "Item not found in both package and products tables!<br>";
-                            exit;
+                        }  else {
+                            // If not in the package table, check the products table
+                            $product_sql = "SELECT * FROM computer_parts WHERE parts_name = '$item'";
+                            $product_result = mysqli_query($conn, $product_sql);
+
+                            if (mysqli_num_rows($product_result) > 0) {
+                                $product_data = mysqli_fetch_assoc($product_result);
+                                $new_stock = intval($product_data['stocks']) - $quantity;
+
+                                if ($new_stock >= 0) {
+                                    $update_product_sql = "UPDATE computer_parts SET stocks = '$new_stock' WHERE parts_name = '$item'";
+                                    mysqli_query($conn, $update_product_sql);
+                                } else {
+                                    echo "Not enough stock in the products table!<br>";
+                                    exit;
+                                }
+                            } else {
+                                echo "Item not found in both package and products tables!<br>";
+                                exit;
+                            }
                         }
                     }
 

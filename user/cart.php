@@ -50,10 +50,16 @@
                 <form id="checkoutForm" action="check_out_order.php" method="post">
                     <?php
                     $sql = "
-                        SELECT pc.*, p.product_image, p.product_name AS prod_name, pk.package_image 
+                        SELECT 
+                            pc.*, 
+                            p.product_image, 
+                            p.product_name AS prod_name, 
+                            pkg.package_image, 
+                            cp.image 
                         FROM product_cart pc
                         LEFT JOIN products p ON pc.product_name = p.product_name
-                        LEFT JOIN package pk ON pc.product_name = pk.package_name
+                        LEFT JOIN package pkg ON pc.product_name = pkg.package_name 
+                        LEFT JOIN computer_parts cp ON pc.product_name = cp.parts_name
                         WHERE pc.email = '$email'
                     ";
                     $result = mysqli_query($conn, $sql);
@@ -64,7 +70,9 @@
                                 ? "../assets/image/product_image/{$row['product_image']}" 
                                 : (!empty($row['package_image']) 
                                     ? "../assets/image/package_image/{$row['package_image']}" 
-                                    : "../assets/image/placeholder.png");
+                                    : (!empty($row['image']) 
+                                        ? "../assets/image/computer_parts_image/{$row['image']}" 
+                                        : "../assets/image/placeholder.png"));
                             ?>
                             <div class="form-check border p-1 my-3">
                                 <div class="row">
@@ -104,9 +112,12 @@
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#viewProductsModal">
                             View Products
                         </button>
-                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#deleteItemsModal">Delete</button>
+                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#deleteItemsModal">
+                            Delete
+                        </button>
                     </div>
                 </form>
+
             </div>
         </div>
 
@@ -279,7 +290,16 @@
                     .catch((error) => console.error("Error:", error));
                 });
             });
-
+            
+            document.addEventListener("DOMContentLoaded", () => {
+                document.querySelector("form#checkoutForm").addEventListener("submit", function (e) {
+                    const checked = document.querySelectorAll(".product-checkbox:checked");
+                    if (checked.length === 0) {
+                        e.preventDefault();
+                        alert("Please select at least one product to check out.");
+                    }
+                });
+            });
         </script>
     </body>
 </html>
@@ -369,6 +389,7 @@
 </div>
 <!-- change address -->
 
+<!-- delete item on cart -->
 <div class="modal fade" id="deleteItemsModal" tabindex="-1" aria-labelledby="deleteItemsModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -387,3 +408,4 @@
         </div>
     </div>
 </div>
+<!-- delete item on cart -->

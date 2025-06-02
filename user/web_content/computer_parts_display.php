@@ -44,7 +44,7 @@
                             <div class="position-relative overflow-hidden d-flex justify-content-center align-items-center" style="height: 200px;">
                                 <img src="../assets/image/computer_parts_image/<?php echo $row['image']; ?>" alt="Product Image" class="img-fluid w-100 h-100" style="object-fit: cover;">
                                 <div class="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-dark bg-opacity-50 opacity-0 hover-overlay">
-                                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_to_cart<?php echo $row['id']; ?>">Add to Cart</button>
+                                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_parts_modal<?php echo $row['id']; ?>">Add to Cart</button>
                                 </div>
                             </div>
 

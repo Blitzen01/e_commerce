@@ -547,6 +547,18 @@ $email = $_SESSION['email'];
                                                 }
                                             }
                                         }
+
+                                        // Fetch parts image
+                                        $partsSql = "SELECT * FROM computer_parts";
+                                        $partsResult = mysqli_query($conn, $partsSql);
+
+                                        if ($partsResult) {
+                                            while ($partsRow = mysqli_fetch_assoc($partsResult)) {
+                                                if ($partsRow['parts_name'] == $row['item']) {
+                                                    $imgPath = "../assets/image/computer_parts_image/" . $partsRow['image'];
+                                                }
+                                            }
+                                        }
                                     ?>
                                     <div class="col-4 col-sm-3">
                                         <img src="<?php echo $imgPath; ?>" alt="Product Image" class="img-fluid rounded-start">
@@ -768,6 +780,18 @@ $email = $_SESSION['email'];
                                 }
                             }
 
+                            // Fetch parts image
+                            $partsSql = "SELECT * FROM computer_parts";
+                            $partsResult = mysqli_query($conn, $partsSql);
+
+                            if ($partsResult) {
+                                while ($partsRow = mysqli_fetch_assoc($partsResult)) {
+                                    if ($partsRow['parts_name'] == $row['item']) {
+                                        $imgPath = "../assets/image/computer_parts_image/" . $partsRow['image'];
+                                    }
+                                }
+                            }
+
                             if(strpos($row['item'], "Custom Build") !== false) {
                                 $imgPath = "../assets/image/custom_build.jpg";
                             }
@@ -835,6 +859,18 @@ $email = $_SESSION['email'];
                                 }
                             }
 
+                            // Fetch parts image
+                            $partsSql = "SELECT * FROM computer_parts";
+                            $partsResult = mysqli_query($conn, $partsSql);
+
+                            if ($partsResult) {
+                                while ($partsRow = mysqli_fetch_assoc($partsResult)) {
+                                    if ($partsRow['parts_name'] == $row['item']) {
+                                        $imgPath = "../assets/image/computer_parts_image/" . $partsRow['image'];
+                                    }
+                                }
+                            }
+
                             if(strpos($row['item'], "Custom Build") !== false) {
                                 $imgPath = "../assets/image/custom_build.jpg";
                             }
@@ -898,6 +934,18 @@ $email = $_SESSION['email'];
                                 while ($packageRow = mysqli_fetch_assoc($packageResult)) {
                                     if ($packageRow['package_name'] == $row['item']) {
                                         $imgPath = "../assets/image/package_image/" . $packageRow['package_image'];
+                                    }
+                                }
+                            }
+
+                            // Fetch parts image
+                            $partsSql = "SELECT * FROM computer_parts";
+                            $partsResult = mysqli_query($conn, $partsSql);
+
+                            if ($partsResult) {
+                                while ($partsRow = mysqli_fetch_assoc($partsResult)) {
+                                    if ($partsRow['parts_name'] == $row['item']) {
+                                        $imgPath = "../assets/image/computer_parts_image/" . $partsRow['image'];
                                     }
                                 }
                             }
